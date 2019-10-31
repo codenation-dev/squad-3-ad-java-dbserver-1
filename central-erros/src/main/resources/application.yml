@@ -1,0 +1,9 @@
+spring:
+    datasource:
+        url: CLEARDB_DATABASE_URL
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+
+permissao-service:
+    url: https://user-info.herokuapp.com
