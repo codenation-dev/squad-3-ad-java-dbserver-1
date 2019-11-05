@@ -1,7 +1,5 @@
 package br.com.central.erros.impl.business.dto;
 
-import br.com.central.erros.impl.business.entity.V1.UserV1;
-
 public class UserDTOV1 {
 
     private Long id;
@@ -10,23 +8,15 @@ public class UserDTOV1 {
     private String senha;
     private Integer token;
 
-    UserDTOV1(){
-
+    private UserDTOV1(Builder builder) {
+        this.id = builder.id;
+        this.nome = builder.nome;
+        this.email = builder.email;
+        this.senha = builder.senha;
+        this.token = builder.token;
     }
 
-    UserDTOV1(Long id, String nome, String email, String senha, Integer token) {
-
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.token = token;
-    }
-
-    public static UserV1Builder builder(){
-        return new UserV1Builder();
-    }
-    public static class UserV1Builder {
+    public static class Builder {
 
         private Long id;
         private String nome;
@@ -34,49 +24,85 @@ public class UserDTOV1 {
         private String senha;
         private Integer token;
 
-        UserV1Builder() {
+        public Builder() {
         }
 
-        public UserV1Builder id(Long id){
+        Builder(Long id, String nome, String email, String senha, Integer token) {
             this.id = id;
-            return UserV1Builder.this;
-        }
-
-        public UserV1Builder nome(String nome){
             this.nome = nome;
-            return UserV1Builder.this;
-        }
-
-        public UserV1Builder email(String email){
             this.email = email;
-            return UserV1Builder.this;
-        }
-
-        public UserV1Builder senha(String senha){
             this.senha = senha;
-            return UserV1Builder.this;
-        }
-
-        public UserV1Builder token(Integer token){
             this.token = token;
-            return UserV1Builder.this;
         }
 
-        public UserV1 build() {
-            return new UserV1(this.id, this.nome, this.email, this.senha, this.token);
+        public Builder id(Long id){
+            this.id = id;
+            return Builder.this;
         }
-        @Override
-        public String toString() {
-            return "UserV1.UserV1Builder(id=" + this.id + ", nome=" + this.nome + ", email=" + this.email + ", senha=" + this.senha + ", token=" + this.token + ")";
+
+        public Builder nome(String nome){
+            this.nome = nome;
+            return Builder.this;
+        }
+
+        public Builder email(String email){
+            this.email = email;
+            return Builder.this;
+        }
+
+        public Builder senha(String senha){
+            this.senha = senha;
+            return Builder.this;
+        }
+
+        public Builder token(Integer token){
+            this.token = token;
+            return Builder.this;
+        }
+
+        public UserDTOV1 build() {
+
+            return new UserDTOV1(this);
         }
     }
 
-    @Override
-    public String toString() {
-        return "UserV1(id=" + this.id + ", nome=" + this.nome + ", email=" + this.email + ", senha=" + this.senha + ", token=" + this.token + ")";
+    public Long getId() {
+        return id;
     }
 
-    public void doSomething() {
-        // do something
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public Integer getToken() {
+        return token;
+    }
+
+    public void setToken(Integer token) {
+        this.token = token;
     }
 }

@@ -26,7 +26,7 @@ public class UserServiceImplV1 implements UserServiceV1 {
         List<UserV1> listaFuncionarios = userRepositoryV1.findAll();
 
         List<UserDTOV1> listFuncionarioDTOV5 =
-                listaFuncionarios.stream().map(UserConverter::toDTOV5).collect(Collectors.toList());
+                listaFuncionarios.stream().map(UserConverter::toDTOV1).collect(Collectors.toList());
 
         return listFuncionarioDTOV5;
     }

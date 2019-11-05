@@ -1,10 +1,9 @@
 package br.com.central.erros.impl.business.entity.V1;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.Entity;
 
 
 @Entity
@@ -18,6 +17,17 @@ public class UserV1 {
     private String email;
     private String senha;
     private Integer token;
+
+//    public UserV1() {
+//    }
+//
+//    public UserV1(Long id, String nome, String email, String senha, Integer token) {
+//        this.id = id;
+//        this.nome = nome;
+//        this.email = email;
+//        this.senha = senha;
+//        this.token = token;
+//    }
 
     private UserV1(Builder builder) {
         this.id = builder.id;
@@ -77,5 +87,43 @@ public class UserV1 {
         }
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public Integer getToken() {
+        return token;
+    }
+
+    public void setToken(Integer token) {
+        this.token = token;
+    }
 }

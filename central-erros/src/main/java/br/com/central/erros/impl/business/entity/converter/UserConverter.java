@@ -4,23 +4,23 @@ import java.util.Objects;
 
 import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
-import br.com.empresa.impl.business.dto.*;
-import br.com.empresa.impl.business.entity.V1.Funcionario;
-import br.com.empresa.impl.business.entity.V2.FuncionarioV2;
-import br.com.empresa.impl.business.entity.V3.FuncionarioV3;
-import br.com.empresa.impl.business.entity.V4.FuncionarioV4;
-import br.com.empresa.impl.business.entity.V5.FuncionarioV5;
-import br.com.empresa.impl.business.exception.FuncionarioExceptionMessage;
-import br.com.empresa.impl.business.exception.exceptions.ValidationException;
+import br.com.central.erros.impl.business.exception.UserExceptionMessage;
+import br.com.central.erros.impl.business.exception.exceptions.ValidationException;
 
 
 public class UserConverter {
 
-    public static Funcionario toEntity(FuncionarioDTOV1 funcionarioDTOV1) {
-        if (Objects.isNull(funcionarioDTOV1)) {
-            throw new ValidationException(FuncionarioExceptionMessage.ERRO_DADOS_INVALIDOS_ASSOCIADO);
+    public static UserV1 toEntity(UserDTOV1 userDTOV1) {
+        if (Objects.isNull(userDTOV1)) {
+            throw new ValidationException(UserExceptionMessage.ERROR_DADOS_INVALIDOS_USER);
         }
-        return new Funcionario(funcionarioDTOV1.getId(), funcionarioDTOV1.getNome(), funcionarioDTOV1.getEmail(), funcionarioDTOV1.getCelular(), funcionarioDTOV1.getIdade());
+        return new UserV1.Builder()
+                .id(userDTOV1.getId())
+                .nome(userDTOV1.getNome())
+                .email(userDTOV1.getEmail())
+                .senha(userDTOV1.getSenha())
+                .token(userDTOV1.getToken())
+                .build();
     }
 
 
@@ -28,13 +28,12 @@ public class UserConverter {
         if(Objects.isNull(userV1)){
             return null;
         }
-        return new UserDTOV1()
-                .builder()
-                .id(funcionario.getId())
-                .nome(funcionario.getNome())
-                .email(funcionario.getEmail())
-                .idade(funcionario.getIdade())
-                .celular(funcionario.getCelular())
+        return new UserDTOV1.Builder()
+                .id(userV1.getId())
+                .nome(userV1.getNome())
+                .email(userV1.getEmail())
+                .senha(userV1.getSenha())
+                .token(userV1.getToken())
                 .build();
     }
 
