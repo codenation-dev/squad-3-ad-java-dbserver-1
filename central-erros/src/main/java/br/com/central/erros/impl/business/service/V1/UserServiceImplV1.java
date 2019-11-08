@@ -31,7 +31,15 @@ public class UserServiceImplV1 implements UserServiceV1 {
         return listFuncionarioDTOV5;
     }
 
+    @Override
+    public UserDTOV1 salvarNovoUSuario(UserDTOV1 userDTOV1) {
 
+        UserV1 usuarioEntity = UserConverter.toEntity(userDTOV1);
+
+        UserV1 usuarioSalvoNoBanco = userRepositoryV1.save(usuarioEntity);
+
+       return UserConverter.toDTOV1(usuarioSalvoNoBanco);
+    }
 
 
 }

@@ -10,5 +10,7 @@ public interface UserRestEndpointV1 {
 
     ResponseEntity<List<UserDTOV1>> buscaUsersList();
 
+    ResponseEntity<Void> salvaNovoUser(UserDTOV1 userDTOV1);
+
 
 }

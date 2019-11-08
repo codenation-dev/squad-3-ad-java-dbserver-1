@@ -6,9 +6,19 @@ import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.exception.UserExceptionMessage;
 import br.com.central.erros.impl.business.exception.exceptions.ValidationException;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserConverter {
+
+    private  BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    public UserConverter(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+
 
     public static UserV1 toEntity(UserDTOV1 userDTOV1) {
         if (Objects.isNull(userDTOV1)) {

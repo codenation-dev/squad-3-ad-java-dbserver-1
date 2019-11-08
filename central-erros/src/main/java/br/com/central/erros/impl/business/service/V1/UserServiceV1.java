@@ -8,4 +8,6 @@ public interface UserServiceV1 {
 
     List<UserDTOV1> buscaUsersList();
 
+    UserDTOV1 salvarNovoUSuario(UserDTOV1  userDTOV1);
+
 }

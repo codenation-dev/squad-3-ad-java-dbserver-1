@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,6 @@ public class UserRestV1 implements UserRestEndpointV1 {
     public UserRestV1(UserServiceV1 userServiceV1) {
         this.userServiceV1 = userServiceV1;
     }
-
 
     @Override
     @GetMapping(path = "/findAll",
@@ -41,6 +41,16 @@ public class UserRestV1 implements UserRestEndpointV1 {
         return response;
     }
 
+
+    //TODO Implemtar salvar usuario
+    @Override
+    @PostMapping("/")
+    public ResponseEntity<Void> salvaNovoUser(UserDTOV1 userDTOV1) {
+
+        userServiceV1.salvarNovoUSuario(userDTOV1);
+
+        return ResponseEntity.ok().build();
+    }
 
 
 }

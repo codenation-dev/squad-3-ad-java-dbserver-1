@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class UserV1 {
@@ -14,8 +16,12 @@ public class UserV1 {
     private Long id;
 
     private String nome;
+
     private String email;
+
+    @JsonIgnore
     private String senha;
+
     private Integer token;
 
 //    public UserV1() {
