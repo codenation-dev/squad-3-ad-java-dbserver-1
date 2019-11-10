@@ -22,7 +22,8 @@ public class CentralErrosApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        userServiceV1.salvarNovoUSuario( new UserDTOV1.Builder().id(1l).nome("kaio").email("teste").senha("123").token( new Integer(0)).build());
+        UserDTOV1 userDTOV1 = new UserDTOV1.Builder().nome("kaio").email("teste").senha("123").token(new Integer(0)).build();
+        userServiceV1.salvarNovoUSuario(userDTOV1);
 
 
     }
