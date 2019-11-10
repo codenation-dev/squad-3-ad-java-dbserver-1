@@ -4,10 +4,9 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 class CentralErrosApplicationTests {
 	@Test
-	void contextLoads() {
+	void toDo() {
 		Assert.assertEquals(Boolean.TRUE, Boolean.TRUE);
 	}
 }
