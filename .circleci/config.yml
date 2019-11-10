@@ -32,12 +32,12 @@ jobs:
           command:
             cd central-erros && ./gradlew jacocoTestReport
       - store_test_results:
-          path: build/test-results/test
+          path: central-erros/build/test-results/test
       - store_artifacts:
-          path: build/test-results/test
+          path: central-erros/build/test-results/test
           when: always
       - store_artifacts:
-          path: build/reports/jacoco/test/html
+          path: central-erros/build/reports/jacoco/test/html
           when: always
 workflows:
   version: 2
