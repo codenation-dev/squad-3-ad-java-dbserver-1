@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: central-erros/gradlew build -x test
+          command: central-erros/gradlew build
       - persist_to_workspace:
           root: central-erros/
           paths:
