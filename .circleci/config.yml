@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Run tests in parallel
           # Use "./gradlew test" instead if tests are not run in parallel
-          command: central-erros/gradlew test
+          command: cd central-erros && ./gradlew test
       - run:
           name: Generate code coverage report
           command:
