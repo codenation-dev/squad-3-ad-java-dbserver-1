@@ -14,11 +14,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImplV1 implements UserServiceV1 {
 
-
     private UserRepositoryV1 userRepositoryV1;
-
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
     @Autowired
     public UserServiceImplV1(UserRepositoryV1 userRepositoryV1, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -38,7 +35,6 @@ public class UserServiceImplV1 implements UserServiceV1 {
 
     @Override
     public UserDTOV1 salvarNovoUSuario(UserDTOV1 userDTOV1) {
-
 
         String senhaEncode = bCryptPasswordEncoder.encode(userDTOV1.getSenha());
         userDTOV1.setSenha(senhaEncode);

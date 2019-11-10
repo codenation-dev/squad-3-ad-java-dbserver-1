@@ -1,9 +1,19 @@
 package br.com.central.erros.impl.business.entity.V1;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import br.com.central.erros.impl.business.entity.enums.Perfil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -17,27 +27,37 @@ public class UserV1 {
 
     private String email;
 
-//    @JsonIgnore
+    @JsonIgnore
     private String senha;
 
     private Integer token;
 
-//    public UserV1() {
-//    }
-//
-//    public UserV1(Long id, String nome, String email, String senha, Integer token) {
-//        this.id = id;
-//        this.nome = nome;
-//        this.email = email;
-//        this.senha = senha;
-//        this.token = token;
-//    }
+
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name="PERFIS")
+    private Set<Integer> perfis = new HashSet<>();
+
+    public UserV1() {
+        addPerfil(Perfil.CLIENTE);
+    }
+
+    public UserV1(Long id, String nome, String email, String senha, Integer token) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.token = token;
+        addPerfil(Perfil.CLIENTE);
+    }
+
+
 
     private UserV1(Builder builder) {
         this.id = builder.id;
         this.nome = builder.nome;
         this.email = builder.email;
         this.senha = builder.senha;
+        this.token = builder.token;
         this.token = builder.token;
     }
 
@@ -48,6 +68,7 @@ public class UserV1 {
         private String email;
         private String senha;
         private Integer token;
+        private Perfil perfil;
 
         public Builder() {
         }
@@ -129,5 +150,13 @@ public class UserV1 {
 
     public void setToken(Integer token) {
         this.token = token;
+    }
+
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil) {
+        perfis.add(perfil.getCod());
     }
 }
