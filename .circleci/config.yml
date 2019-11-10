@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: ./gradlew build -x test
+          command: central-erros/gradlew build -x test
       - persist_to_workspace:
           root: central-erros/
           paths:
@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Generate code coverage report
           command:
-            ./gradlew jacocoTestReport
+            central-erros/gradlew jacocoTestReport
       - store_test_results:
           path: build/test-results/test
       - store_artifacts:
