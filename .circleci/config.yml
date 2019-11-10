@@ -13,7 +13,7 @@ jobs:
           name: Install dependencies
           command: ./gradlew build -x test
       - persist_to_workspace:
-          root: .
+          root: central-erros/
           paths:
             - build
   test:
@@ -23,10 +23,6 @@ jobs:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
       - image: circleci/openjdk:11.0.3-jdk-stretch
-      - image: circleci/postgres:12-alpine
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: circle_test
     steps:
       - checkout
       - attach_workspace:
