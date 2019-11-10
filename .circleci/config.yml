@@ -15,7 +15,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - build
+            - central-erros/build
   test:
     environment:
       # Configure the JVM and Gradle to avoid OOM errors
