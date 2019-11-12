@@ -8,7 +8,7 @@ spring:
             path: /h2-console
 
     datasource:
-        url: jdbc:h2:file:~/test-central-errors
+        url: jdbc:h2:file:~/test2
         username: sa
         password:
         driver-class-name: org.h2.Driver
@@ -19,3 +19,25 @@ spring:
             hibernate:
                 format_sql: true
 
+
+
+
+
+#server:
+#    port: 8030
+#
+#spring:
+#    datasource:
+#        url: jdbc:mysql://localhost:3306/votacao?autoReconnect=true&useSSL=false
+#        username: root
+#        password: root
+#
+#    jpa:
+#        properties:
+#            hibernate:
+#                format_sql: true
+#        hibernate:
+#            ddl-auto: update
+#
+#permissao-service:
+#    url: https://user-info.herokuapp.com
