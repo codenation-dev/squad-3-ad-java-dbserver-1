@@ -1,5 +1,6 @@
 package br.com.central.erros.impl.business.entity.converter;
 
+import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.entity.V1.LogV1;
 import br.com.central.erros.impl.business.exception.UserExceptionMessage;
 import br.com.central.erros.impl.business.exception.exceptions.ValidationException;
