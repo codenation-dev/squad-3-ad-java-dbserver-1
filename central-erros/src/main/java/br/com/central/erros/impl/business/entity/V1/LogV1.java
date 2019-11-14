@@ -1,5 +1,8 @@
 package br.com.central.erros.impl.business.entity.V1;
 
+import br.com.central.erros.impl.business.enums.Ambiente;
+import br.com.central.erros.impl.business.enums.Level;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +15,8 @@ public class LogV1 {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int ambiente;
-    private int level;
+    private Ambiente ambiente;
+    private Level level;
     private String ip;
     private Long numeroDeEventos;
     private LocalDate dataDoErro;
@@ -23,8 +26,8 @@ public class LogV1 {
 
     public static class Builder {
         private Long id;
-        private int ambiente;
-        private int level;
+        private Ambiente ambiente;
+        private Level level;
         private String ip;
         private Long numeroDeEventos;
         private LocalDate dataDoErro;
@@ -35,7 +38,7 @@ public class LogV1 {
         public Builder() {
         }
 
-        Builder(Long id, int ambiente, int level, String ip, Long numeroDeEventos, LocalDate dataDoErro, String titulo, String detalhes, UserV1 coletor) {
+        Builder(Long id, Ambiente ambiente, Level level, String ip, Long numeroDeEventos, LocalDate dataDoErro, String titulo, String detalhes, UserV1 coletor) {
             this.id = id;
             this.ambiente = ambiente;
             this.level = level;
@@ -52,12 +55,12 @@ public class LogV1 {
             return Builder.this;
         }
 
-        public Builder ambiente(int ambiente) {
+        public Builder ambiente(Ambiente ambiente) {
             this.ambiente = ambiente;
             return Builder.this;
         }
 
-        public Builder level(int level) {
+        public Builder level(Level level) {
             this.level = level;
             return Builder.this;
         }
@@ -118,19 +121,19 @@ public class LogV1 {
         this.id = id;
     }
 
-    public int getAmbiente() {
+    public Ambiente getAmbiente() {
         return ambiente;
     }
 
-    public void setAmbiente(int ambiente) {
+    public void setAmbiente(Ambiente ambiente) {
         this.ambiente = ambiente;
     }
 
-    public int getLevel() {
+    public Level getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Level level) {
         this.level = level;
     }
 
