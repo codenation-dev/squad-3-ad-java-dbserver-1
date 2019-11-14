@@ -4,8 +4,4 @@ import br.com.central.erros.impl.business.dto.UserDTOV1;
 
 import java.util.List;
 
-public interface UserServiceV1 {
-
-    List<UserDTOV1> buscaUsersList();
-
-}
+public interface LogServiceV1 { }
