@@ -2,6 +2,7 @@ package br.com.central.erros.impl.business.entity.converter;
 
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.entity.V1.LogV1;
+import br.com.central.erros.impl.business.exception.LogExceptionMessage;
 import br.com.central.erros.impl.business.exception.UserExceptionMessage;
 import br.com.central.erros.impl.business.exception.exceptions.ValidationException;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
 public class LogConverter {
     public static LogV1 toEntity(LogDTOV1 logDTOV1) {
         if (Objects.isNull(logDTOV1)) {
-            throw new ValidationException(UserExceptionMessage.ERROR_DADOS_INVALIDOS_USER);
+            throw new ValidationException(LogExceptionMessage.ERROR_DADOS_INVALIDOS);
         }
         return new LogV1.Builder()
                 .id(logDTOV1.getId())

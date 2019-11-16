@@ -10,12 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
 
-@Entity
 public class LogDTOV1 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Ambiente ambiente;
     private Level level;
     private String ip;
