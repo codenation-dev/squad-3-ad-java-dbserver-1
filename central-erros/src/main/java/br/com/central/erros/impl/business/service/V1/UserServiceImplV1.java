@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.entity.converter.UserConverter;
-import br.com.central.erros.impl.business.repository.V5.UserRepositoryV1;
+import br.com.central.erros.impl.business.repository.V1.UserRepositoryV1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
