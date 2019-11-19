@@ -1,6 +1,5 @@
 package br.com.central.erros.impl.config.security;
 
-
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -70,5 +69,9 @@ public class UserSS implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean hasRole(Perfil perfil) {
+        return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
     }
 }

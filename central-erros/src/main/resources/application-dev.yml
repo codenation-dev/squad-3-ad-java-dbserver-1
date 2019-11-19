@@ -8,7 +8,7 @@ spring:
             path: /h2-console
 
     datasource:
-        url: jdbc:h2:file:~/test-central-errors
+        url: jdbc:h2:file:~/test-central-errors2
         username: sa
         password:
         driver-class-name: org.h2.Driver
@@ -18,8 +18,3 @@ spring:
         properties:
             hibernate:
                 format_sql: true
-
-
-jwt:
-    secret: SequenciaDeCaracteresParaAssinarToken
-    expiration: 60000

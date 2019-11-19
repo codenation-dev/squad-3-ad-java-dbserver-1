@@ -1,10 +1,12 @@
 package br.com.central.erros.impl.business.entity.V1;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,110 +15,54 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import br.com.central.erros.impl.business.entity.enums.Perfil;
+import br.com.central.erros.impl.business.entity.enums.TipoUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Entity
-public class UserV1 {
+public class UserV1 implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Integer id;
     private String nome;
 
+    @Column(unique=true)
     private String email;
+
+    private String cpfOuCnpj;
+
+    private Integer tipo;
 
     @JsonIgnore
     private String senha;
 
-    private Integer token;
-
-
-    @ElementCollection(fetch=FetchType.EAGER)
+    @ElementCollection(fetch= FetchType.EAGER)
     @CollectionTable(name="PERFIS")
     private Set<Integer> perfis = new HashSet<>();
+
 
     public UserV1() {
         addPerfil(Perfil.CLIENTE);
     }
 
-    public UserV1(Long id, String nome, String email, String senha, Integer token) {
+    public UserV1(Integer id, String nome, String email, String cpfOuCnpj, TipoUser tipo, String senha) {
+        super();
         this.id = id;
         this.nome = nome;
         this.email = email;
+        this.cpfOuCnpj = cpfOuCnpj;
+        this.tipo = (tipo==null) ? null : tipo.getCod();
         this.senha = senha;
-        this.token = token;
         addPerfil(Perfil.CLIENTE);
     }
 
-
-
-    private UserV1(Builder builder) {
-        this.id = builder.id;
-        this.nome = builder.nome;
-        this.email = builder.email;
-        this.senha = builder.senha;
-        this.token = builder.token;
-        this.token = builder.token;
-    }
-
-    public static class Builder {
-
-        private Long id;
-        private String nome;
-        private String email;
-        private String senha;
-        private Integer token;
-        private Perfil perfil;
-
-        public Builder() {
-        }
-
-        Builder(Long id, String nome, String email, String senha, Integer token) {
-            this.id = id;
-            this.nome = nome;
-            this.email = email;
-            this.senha = senha;
-            this.token = token;
-        }
-
-        public Builder id(Long id){
-            this.id = id;
-            return Builder.this;
-        }
-
-        public Builder nome(String nome){
-            this.nome = nome;
-            return Builder.this;
-        }
-
-        public Builder email(String email){
-            this.email = email;
-            return Builder.this;
-        }
-
-        public Builder senha(String senha){
-            this.senha = senha;
-            return Builder.this;
-        }
-
-        public Builder token(Integer token){
-            this.token = token;
-            return Builder.this;
-        }
-
-        public UserV1 build() {
-
-            return new UserV1(this);
-        }
-    }
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -136,6 +82,22 @@ public class UserV1 {
         this.email = email;
     }
 
+    public String getCpfOuCnpj() {
+        return cpfOuCnpj;
+    }
+
+    public void setCpfOuCnpj(String cpfOuCnpj) {
+        this.cpfOuCnpj = cpfOuCnpj;
+    }
+
+    public TipoUser getTipo() {
+        return TipoUser.toEnum(tipo);
+    }
+
+    public void setTipo(TipoUser tipo) {
+        this.tipo = tipo.getCod();
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -144,19 +106,37 @@ public class UserV1 {
         this.senha = senha;
     }
 
-    public Integer getToken() {
-        return token;
-    }
-
-    public void setToken(Integer token) {
-        this.token = token;
-    }
-
     public Set<Perfil> getPerfis() {
         return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
     }
 
     public void addPerfil(Perfil perfil) {
         perfis.add(perfil.getCod());
+    }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UserV1 other = (UserV1) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
     }
 }

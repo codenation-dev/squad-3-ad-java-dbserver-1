@@ -4,12 +4,15 @@ package br.com.central.erros.impl.api.V1;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.Valid;
+
 import br.com.central.erros.impl.business.dto.UserDTOV1;
-import br.com.central.erros.impl.business.service.V1.UserServiceV1;
+import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,14 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserRestV1 implements UserRestEndpointV1 {
 
 
-    private UserServiceV1 userServiceV1;
+    private UserServiceImplV1 userServiceV1;
 
     @Autowired
-    public UserRestV1(UserServiceV1 userServiceV1) {
+    public UserRestV1(UserServiceImplV1 userServiceV1) {
         this.userServiceV1 = userServiceV1;
     }
 
     @Override
+//    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/findAll",
 //            headers = "Accept=application/empresa.funcionarios-v5+json",
             produces = "application/vnd.central.erros.user-v1+json"
@@ -41,16 +45,40 @@ public class UserRestV1 implements UserRestEndpointV1 {
         return response;
     }
 
+    @Override
+//    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping(path = "/{id}",
+//            headers = "Accept=application/empresa.funcionarios-v5+json",
+            produces = "application/vnd.central.erros.user-v1+json"
+    )
+    @ApiOperation(value = "Retorna um usuário cadastrado", response = UserDTOV1.class)
+    public ResponseEntity<UserDTOV1> findById(@Valid @PathVariable Integer id) {
 
-    //TODO Implemtar salvar usuario
+
+        ResponseEntity<UserDTOV1> response = ResponseEntity.ok(userServiceV1.findById(id));
+        if (Objects.isNull(response.getBody())) {
+            response = ResponseEntity.noContent().build();
+        }
+        return response;
+    }
+
+
     @Override
     @PostMapping("/")
-    public ResponseEntity<Void> salvaNovoUser(UserDTOV1 userDTOV1) {
+    public ResponseEntity<Void> salvaNovoUser(UserDTOV1 userRequest) {
 
-        userServiceV1.salvarNovoUSuario(userDTOV1);
+        userServiceV1.salvarNovoUSuario(userRequest);
 
         return ResponseEntity.ok().build();
     }
+
+    //implementar editar usuário
+
+    //implementar excluir
+
+    //implementar esqueceu a senha
+
+    //implementar editar senha
 
 
 }

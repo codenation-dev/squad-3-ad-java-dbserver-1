@@ -1,78 +1,35 @@
 package br.com.central.erros.impl.business.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import br.com.central.erros.impl.business.entity.enums.Perfil;
+import br.com.central.erros.impl.business.entity.enums.TipoUser;
+
 public class UserDTOV1 {
 
-    private Long id;
     private String nome;
     private String email;
+    private String cpfOuCnpj;
+    private Integer tipo;
     private String senha;
-    private Integer token;
+    private Set<Integer> perfis = new HashSet<>();
 
-    private UserDTOV1(Builder builder) {
-        this.id = builder.id;
-        this.nome = builder.nome;
-        this.email = builder.email;
-        this.senha = builder.senha;
-        this.token = builder.token;
+    public UserDTOV1() {
+        addPerfil(Perfil.CLIENTE);
     }
 
-    public static class Builder {
-
-        private Long id;
-        private String nome;
-        private String email;
-        private String senha;
-        private Integer token;
-
-        public Builder() {
-        }
-
-        Builder(Long id, String nome, String email, String senha, Integer token) {
-            this.id = id;
-            this.nome = nome;
-            this.email = email;
-            this.senha = senha;
-            this.token = token;
-        }
-
-        public Builder id(Long id){
-            this.id = id;
-            return Builder.this;
-        }
-
-        public Builder nome(String nome){
-            this.nome = nome;
-            return Builder.this;
-        }
-
-        public Builder email(String email){
-            this.email = email;
-            return Builder.this;
-        }
-
-        public Builder senha(String senha){
-            this.senha = senha;
-            return Builder.this;
-        }
-
-        public Builder token(Integer token){
-            this.token = token;
-            return Builder.this;
-        }
-
-        public UserDTOV1 build() {
-
-            return new UserDTOV1(this);
-        }
+    public UserDTOV1(String nome, String email, String cpfOuCnpj, TipoUser tipo, String senha) {
+        super();
+        this.nome = nome;
+        this.email = email;
+        this.cpfOuCnpj = cpfOuCnpj;
+        this.tipo = (tipo==null) ? null : tipo.getCod();
+        this.senha = senha;
+        addPerfil(Perfil.CLIENTE);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -90,6 +47,22 @@ public class UserDTOV1 {
         this.email = email;
     }
 
+    public String getCpfOuCnpj() {
+        return cpfOuCnpj;
+    }
+
+    public void setCpfOuCnpj(String cpfOuCnpj) {
+        this.cpfOuCnpj = cpfOuCnpj;
+    }
+
+    public TipoUser getTipo() {
+        return TipoUser.toEnum(tipo);
+    }
+
+    public void setTipo(TipoUser tipo) {
+        this.tipo = tipo.getCod();
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -98,11 +71,16 @@ public class UserDTOV1 {
         this.senha = senha;
     }
 
-    public Integer getToken() {
-        return token;
+    public void setPerfis(Set<Integer> perfis) {
+        this.perfis = perfis;
     }
 
-    public void setToken(Integer token) {
-        this.token = token;
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
     }
+
+    public void addPerfil(Perfil perfil) {
+        perfis.add(perfil.getCod());
+    }
+
 }
