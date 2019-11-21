@@ -1,6 +1,7 @@
 package br.com.central.erros.impl.business.service.V1;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.com.central.erros.impl.business.dto.UserDTOV1;
@@ -31,7 +32,13 @@ public class UserServiceImplV1 implements UserServiceV1 {
         return listFuncionarioDTOV5;
     }
 
+    @Override
+    public Optional<UserDTOV1> buscaUsersById(Long userId) {
+        Optional<UserV1> optionalUserV1 = userRepositoryV1.findById(userId);
 
+        Optional<UserDTOV1> optionalUserDTOV1 = optionalUserV1.map(UserConverter::toDTOV1);
+        return optionalUserDTOV1;
+    }
 
 
 }

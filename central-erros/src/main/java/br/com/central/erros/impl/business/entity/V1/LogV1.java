@@ -22,7 +22,7 @@ public class LogV1 {
     private LocalDate dataDoErro;
     private String titulo;
     private String detalhes;
-    private UserV1 coletor;
+    //private UserV1 coletor;
 
     public static class Builder {
         private Long id;
@@ -33,12 +33,12 @@ public class LogV1 {
         private LocalDate dataDoErro;
         private String titulo;
         private String detalhes;
-        private UserV1 coletor;
+        //private UserV1 coletor;
 
         public Builder() {
         }
 
-        Builder(Long id, Ambiente ambiente, Level level, String ip, Long numeroDeEventos, LocalDate dataDoErro, String titulo, String detalhes, UserV1 coletor) {
+        Builder(Long id, Ambiente ambiente, Level level, String ip, Long numeroDeEventos, LocalDate dataDoErro, String titulo, String detalhes) {
             this.id = id;
             this.ambiente = ambiente;
             this.level = level;
@@ -47,7 +47,7 @@ public class LogV1 {
             this.dataDoErro = dataDoErro;
             this.titulo = titulo;
             this.detalhes = detalhes;
-            this.coletor = coletor;
+            //this.coletor = coletor;
         }
 
         public Builder id(Long id) {
@@ -90,10 +90,10 @@ public class LogV1 {
             return Builder.this;
         }
 
-        public Builder coletor(UserV1 coletor) {
+     /*   public Builder coletor(UserV1 coletor) {
             this.coletor = coletor;
             return Builder.this;
-        }
+        }*/
 
         public LogV1 build() {
 
@@ -110,7 +110,7 @@ public class LogV1 {
         this.dataDoErro = builder.dataDoErro;
         this.titulo = builder.titulo;
         this.detalhes = builder.detalhes;
-        this.coletor = builder.coletor;
+        //this.coletor = builder.coletor;
     }
 
     public Long getId() {
@@ -177,12 +177,13 @@ public class LogV1 {
         this.detalhes = detalhes;
     }
 
-    public UserV1 getColetor() {
+/*  //  public UserV1 getColetor() {
         return coletor;
     }
 
     public void setColetor(UserV1 coletor) {
         this.coletor = coletor;
-    }
+    }*/
 }
+
 

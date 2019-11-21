@@ -20,10 +20,9 @@ public class LogConverter {
                 .ip(logDTOV1.getIp())
                 .numeroDeEventos(logDTOV1.getNumeroDeEventos())
                 .titulo(logDTOV1.getTitulo())
-                .coletor(logDTOV1.getColetor())
                 .dataDoErro(logDTOV1.getDataDoErro())
                 .detalhes(logDTOV1.getDetalhes())
-                .build();
+                .build(); //.coletor(logDTOV1.getColetor())
     }
 
     public static LogDTOV1 toDTOV1(LogV1 logV1){
@@ -37,9 +36,9 @@ public class LogConverter {
                 .ip(logV1.getIp())
                 .numeroDeEventos(logV1.getNumeroDeEventos())
                 .titulo(logV1.getTitulo())
-                .coletor(logV1.getColetor())
                 .dataDoErro(logV1.getDataDoErro())
                 .detalhes(logV1.getDetalhes())
-                .build();
+                .build();                 //.coletor(logV1.getColetor())
+
     }
 }
