@@ -43,6 +43,7 @@ public class UserV1 implements Serializable {
     private Set<Integer> perfis = new HashSet<>();
 
 
+
     public UserV1() {
         addPerfil(Perfil.CLIENTE);
     }
