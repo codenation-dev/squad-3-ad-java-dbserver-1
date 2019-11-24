@@ -10,7 +10,7 @@ import br.com.central.erros.impl.business.entity.V1.LogV1;
 import br.com.central.erros.impl.business.entity.converter.LogConverter;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.LogRepositoryV1;
-import br.com.central.erros.impl.business.service.V1.interfaces.LogServiceV1;
+import br.com.central.erros.impl.business.service.V1.contracts.LogServiceV1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

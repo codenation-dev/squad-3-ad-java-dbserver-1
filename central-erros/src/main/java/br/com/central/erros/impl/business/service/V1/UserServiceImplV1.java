@@ -9,7 +9,7 @@ import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.entity.converter.UserConverter;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.UserRepository;
-import br.com.central.erros.impl.business.service.V1.interfaces.UserServiceV1;
+import br.com.central.erros.impl.business.service.V1.contracts.UserServiceV1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

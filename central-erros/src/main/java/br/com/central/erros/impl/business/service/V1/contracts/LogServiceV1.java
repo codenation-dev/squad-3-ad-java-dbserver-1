@@ -1,4 +1,4 @@
-package br.com.central.erros.impl.business.service.V1.interfaces;
+package br.com.central.erros.impl.business.service.V1.contracts;
 
 import java.util.List;
 

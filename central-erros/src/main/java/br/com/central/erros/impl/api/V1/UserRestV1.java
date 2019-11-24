@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 
+import br.com.central.erros.impl.api.V1.contracts.UserRestEndpointV1;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
 import io.swagger.annotations.ApiOperation;
@@ -46,14 +47,23 @@ public class UserRestV1 implements UserRestEndpointV1 {
     }
 
     @Override
+    @PostMapping("/")
+    public ResponseEntity<Void> adicionaUser(UserDTOV1 userRequest) {
+
+        userServiceV1.salvarNovoUSuario(userRequest);
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    @Override
 //    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/{id}",
 //            headers = "Accept=application/empresa.funcionarios-v5+json",
             produces = "application/vnd.central.erros.user-v1+json"
     )
     @ApiOperation(value = "Retorna um usuário cadastrado", response = UserDTOV1.class)
-    public ResponseEntity<UserDTOV1> findById(@Valid @PathVariable Integer id) {
-
+    public ResponseEntity<UserDTOV1> buscaUser(@Valid @PathVariable Integer id) {
 
         ResponseEntity<UserDTOV1> response = ResponseEntity.ok(userServiceV1.findById(id));
         if (Objects.isNull(response.getBody())) {
@@ -62,23 +72,19 @@ public class UserRestV1 implements UserRestEndpointV1 {
         return response;
     }
 
-
     @Override
-    @PostMapping("/")
-    public ResponseEntity<Void> salvaNovoUser(UserDTOV1 userRequest) {
-
-        userServiceV1.salvarNovoUSuario(userRequest);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> atualizaUser(Integer idUser, UserDTOV1 userDTOV1) {
+        return null;
     }
 
-    //implementar editar usuário
+    @Override
+    public ResponseEntity<Void> recuperaSenhaUser(String email) {
+        return null;
+    }
 
-    //implementar excluir
-
-    //implementar esqueceu a senha
-
-    //implementar editar senha
-
+    @Override
+    public ResponseEntity<Void> editarSenhaUser(String email, String novaSenha) {
+        return null;
+    }
 
 }
