@@ -1,0 +1,49 @@
+version: 2
+jobs:
+  build:
+    environment:
+      # Configure the JVM and Gradle to avoid OOM errors
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+    docker:
+      - image: circleci/openjdk:11.0.3-jdk-stretch
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: central-erros/gradlew build
+  test:
+    environment:
+      # Configure the JVM and Gradle to avoid OOM errors
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+    docker:
+      - image: circleci/openjdk:8u222-jdk-stretch
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run tests in parallel
+          # Use "./gradlew test" instead if tests are not run in parallel
+          command: cd central-erros && ./gradlew test
+      - run:
+          name: Generate code coverage report
+          command:
+            cd central-erros && ./gradlew jacocoTestReport
+      - store_test_results:
+          path: central-erros/build/test-results/test
+      - store_artifacts:
+          path: central-erros/build/test-results/test
+          when: always
+      - store_artifacts:
+          path: central-erros/build/reports/jacoco/test/html
+          when: always
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
