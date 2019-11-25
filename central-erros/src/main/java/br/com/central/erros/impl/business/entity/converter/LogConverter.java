@@ -11,7 +11,7 @@ import br.com.central.erros.impl.business.exception.exceptions.ValidationExcepti
 public class LogConverter {
 
 
-    public static LogV1 userDTOToEntity(LogDTOV1  logDTOV1) {
+    public static LogV1 logDTOToEntity(LogDTOV1  logDTOV1) {
 
         if (Objects.isNull(logDTOV1)) {
             throw new ValidationException(UserExceptionMessage.ERROR_DADOS_INVALIDOS_LOG);
@@ -26,7 +26,7 @@ public class LogConverter {
         return logV1;
     }
 
-    public static LogDTOV1 userToDTO(LogV1 logV1) {
+    public static LogDTOV1 logToDTO(LogV1 logV1) {
 
         if (Objects.isNull(logV1)) {
             throw new ValidationException(UserExceptionMessage.ERROR_DADOS_INVALIDOS_LOG);
