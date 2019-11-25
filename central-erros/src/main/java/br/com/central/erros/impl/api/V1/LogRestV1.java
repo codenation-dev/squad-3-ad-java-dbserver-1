@@ -7,6 +7,8 @@ import java.util.Objects;
 import br.com.central.erros.impl.api.V1.contracts.LogRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.service.V1.LogServiceImplV1;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +28,10 @@ public class LogRestV1 implements LogRestEndpointV1 {
         this.logServiceImplV1 = logServiceImplV1;
     }
 
-    @GetMapping(path = "/findAll",
-            produces = "application/vnd.central.erros.user-v1+json"
-    )
+    @GetMapping(path = "/findAll", produces = "application/vnd.central.erros.user-v1+json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+    })
     @ApiOperation(value = "Retorna todos os logs. ", response = LogDTOV1.class)
     public ResponseEntity<List<LogDTOV1>> buscaLogsList() {
 
