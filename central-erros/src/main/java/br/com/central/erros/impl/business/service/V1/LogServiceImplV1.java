@@ -29,7 +29,7 @@ public class LogServiceImplV1 implements LogServiceV1 {
 
        List<LogV1> logEntity = logRepositoryV1.findAll();
 
-        List<LogDTOV1> listaLogDTOV1 = logEntity.stream().map(LogConverter::userToDTO).collect(Collectors.toList());
+        List<LogDTOV1> listaLogDTOV1 = logEntity.stream().map(LogConverter::logToDTO).collect(Collectors.toList());
 
         return listaLogDTOV1;
     }
@@ -38,7 +38,7 @@ public class LogServiceImplV1 implements LogServiceV1 {
     public LogDTOV1 encontrarLogPeloId(Integer id) {
         Optional<LogV1> byId = logRepositoryV1.findById(id);
 
-        Optional<LogDTOV1> logDTOV1 = byId.map(LogConverter::userToDTO);
+        Optional<LogDTOV1> logDTOV1 = byId.map(LogConverter::logToDTO);
 
         logDTOV1.orElseThrow(() -> new ObjectNotFoundException(
                 "LogV1 não encontrado! Id: " + id + ", Tipo: " + LogV1.class.getName()));
@@ -51,7 +51,7 @@ public class LogServiceImplV1 implements LogServiceV1 {
         List<LogV1> all = logRepositoryV1.findAll();
 
         List<LogDTOV1> collect1 =
-                all.stream().filter(logV1 -> logV1.getUserV1().getId().equals(idUsuario)).map(LogConverter::userToDTO).collect(Collectors.toList());
+                all.stream().filter(logV1 -> logV1.getUserV1().getId().equals(idUsuario)).map(LogConverter::logToDTO).collect(Collectors.toList());
 
         return collect1;
     }
