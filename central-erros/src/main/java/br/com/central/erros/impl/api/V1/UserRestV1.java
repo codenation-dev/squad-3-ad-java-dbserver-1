@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import br.com.central.erros.impl.api.V1.contracts.UserRestEndpointV1;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +35,12 @@ public class UserRestV1 implements UserRestEndpointV1 {
     @Override
 //    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/findAll",
-//            headers = "Accept=application/empresa.funcionarios-v5+json",
             produces = "application/vnd.central.erros.user-v1+json"
     )
     @ApiOperation(value = "Retorna todos usuários cadastrados", response = UserDTOV1.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+    })
     public ResponseEntity<List<UserDTOV1>> buscaUsersList() {
 
         ResponseEntity<List<UserDTOV1>> response = ResponseEntity.ok(userServiceV1.buscaUsersList());
@@ -48,6 +52,10 @@ public class UserRestV1 implements UserRestEndpointV1 {
 
     @Override
     @PostMapping("/")
+    @ApiOperation(value = "Salva um novo usuário ")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+    })
     public ResponseEntity<Void> adicionaUser(UserDTOV1 userRequest) {
 
         userServiceV1.salvarNovoUSuario(userRequest);
@@ -59,10 +67,12 @@ public class UserRestV1 implements UserRestEndpointV1 {
     @Override
 //    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/{id}",
-//            headers = "Accept=application/empresa.funcionarios-v5+json",
             produces = "application/vnd.central.erros.user-v1+json"
     )
     @ApiOperation(value = "Retorna um usuário cadastrado", response = UserDTOV1.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+    })
     public ResponseEntity<UserDTOV1> buscaUser(@Valid @PathVariable Integer id) {
 
         ResponseEntity<UserDTOV1> response = ResponseEntity.ok(userServiceV1.findById(id));
