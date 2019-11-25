@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.6.RELEASE'
+	id 'org.springframework.boot' version '2.1.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 	id 'jacoco'
@@ -24,9 +24,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-	
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -35,12 +35,12 @@ dependencies {
     compile('io.springfox:springfox-swagger2:2.8.0')
     compile('io.springfox:springfox-swagger-ui:2.8.0')
 
+    //spring security
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.0.0.RELEASE'
+    //jwt
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
+
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'com.h2database:h2'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-test {
-	useJUnitPlatform()
 }
