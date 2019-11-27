@@ -2,6 +2,7 @@ package br.com.central.erros.impl.api.V1.contracts;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import br.com.central.erros.impl.business.dto.UserDTOV1;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ public interface UserRestEndpointV1 {
     ResponseEntity<Void> recuperaSenhaUser(String email);
 
     ResponseEntity<Void> editarSenhaUser(String email, String novaSenha);
+
+    ResponseEntity<Optional<UserDTOV1>> buscaUsersById(Integer id);
 
 
 }

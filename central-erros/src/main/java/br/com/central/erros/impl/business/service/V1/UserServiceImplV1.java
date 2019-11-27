@@ -55,6 +55,14 @@ public class UserServiceImplV1 implements UserServiceV1 {
     }
 
     @Override
+    public Optional<UserDTOV1> buscaUsersById(Integer id) {
+        Optional<UserV1> optionalUserV1 = userRepositoryV1.findById(id);
+
+        return optionalUserV1.map(UserConverter::userToDTO);
+
+    }
+
+    @Override
     public UserDTOV1 salvarNovoUSuario(UserDTOV1 userInput) {
 
         String senhaEncode = bCryptPasswordEncoder.encode(userInput.getSenha());

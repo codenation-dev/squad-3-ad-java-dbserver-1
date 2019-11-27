@@ -3,6 +3,7 @@ package br.com.central.erros.impl.api.V1;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -81,6 +82,21 @@ public class UserRestV1 implements UserRestEndpointV1 {
         }
         return response;
     }
+
+    @Override
+    @GetMapping(path = "{id}")
+    @ApiOperation(value = "Retorna o usuário informado", response = UserDTOV1.class)
+    public ResponseEntity<Optional<UserDTOV1>> buscaUsersById(@PathVariable("id") Integer id) {
+
+        ResponseEntity<Optional<UserDTOV1>> response = ResponseEntity.ok(userServiceV1.buscaUsersById(id));
+        if (Objects.isNull((response.getBody()))) {
+            response = ResponseEntity.noContent().build();
+        }
+
+        return response;
+    }
+
+
 
     @Override
     public ResponseEntity<Void> atualizaUser(Integer idUser, UserDTOV1 userDTOV1) {
