@@ -27,8 +27,7 @@ public class LogServiceImplV1 implements LogServiceV1 {
     @Override
     public List<LogDTOV1> buscarTodosLogs() {
 
-       List<LogV1> logEntity = logRepositoryV1.findAll();
-
+        List<LogV1> logEntity = logRepositoryV1.findAll();
         List<LogDTOV1> listaLogDTOV1 = logEntity.stream().map(LogConverter::logToDTO).collect(Collectors.toList());
 
         return listaLogDTOV1;
@@ -60,7 +59,6 @@ public class LogServiceImplV1 implements LogServiceV1 {
     public Optional<LogDTOV1> encontrarLogPeloId(Integer id) {
 
         Optional<LogV1> optionalUserV1 = logRepositoryV1.findById(id);
-
         return optionalUserV1.map(LogConverter::logToDTO);
     }
 
