@@ -55,6 +55,12 @@ public class UserServiceImplV1 implements UserServiceV1 {
     }
 
     @Override
+    public void atualizaUser(Integer codigoUser, UserDTOV1 userDTOV1) {
+        findById(codigoUser);
+        salvarNovoUSuario(userDTOV1);
+    }
+
+    @Override
     public UserDTOV1 salvarNovoUSuario(UserDTOV1 userInput) {
 
         String senhaEncode = bCryptPasswordEncoder.encode(userInput.getSenha());

@@ -4,13 +4,20 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import br.com.central.erros.impl.business.entity.enums.Perfil;
 import br.com.central.erros.impl.business.entity.enums.TipoUser;
 
 public class UserDTOV1 {
 
+    @NotNull
     private String nome;
+
+    @NotNull
     private String email;
+
+    @NotNull
     private String cpfOuCnpj;
     private Integer tipo;
     private String senha;
