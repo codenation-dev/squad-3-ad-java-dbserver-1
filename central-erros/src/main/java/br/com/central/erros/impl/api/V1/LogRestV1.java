@@ -3,6 +3,7 @@ package br.com.central.erros.impl.api.V1;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import br.com.central.erros.impl.api.V1.contracts.LogRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,13 +47,25 @@ public class LogRestV1 implements LogRestEndpointV1 {
 
     @Override
     public ResponseEntity<Void> adicionaLog(LogDTOV1 logDTOV1) {
+
         return null;
     }
 
     @Override
-    public ResponseEntity<LogDTOV1> buscaLog(Integer id) {
-        return null;
+    @GetMapping(path = "{id}")
+    @ApiOperation(value = "Retorna o log informado", response = LogDTOV1.class)
+    public ResponseEntity<Optional<LogDTOV1>> buscaLog(@PathVariable("id") Integer id) {
+
+        ResponseEntity<Optional<LogDTOV1>> response = ResponseEntity.ok(logServiceImplV1.encontrarLogPeloId(id));
+        if (Objects.isNull((response.getBody()))) {
+            response = ResponseEntity.noContent().build();
+        }
+
+        return response;
+
+
     }
+
 
 
 

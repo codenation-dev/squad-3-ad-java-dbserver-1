@@ -34,7 +34,7 @@ public class LogServiceImplV1 implements LogServiceV1 {
         return listaLogDTOV1;
     }
 
-    @Override
+/*    @Override
     public LogDTOV1 encontrarLogPeloId(Integer id) {
         Optional<LogV1> byId = logRepositoryV1.findById(id);
 
@@ -44,7 +44,7 @@ public class LogServiceImplV1 implements LogServiceV1 {
                 "LogV1 não encontrado! Id: " + id + ", Tipo: " + LogV1.class.getName()));
 
         return logDTOV1.get();
-    }
+    }*/
 
     @Override
     public List<LogDTOV1> buscarLogsPorUsuario(Integer idUsuario) {
@@ -54,6 +54,14 @@ public class LogServiceImplV1 implements LogServiceV1 {
                 all.stream().filter(logV1 -> logV1.getUserV1().getId().equals(idUsuario)).map(LogConverter::logToDTO).collect(Collectors.toList());
 
         return collect1;
+    }
+
+    @Override
+    public Optional<LogDTOV1> encontrarLogPeloId(Integer id) {
+
+        Optional<LogV1> optionalUserV1 = logRepositoryV1.findById(id);
+
+        return optionalUserV1.map(LogConverter::logToDTO);
     }
 
 }
