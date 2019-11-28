@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Generate code coverage report
           command:
-            ./gradlew jacocoTestReport
+            cd central-erros && ./gradlew jacocoTestReport
       - store_test_results:
           path: central-erros/build/test-results/test
       - store_artifacts:
@@ -58,7 +58,7 @@ workflows:
             - build
       - deploy:
           requires:
-            - build
+            - test
           filters:
             branches:
-              only: CENTRAL_QA
+              only: samuel-circleci
