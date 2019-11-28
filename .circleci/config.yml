@@ -23,7 +23,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ./central-erros
+          at: /central-erros
       - run:
           name: Run tests
           command: ./gradlew test
