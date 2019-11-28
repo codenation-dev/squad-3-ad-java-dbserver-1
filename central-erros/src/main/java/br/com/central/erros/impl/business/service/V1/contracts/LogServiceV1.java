@@ -12,4 +12,6 @@ public interface LogServiceV1 {
     Optional<LogDTOV1> encontrarLogPeloId(Integer id);
 
     List<LogDTOV1> buscarTodosLogs();
+
+    LogDTOV1 salvarNovoLog(LogDTOV1 logDTOV1);
 }

@@ -12,12 +12,14 @@ import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundExc
 import br.com.central.erros.impl.business.repository.V1.LogRepositoryV1;
 import br.com.central.erros.impl.business.service.V1.contracts.LogServiceV1;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LogServiceImplV1 implements LogServiceV1 {
 
     private LogRepositoryV1 logRepositoryV1;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public LogServiceImplV1(LogRepositoryV1 logRepositoryV1) {
@@ -31,6 +33,16 @@ public class LogServiceImplV1 implements LogServiceV1 {
         List<LogDTOV1> listaLogDTOV1 = logEntity.stream().map(LogConverter::logToDTO).collect(Collectors.toList());
 
         return listaLogDTOV1;
+    }
+
+    @Override
+    public LogDTOV1 salvarNovoLog(LogDTOV1 logInput) {
+
+        LogV1 logEntity = LogConverter.logDTOToEntity(logInput);
+
+        LogV1 logSalvoNoBanco = logRepositoryV1.save(logEntity);
+
+        return LogConverter.logToDTO(logSalvoNoBanco);
     }
 
 /*    @Override

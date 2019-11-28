@@ -13,10 +13,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping({"/v1/logs"})
@@ -46,9 +43,15 @@ public class LogRestV1 implements LogRestEndpointV1 {
     }
 
     @Override
-    public ResponseEntity<Void> adicionaLog(LogDTOV1 logDTOV1) {
+    @PostMapping("/")
+    @ApiOperation(value = "Salva um novo Log ")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+    })
+    public ResponseEntity<Void> adicionaLog(LogDTOV1 logRequest) {
 
-        return null;
+        logServiceImplV1.salvarNovoLog(logRequest);
+        return ResponseEntity.ok().build();
     }
 
     @Override
