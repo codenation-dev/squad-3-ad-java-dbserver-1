@@ -7,11 +7,12 @@ jobs:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
       - image: circleci/openjdk:8u222-jdk-stretch
+    resource_class: medium
     steps:
       - checkout
       - run:
           name: Install dependencies
-          command: cd central-erros && ./gradlew clean build install --refresh-dependencies
+          command: cd central-erros && ./gradlew clean build --refresh-dependencies
   test:
     environment:
       # Configure the JVM and Gradle to avoid OOM errors
