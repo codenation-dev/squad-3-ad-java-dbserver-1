@@ -4,7 +4,6 @@ package br.com.central.erros.impl.business.service.V1;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.UserRepository;
-//import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
 import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,9 +21,6 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder pe;
 
-/*    @Autowired
-    private EmailService emailService;*/
-
     @Autowired
     private EmailService emailService;
 
@@ -35,7 +31,7 @@ public class AuthService {
 
         UserV1 userV1 = userRepository.findByEmail(email);
         if (userV1 == null) {
-            throw new ObjectNotFoundException("Email nao encontrado");
+            throw new ObjectNotFoundException("Email não encontrado");
         }
 
         String newPass = newPassword();
@@ -71,7 +67,6 @@ public class AuthService {
 
     @Bean
     public EmailService emailService() {
-
         return new SmtpEmailService();
     }
 }
