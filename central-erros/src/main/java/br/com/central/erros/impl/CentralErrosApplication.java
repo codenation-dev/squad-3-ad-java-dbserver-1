@@ -46,7 +46,7 @@ public class CentralErrosApplication implements CommandLineRunner {
         UserV1 user3 = new UserV1(null, "teste tres", "teste3@gmail.com", "36378912377", TipoUser.PESSOAFISICA, pe.encode(
                 "123"));
 
-        UserV1 user4 = new UserV1(null, "Kaio Ferreira ", "teste4@gmail.com", "31628382740", TipoUser.PESSOAFISICA,
+        UserV1 user4 = new UserV1(null, "Kaio Ferreira ", "grohlbr@gmail.com", "31628382740", TipoUser.PESSOAFISICA,
                 pe.encode("123"));
 
         user4.addPerfil(Perfil.ADMIN);
@@ -60,6 +60,7 @@ public class CentralErrosApplication implements CommandLineRunner {
                 user4);
 
         logRepositoryV1.saveAll(Arrays.asList(logV1, logV2, logV3 ,logV4 ));
+
 
     }
 }
