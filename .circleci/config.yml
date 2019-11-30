@@ -45,6 +45,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Create jar
+          command: cd central-erros && ./gradlew bootJar
+      - run:
           name: Deploy Master to Heroku
           command: |
             git subtree push --prefix central-erros https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
