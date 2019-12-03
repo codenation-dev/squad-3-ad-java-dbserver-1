@@ -13,6 +13,7 @@ import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.service.V1.AuthService;
 import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
 import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping({"/v1/users"})
+@Api(value = "Users",  tags = { "Users" })
 public class UserRestV1 implements UserRestEndpointV1 {
 
 
@@ -39,7 +41,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
     @GetMapping(path = "/findAll",
             produces = "application/vnd.central.erros.user-v1+json"
     )
-    @ApiOperation(value = "Retorna todos usuários cadastrados", response = UserDTOV1.class)
+    @ApiOperation(value = "Retorna todos usuários cadastrados.", response = UserDTOV1.class)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
@@ -54,7 +56,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
 
     @Override
     @PostMapping("/")
-    @ApiOperation(value = "Salva um novo usuário ")
+    @ApiOperation(value = "Cadastra um novo usuário ")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
@@ -113,7 +115,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
     private AuthService service;
 
     @PostMapping(value = "/recovery")
-    @ApiOperation(value = "Redefinir senha.")
+    @ApiOperation(value = "Recuperar senha.")
     public ResponseEntity<Void> recuperaSenhaUser(@Valid @RequestBody EmailDTO objDto) {
         service.sendNewPassword(objDto.getEmail());
         return ResponseEntity.noContent().build();
