@@ -18,11 +18,11 @@ public interface UserRestEndpointV1 {
 
     ResponseEntity<Void> atualizaUser(Integer idUser, UserDTOV1 userDTOV1);
 
-    //ResponseEntity<Void> recuperaSenhaUser(EmailDTO emailDTO);
-
     ResponseEntity<Void> editarSenhaUser(String email, String novaSenha);
 
     ResponseEntity<Optional<UserDTOV1>> buscaUsersById(Integer id);
+
+    ResponseEntity<Void> recuperaSenhaUser( EmailDTO objDto);
 
 
 

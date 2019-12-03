@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,7 +35,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
     }
 
     @Override
-//    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/findAll",
             produces = "application/vnd.central.erros.user-v1+json"
     )
@@ -106,6 +107,16 @@ public class UserRestV1 implements UserRestEndpointV1 {
     @Override
     public ResponseEntity<Void> editarSenhaUser(String email, String novaSenha) {
         return null;
+    }
+
+    @Autowired
+    private AuthService service;
+
+    @PostMapping(value = "/recovery")
+    @ApiOperation(value = "Redefinir senha.")
+    public ResponseEntity<Void> recuperaSenhaUser(@Valid @RequestBody EmailDTO objDto) {
+        service.sendNewPassword(objDto.getEmail());
+        return ResponseEntity.noContent().build();
     }
 
 

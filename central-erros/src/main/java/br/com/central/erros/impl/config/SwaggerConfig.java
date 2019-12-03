@@ -1,22 +1,19 @@
 package br.com.central.erros.impl.config;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+import io.swagger.models.auth.In;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Header;
-import springfox.documentation.service.ResponseMessage;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -26,13 +23,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
     /* SUCESSFULL 2xx
-    * GET 200   OK
-    * POST 201  CREATED
-    * POST 202  ACCEPTED
-    * POST 204 NO CONTENT
-    * DEL  204 NO CONTENT
-    *
-    */
+     * GET 200   OK
+     * POST 201  CREATED
+     * POST 202  ACCEPTED
+     * POST 204 NO CONTENT
+     * DEL  204 NO CONTENT
+     *
+     */
     private final ResponseMessage m200get = simpleMessage(200, "OK");
     private final ResponseMessage m201post = simpleMessage(201, "CREATED");
     private final ResponseMessage m202post = simpleMessage(202, "ACCEPTED");
@@ -41,10 +38,10 @@ public class SwaggerConfig {
     private final ResponseMessage m204del = simpleMessage(204, "NO CONTENT");
 
     /* REDIRECT 3xx
-    * GET 301 MOVED PERMANENTLY
-    * GET 302 FOUND
-    *
-    */
+     * GET 301 MOVED PERMANENTLY
+     * GET 302 FOUND
+     *
+     */
     private final ResponseMessage m301get = simpleMessage(301, "MOVED PERMANENTLY");
     private final ResponseMessage m302get = simpleMessage(302, "FOUND");
 
@@ -88,15 +85,14 @@ public class SwaggerConfig {
     private final ResponseMessage m505get = simpleMessage(504, "GATEWAY TIMEOUT");
 
 
-
-
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-
+                .securitySchemes(Arrays.asList(new ApiKey("Token Access", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
+                .securityContexts(Arrays.asList(securityContext()))
                 .useDefaultResponseMessages(false)
                 .globalResponseMessage(RequestMethod.GET, Arrays.asList(m200get, m301get, m302get, m401get, m403get, m404get, m503get, m505get))
-                .globalResponseMessage(RequestMethod.POST, Arrays.asList(m200get,m301get, m302get, m401get, m403get, m404get, m503get, m505get))
+                .globalResponseMessage(RequestMethod.POST, Arrays.asList(m200get, m301get, m302get, m401get, m403get, m404get, m503get, m505get))
                 .globalResponseMessage(RequestMethod.PUT, Arrays.asList(m204put, m403put, m415put, m422put, m500put))
                 .globalResponseMessage(RequestMethod.DELETE, Arrays.asList(m204del, m403del, m404del, m500del))
                 .select()
@@ -106,10 +102,28 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo());
     }
 
-    private ApiInfo apiInfo(){
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any())
+                .build();
+
+    }
+
+    private List<SecurityReference> defaultAuth() {
+
+        AuthorizationScope authorizationScope
+                = new AuthorizationScope("ADMIN", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(
+                new SecurityReference("Token Access", authorizationScopes));
+    }
+
+    private ApiInfo apiInfo() {
         return new ApiInfo(
                 "Central de Erros",
-                "API utilizada para o gerenciamento os registros de erros",
+                "API utilizada para o gerenciamento e os registros de erros",
                 "Versão 1.0.0-SNAPSHOT",
                 "",
                 new Contact("Squad 3", "", ""),
@@ -143,12 +157,6 @@ public class SwaggerConfig {
     private ResponseMessage simpleMessage(int code, String msg) {
         return new ResponseMessageBuilder().code(code).message(msg).build();
     }
-
-
-
-
-
-
 
 
 }
