@@ -6,6 +6,6 @@ import org.junit.Test;
 public class CentralErrosApplicationTests {
 	@Test
 	public void toDo() {
-		Assert.assertEquals(Boolean.FALSE, Boolean.FALSE);
+		Assert.assertEquals(Boolean.TRUE, Boolean.TRUE);
 	}
 }

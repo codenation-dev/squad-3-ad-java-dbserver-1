@@ -65,7 +65,7 @@ workflows:
             - test
           filters:
             branches:
-              only: samuel-circleci
+              only: master
 
 
 
