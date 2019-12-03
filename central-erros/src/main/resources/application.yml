@@ -6,4 +6,4 @@ spring:
             ddl-auto: create-drop
 
 permissao-service:
-    url: https://user-info.herokuapp.com
+    url: https://squid-central-erros.herokuapp.com
