@@ -6,12 +6,13 @@ jobs:
       _JAVA_OPTIONS: "-Xmx3g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
-      - image: circleci/openjdk:11.0.3-jdk-stretch
+      - image: circleci/openjdk:8u222-jdk-stretch
+    resource_class: medium
     steps:
       - checkout
       - run:
           name: Install dependencies
-          command: central-erros/gradlew build
+          command: cd central-erros && ./gradlew clean build --refresh-dependencies
   test:
     environment:
       # Configure the JVM and Gradle to avoid OOM errors
@@ -24,8 +25,7 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Run tests in parallel
-          # Use "./gradlew test" instead if tests are not run in parallel
+          name: Run tests
           command: cd central-erros && ./gradlew test
       - run:
           name: Generate code coverage report
@@ -39,6 +39,18 @@ jobs:
       - store_artifacts:
           path: central-erros/build/reports/jacoco/test/html
           when: always
+  deploy:
+    docker:
+      - image: circleci/openjdk:8u222-jdk-stretch
+    steps:
+      - checkout
+      - run:
+          name: Create jar
+          command: cd central-erros && ./gradlew bootJar
+      - run:
+          name: Deploy Master to Heroku
+          command: |
+            git subtree push --prefix central-erros https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 workflows:
   version: 2
   workflow:
@@ -47,3 +59,13 @@ workflows:
       - test:
           requires:
             - build
+      - deploy:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only: master
+
+
+
