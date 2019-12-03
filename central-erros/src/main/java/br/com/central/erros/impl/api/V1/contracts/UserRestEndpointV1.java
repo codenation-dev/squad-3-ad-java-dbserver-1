@@ -20,7 +20,7 @@ public interface UserRestEndpointV1 {
 
     ResponseEntity<Void> editarSenhaUser(String email, String novaSenha);
 
-    ResponseEntity<Optional<UserDTOV1>> buscaUsersById(Integer id);
+   // ResponseEntity<Optional<UserDTOV1>> buscaUsersById(Integer id);
 
     ResponseEntity<Void> recuperaSenhaUser( EmailDTO objDto);
 
