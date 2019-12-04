@@ -18,7 +18,8 @@ public class LogConverter {
         }
 
         LogV1 logV1 = new LogV1(null, logDTOV1.getIp(), logDTOV1.getNumeroDeEventos(), logDTOV1.getDataDoErro(),
-                logDTOV1.getTitulo(), logDTOV1.getDetalhes(), logDTOV1.getAmbiente(), logDTOV1.getLevel(), null);
+                logDTOV1.getTitulo(), logDTOV1.getDetalhes(), logDTOV1.getAmbiente(), logDTOV1.getLevel(),
+                logDTOV1.getUserV1());
 
         if (Objects.nonNull(logDTOV1.getUserV1())){
             logV1.setUserV1(logV1.getUserV1());
@@ -33,7 +34,7 @@ public class LogConverter {
         }
 
         LogDTOV1 logDTOV1 = new LogDTOV1(logV1.getIp(), logV1.getNumeroDeEventos(), logV1.getDataDoErro(),
-                logV1.getTitulo(), logV1.getDetalhes(), logV1.getAmbiente(), logV1.getLevel(), null);
+                logV1.getTitulo(), logV1.getDetalhes(), logV1.getAmbiente(), logV1.getLevel(), logV1.getUserV1());
 
         if (Objects.nonNull(logV1.getUserV1())){
             logDTOV1.setUserV1(logV1.getUserV1());

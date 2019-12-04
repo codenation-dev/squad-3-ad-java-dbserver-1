@@ -20,7 +20,7 @@ public class LogConverterTest {
     public void convertsFromDTOToEntity() {
 
         LogV1 expected = new LogV1(null, "127.0.0.1", 2L, LocalDate.now(), "", "",
-                Ambiente.DEVELOPMENT, Level.DEBUG, null);
+                Ambiente.DEVELOPMENT, Level.DEBUG, new UserV1());
 
         LogDTOV1 dto = new LogDTOV1(expected.getIp(), expected.getNumeroDeEventos(), expected.getDataDoErro(),
                 expected.getTitulo(), expected.getDetalhes(), expected.getAmbiente(), expected.getLevel(),
@@ -32,7 +32,7 @@ public class LogConverterTest {
     @Test
     public void convertsFromEntityToDTO() {
         LogDTOV1 expected = new LogDTOV1("127.0.0.1", 2L, LocalDate.now(), "", "",
-                Ambiente.DEVELOPMENT, Level.DEBUG, null);
+                Ambiente.DEVELOPMENT, Level.DEBUG, new UserV1());
 
         LogV1 entity = new LogV1(null, expected.getIp(), expected.getNumeroDeEventos(), expected.getDataDoErro(),
                 expected.getTitulo(), expected.getDetalhes(), expected.getAmbiente(), expected.getLevel(),
