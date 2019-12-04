@@ -115,10 +115,10 @@ public class UserRestV1 implements UserRestEndpointV1 {
     private AuthService service;
 
     @PostMapping(value = "/recovery")
-    @ApiOperation(value = "Recuperar senha.")
-    public ResponseEntity<Void> recuperaSenhaUser(@Valid @RequestBody EmailDTO objDto) {
+    @ApiOperation(value = "Recuperar senha.", response = UserDTOV1.class)
+    public ResponseEntity<Void> recuperaSenhaUser(@Valid @RequestBody EmailDTO emailDTO) {
 
-        service.sendNewPassword(objDto.getEmail());
+        service.sendNewPassword(emailDTO.getEmail());
         return ResponseEntity.noContent().build();
     }
 

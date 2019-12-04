@@ -88,8 +88,7 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .securitySchemes(Arrays.asList(new ApiKey("Token Access", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
-                .securityContexts(Arrays.asList(securityContext()))
+
                 .useDefaultResponseMessages(false)
                 .globalResponseMessage(RequestMethod.GET, Arrays.asList(m200get, m301get, m302get, m401get, m403get, m404get, m503get, m505get))
                 .globalResponseMessage(RequestMethod.POST, Arrays.asList(m200get, m301get, m302get, m401get, m403get, m404get, m503get, m505get))
@@ -102,23 +101,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo());
     }
 
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.any())
-                .build();
 
-    }
-
-    private List<SecurityReference> defaultAuth() {
-
-        AuthorizationScope authorizationScope
-                = new AuthorizationScope("ADMIN", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(
-                new SecurityReference("Token Access", authorizationScopes));
-    }
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
