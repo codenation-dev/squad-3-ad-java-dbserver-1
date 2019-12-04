@@ -80,12 +80,12 @@ public class UserServiceImplV1Test {
 
     @Test
     public void retornaUsuarioValido() {
-        final UserDTOV1 actual = new UserDTOV1("João", "abc@123.com",
+        final UserDTOV1 expected = new UserDTOV1("João", "abc@123.com",
                 "123", TipoUser.PESSOAFISICA, "$2$546");
-        when(userRepositoryV1.findById(1)).thenReturn(Optional.of(UserConverter.userDTOToEntity(actual)));
+        when(userRepositoryV1.findById(1)).thenReturn(Optional.of(UserConverter.userDTOToEntity(expected)));
 
-        final UserDTOV1 result = userService.buscaUsersById(1).get();
-        assertThat(actual).isEqualToComparingFieldByField(result);
+        final UserDTOV1 actual = userService.buscaUsersById(1).get();
+        assertThat(expected).isEqualToComparingFieldByField(actual);
     }
 
     @Test(expected = ObjectNotFoundException.class)
