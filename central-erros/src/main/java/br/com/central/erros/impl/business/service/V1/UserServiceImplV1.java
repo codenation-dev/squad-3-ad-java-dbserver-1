@@ -81,7 +81,7 @@ public class UserServiceImplV1 implements UserServiceV1 {
     }
 
 
-    public UserSS authenticated() {
+    public static UserSS authenticated() {
         try {
             return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

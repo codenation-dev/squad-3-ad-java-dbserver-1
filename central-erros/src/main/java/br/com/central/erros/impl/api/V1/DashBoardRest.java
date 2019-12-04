@@ -8,6 +8,8 @@ import br.com.central.erros.impl.api.V1.contracts.DashBoardRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.service.V1.LogServiceImplV1;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,10 @@ public class DashBoardRest implements DashBoardRestEndpointV1 {
             produces = "application/vnd.central.erros.dashboards-v1+json"
     )
     @ApiOperation(value = "Retorna os logs por usuario", response = LogDTOV1.class)
-    public ResponseEntity<List<LogDTOV1>> buscarLogsPorUsuario(@PathVariable Integer id) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+    })
+    public ResponseEntity<List<LogDTOV1>> buscarLogsPorUsuario(@PathVariable("id") Integer id) {
 
 
         ResponseEntity<List<LogDTOV1>> response = ResponseEntity.ok(logServiceImplV1.buscarLogsPorUsuario(id));
