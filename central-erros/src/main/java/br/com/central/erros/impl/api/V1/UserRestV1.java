@@ -1,6 +1,7 @@
 package br.com.central.erros.impl.api.V1;
 
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -10,9 +11,11 @@ import javax.validation.Valid;
 import br.com.central.erros.impl.api.V1.contracts.UserRestEndpointV1;
 import br.com.central.erros.impl.business.dto.EmailDTO;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
+import br.com.central.erros.impl.business.entity.V1.UserV1;
+import br.com.central.erros.impl.business.entity.converter.UserConverter;
 import br.com.central.erros.impl.business.service.V1.AuthService;
 import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
-import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -54,17 +57,31 @@ public class UserRestV1 implements UserRestEndpointV1 {
         return response;
     }
 
+//    @Override
+//    @PostMapping("/")
+//    @ApiOperation(value = "Cadastra um novo usuário ")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+//    })
+//    public ResponseEntity<Void> adicionaUser(UserDTOV1 userRequest) {
+//
+//        userServiceV1.salvarNovoUSuario(userRequest);
+//
+//        return ResponseEntity.ok().build();
+//    }
+
     @Override
     @PostMapping("/")
     @ApiOperation(value = "Cadastra um novo usuário ")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+            @ApiImplicitParam(name = "Authorization", required = true,
+                    dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
-    public ResponseEntity<Void> adicionaUser(UserDTOV1 userRequest) {
-
-        userServiceV1.salvarNovoUSuario(userRequest);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> adicionaUser(@RequestBody UserDTOV1 objDto) {
+        objDto = userServiceV1.salvarNovoUSuario(objDto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(objDto.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
 
@@ -101,8 +118,12 @@ public class UserRestV1 implements UserRestEndpointV1 {
 
 
     @Override
-    public ResponseEntity<Void> atualizaUser(Integer idUser, UserDTOV1 userDTOV1) {
-        return null;
+    @PostMapping(value = "{id}")
+    public ResponseEntity<Void> atualizaUser(@RequestBody UserDTOV1 userDTOV1, @PathVariable Integer id) {
+        UserV1 obj = userServiceV1.fromDTO(userDTOV1);
+        obj.setId(id);
+        obj = userServiceV1.update(obj);
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -43,9 +43,9 @@ public class UserServiceImplV1 implements UserServiceV1 {
     }
 
     @Override
-    public UserDTOV1 findById(Integer id){
+    public UserDTOV1 findById(Integer id) {
 
-		UserSS user = authenticated();
+        UserSS user = authenticated();
         if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
             throw new AuthorizationException("Acesso negado");
         }
@@ -69,7 +69,7 @@ public class UserServiceImplV1 implements UserServiceV1 {
 
     @Override
     public UserDTOV1 salvarNovoUSuario(UserDTOV1 userInput) {
-
+        userInput.setId(null);
         String senhaEncode = bCryptPasswordEncoder.encode(userInput.getSenha());
         userInput.setSenha(senhaEncode);
 
@@ -91,8 +91,26 @@ public class UserServiceImplV1 implements UserServiceV1 {
 
     }
 
+    public UserV1 update(UserV1 obj) {
+        UserDTOV1 newObj = findById(obj.getId());
+        updateData(newObj, obj);
+        return userRepositoryV1.save(UserConverter.userDTOToEntity(newObj));
+    }
 
 
+    public UserV1 fromDTO(UserDTOV1 objDto) {
+        return new UserV1(objDto.getId(), objDto.getNome());
+    }
+
+    private void updateData(UserDTOV1 newObj, UserV1 obj) {
+        newObj.setNome(obj.getNome());
+    }
 
 
 }
+
+
+
+
+
+

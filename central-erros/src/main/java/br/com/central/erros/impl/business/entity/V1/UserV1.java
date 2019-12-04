@@ -59,6 +59,9 @@ public class UserV1 implements Serializable {
         addPerfil(Perfil.CLIENTE);
     }
 
+    public UserV1(Integer id, String nome) {
+    }
+
     public Integer getId() {
         return id;
     }

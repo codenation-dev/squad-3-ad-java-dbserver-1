@@ -9,6 +9,7 @@ import br.com.central.erros.impl.business.entity.enums.TipoUser;
 
 public class UserDTOV1 {
 
+    private Integer id;
     private String nome;
     private String email;
     private String cpfOuCnpj;
@@ -30,6 +31,13 @@ public class UserDTOV1 {
         addPerfil(Perfil.CLIENTE);
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
