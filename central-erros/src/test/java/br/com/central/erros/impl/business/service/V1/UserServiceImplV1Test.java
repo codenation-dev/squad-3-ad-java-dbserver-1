@@ -6,6 +6,11 @@ import br.com.central.erros.impl.business.entity.converter.UserConverter;
 import br.com.central.erros.impl.business.entity.enums.TipoUser;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.UserRepository;
+import org.assertj.core.api.Assertions;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -13,9 +18,15 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -32,7 +43,22 @@ public class UserServiceImplV1Test {
 
     @InjectMocks
     private UserServiceImplV1 userService;
-    
+
+    @Test
+    public void retornaListaDeUsuarios() {
+        final List<UserV1> listaDeUsuarios = new ArrayList<>();
+        final UserV1 usuario = new UserV1(0, "João", "abc@123.com",
+                "123", TipoUser.PESSOAFISICA, "$2$546");
+        listaDeUsuarios.add(usuario);
+        when(userRepositoryV1.findAll()).thenReturn(listaDeUsuarios);
+
+        List<UserDTOV1> actual = userService.buscaUsersList();
+
+        assertThat(actual, contains(
+                hasProperty("nome", Matchers.is("João"))
+        ));
+    }
+
     @Test
     public void salvaUsuario() {
         final UserDTOV1 actualDto = new UserDTOV1("João", "abc@123.com",
