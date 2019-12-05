@@ -14,10 +14,10 @@ import br.com.central.erros.impl.business.service.V1.contracts.UserServiceV1;
 import br.com.central.erros.impl.business.service.V1.exceptions.AuthorizationException;
 import br.com.central.erros.impl.config.security.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import springfox.documentation.spi.service.contexts.SecurityContext;
 
 @Service
 public class UserServiceImplV1 implements UserServiceV1 {
@@ -44,40 +44,61 @@ public class UserServiceImplV1 implements UserServiceV1 {
 
     @Override
     public UserDTOV1 findById(Integer id) {
-
         UserSS user = authenticated();
         if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
             throw new AuthorizationException("Acesso negado");
         }
 
         Optional<UserV1> obj = userRepositoryV1.findById(id);
-
         obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + UserV1.class.getName()));
-
         return UserConverter.userToDTO(obj.get());
-
     }
-
-//    @Override
-//    public Optional<UserDTOV1> buscaUsersById(Integer id) {
-//        Optional<UserV1> optionalUserV1 = userRepositoryV1.findById(id);
-//
-//        return optionalUserV1.map(UserConverter::userToDTO);
-//
-//    }
 
     @Override
     public UserDTOV1 salvarNovoUSuario(UserDTOV1 userInput) {
-        userInput.setId(null);
         String senhaEncode = bCryptPasswordEncoder.encode(userInput.getSenha());
+
+        userInput.setId(null);
         userInput.setSenha(senhaEncode);
 
         UserV1 usuarioEntity = UserConverter.userDTOToEntity(userInput);
+        UserV1 usuarioSalvoNoBanco = userRepositoryV1.save(usuarioEntity);
+        return UserConverter.userToDTO(usuarioSalvoNoBanco);
+    }
 
+
+    public UserDTOV1 update(UserDTOV1 userInput) {
+        UserDTOV1 newObj = findById(userInput.getId());
+        updateData(newObj, userInput);
+
+        UserV1 usuarioEntity = UserConverter.userDTOToEntity(newObj);
+        usuarioEntity.setId(userInput.getId());
         UserV1 usuarioSalvoNoBanco = userRepositoryV1.save(usuarioEntity);
 
         return UserConverter.userToDTO(usuarioSalvoNoBanco);
+    }
+
+    public void delete(Integer id) {
+        findById(id);
+        try {
+            userRepositoryV1.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("Não é possível excluir porque há dados relacionados");
+        }
+
+    }
+
+
+    public UserV1 fromDTO(UserDTOV1 objDto) {
+        return new UserV1(objDto.getId(), objDto.getNome());
+    }
+
+    private void updateData(UserDTOV1 newObj, UserDTOV1 obj) {
+
+       newObj.setNome(obj.getNome());
+       newObj.setEmail(obj.getEmail());
     }
 
 
@@ -90,23 +111,6 @@ public class UserServiceImplV1 implements UserServiceV1 {
         }
 
     }
-
-    public UserV1 update(UserV1 obj) {
-        UserDTOV1 newObj = findById(obj.getId());
-        updateData(newObj, obj);
-        return userRepositoryV1.save(UserConverter.userDTOToEntity(newObj));
-    }
-
-
-    public UserV1 fromDTO(UserDTOV1 objDto) {
-        return new UserV1(objDto.getId(), objDto.getNome());
-    }
-
-    private void updateData(UserDTOV1 newObj, UserV1 obj) {
-        newObj.setNome(obj.getNome());
-    }
-
-
 }
 
 

@@ -28,7 +28,7 @@ public class UserConverter {
             throw new ValidationException(UserExceptionMessage.ERROR_DADOS_INVALIDOS_USER);
         }
 
-        UserDTOV1 userDTOV1 = new UserDTOV1(user.getNome(), user.getEmail(), user.getCpfOuCnpj(), user.getTipo(), user.getSenha());
+        UserDTOV1 userDTOV1 = new UserDTOV1(user.getId(), user.getNome(), user.getEmail(), user.getCpfOuCnpj(), user.getTipo(), user.getSenha());
         userDTOV1.setPerfis(user.getPerfis().stream().map(value -> value.getCod()).collect(Collectors.toSet()));
         return userDTOV1;
     }

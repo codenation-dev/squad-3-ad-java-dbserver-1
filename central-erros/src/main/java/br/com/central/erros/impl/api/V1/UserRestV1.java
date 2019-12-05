@@ -1,13 +1,6 @@
 package br.com.central.erros.impl.api.V1;
 
 
-import java.net.URI;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
 import br.com.central.erros.impl.api.V1.contracts.UserRestEndpointV1;
 import br.com.central.erros.impl.business.dto.EmailDTO;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
@@ -15,7 +8,6 @@ import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.entity.converter.UserConverter;
 import br.com.central.erros.impl.business.service.V1.AuthService;
 import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -24,6 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping({"/v1/users"})
@@ -46,29 +44,19 @@ public class UserRestV1 implements UserRestEndpointV1 {
     )
     @ApiOperation(value = "Retorna todos usuários cadastrados.", response = UserDTOV1.class)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
-    })
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    required = true,
+                    dataType = "string",
+                    paramType = "header",
+                    value = "Token de autenticação.")})
     public ResponseEntity<List<UserDTOV1>> buscaUsersList() {
-
         ResponseEntity<List<UserDTOV1>> response = ResponseEntity.ok(userServiceV1.buscaUsersList());
         if (Objects.isNull(response.getBody())) {
             response = ResponseEntity.noContent().build();
         }
         return response;
     }
-
-//    @Override
-//    @PostMapping("/")
-//    @ApiOperation(value = "Cadastra um novo usuário ")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
-//    })
-//    public ResponseEntity<Void> adicionaUser(UserDTOV1 userRequest) {
-//
-//        userServiceV1.salvarNovoUSuario(userRequest);
-//
-//        return ResponseEntity.ok().build();
-//    }
 
     @Override
     @PostMapping("/")
@@ -84,6 +72,13 @@ public class UserRestV1 implements UserRestEndpointV1 {
         return ResponseEntity.created(uri).build();
     }
 
+    //@PreAuthorize("hasAnyRole('ADMIN')")
+    @DeleteMapping(value="/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        userServiceV1.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @Override
 //    @PreAuthorize("hasAnyRole('ADMIN')")
@@ -92,10 +87,13 @@ public class UserRestV1 implements UserRestEndpointV1 {
     )
     @ApiOperation(value = "Retorna um usuário cadastrado", response = UserDTOV1.class)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
-    })
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    required = true,
+                    dataType = "string",
+                    paramType = "header",
+                    value = "Token de autenticação.")})
     public ResponseEntity<UserDTOV1> buscaUser(@Valid @PathVariable Integer id) {
-
         ResponseEntity<UserDTOV1> response = ResponseEntity.ok(userServiceV1.findById(id));
         if (Objects.isNull(response.getBody())) {
             response = ResponseEntity.noContent().build();
@@ -103,26 +101,13 @@ public class UserRestV1 implements UserRestEndpointV1 {
         return response;
     }
 
-//    @Override
-//    @GetMapping(path = "{id}")
-//    @ApiOperation(value = "Retorna o usuário informado", response = UserDTOV1.class)
-//    public ResponseEntity<Optional<UserDTOV1>> buscaUsersById(@PathVariable("id") Integer id) {
-//
-//        ResponseEntity<Optional<UserDTOV1>> response = ResponseEntity.ok(userServiceV1.buscaUsersById(id));
-//        if (Objects.isNull((response.getBody()))) {
-//            response = ResponseEntity.noContent().build();
-//        }
-//
-//        return response;
-//    }
-
 
     @Override
-    @PostMapping(value = "{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Void> atualizaUser(@RequestBody UserDTOV1 userDTOV1, @PathVariable Integer id) {
-        UserV1 obj = userServiceV1.fromDTO(userDTOV1);
-        obj.setId(id);
-        obj = userServiceV1.update(obj);
+        //UserV1 obj = userServiceV1.fromDTO(userDTOV1);
+        userDTOV1.setId(id);
+        userDTOV1 = userServiceV1.update(userDTOV1);
         return ResponseEntity.noContent().build();
     }
 

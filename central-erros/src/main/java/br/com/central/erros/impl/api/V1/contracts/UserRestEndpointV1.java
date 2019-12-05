@@ -16,7 +16,7 @@ public interface UserRestEndpointV1 {
 
     ResponseEntity<UserDTOV1> buscaUser(Integer id);
 
-    ResponseEntity<Void> atualizaUser( UserDTOV1 userDTOV1, Integer idUser);
+    ResponseEntity<Void> atualizaUser( UserDTOV1 userDTOV1, Integer id);
 
     ResponseEntity<Void> editarSenhaUser(String email, String novaSenha);
 

@@ -21,8 +21,9 @@ public class UserDTOV1 {
         addPerfil(Perfil.CLIENTE);
     }
 
-    public UserDTOV1(String nome, String email, String cpfOuCnpj, TipoUser tipo, String senha) {
+    public UserDTOV1(Integer id, String nome, String email, String cpfOuCnpj, TipoUser tipo, String senha) {
         super();
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
