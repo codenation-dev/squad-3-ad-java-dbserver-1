@@ -8,6 +8,7 @@ import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.entity.converter.UserConverter;
 import br.com.central.erros.impl.business.entity.enums.Perfil;
+import br.com.central.erros.impl.business.exception.exceptions.DataIntegrityException;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.UserRepository;
 import br.com.central.erros.impl.business.service.V1.contracts.UserServiceV1;
@@ -83,9 +84,8 @@ public class UserServiceImplV1 implements UserServiceV1 {
         findById(id);
         try {
             userRepositoryV1.deleteById(id);
-        }
-        catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Não é possível excluir porque há dados relacionados");
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Não é possível excluir há dados relacionados");
         }
 
     }
@@ -97,8 +97,8 @@ public class UserServiceImplV1 implements UserServiceV1 {
 
     private void updateData(UserDTOV1 newObj, UserDTOV1 obj) {
 
-       newObj.setNome(obj.getNome());
-       newObj.setEmail(obj.getEmail());
+        newObj.setNome(obj.getNome());
+        newObj.setEmail(obj.getEmail());
     }
 
 

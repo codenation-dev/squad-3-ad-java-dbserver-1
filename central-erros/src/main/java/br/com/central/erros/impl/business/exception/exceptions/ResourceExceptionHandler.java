@@ -18,4 +18,11 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Acesso negado", e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
     }
+
+    @ExceptionHandler(DataIntegrityException.class)
+    public ResponseEntity<StandardError> dataIntegrity(AuthorizationException e, HttpServletRequest request) {
+
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Acesso negado", e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
 }
