@@ -40,25 +40,12 @@ public class UserServiceImplV1 implements UserServiceV1 {
     @Override
     public UserDTOV1 findById(Integer id){
 
-//		UserSS user = UserServiceExcluir.authenticated();
-//		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
-//			throw new AuthorizationException("Acesso negado");
-//		}
-
         Optional<UserV1> obj = userRepositoryV1.findById(id);
 
         obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + UserV1.class.getName()));
 
         return UserConverter.userToDTO(obj.get());
-
-    }
-
-    @Override
-    public Optional<UserDTOV1> buscaUsersById(Integer id) {
-        Optional<UserV1> optionalUserV1 = userRepositoryV1.findById(id);
-
-        return optionalUserV1.map(UserConverter::userToDTO);
 
     }
 
