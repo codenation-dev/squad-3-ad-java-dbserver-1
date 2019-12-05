@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import br.com.central.erros.impl.api.V1.contracts.UserRestEndpointV1;
 import br.com.central.erros.impl.business.dto.EmailDTO;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
+import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.service.V1.AuthService;
 import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
 import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
@@ -66,7 +67,6 @@ public class UserRestV1 implements UserRestEndpointV1 {
 
 
     @Override
-//    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/{id}",
             produces = "application/vnd.central.erros.user-v1+json"
     )
@@ -75,25 +75,12 @@ public class UserRestV1 implements UserRestEndpointV1 {
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
     public ResponseEntity<UserDTOV1> buscaUser(@Valid @PathVariable Integer id) {
-
-        ResponseEntity<UserDTOV1> response = ResponseEntity.ok(userServiceV1.findById(id));
-        if (Objects.isNull(response.getBody())) {
-            response = ResponseEntity.noContent().build();
-        }
-        return response;
+        return ResponseEntity.ok(userServiceV1.findById(id));
     }
 
-    @Override
-    @GetMapping(path = "{id}")
-    @ApiOperation(value = "Retorna o usuário informado", response = UserDTOV1.class)
-    public ResponseEntity<Optional<UserDTOV1>> buscaUsersById(@PathVariable("id") Integer id) {
-
-        ResponseEntity<Optional<UserDTOV1>> response = ResponseEntity.ok(userServiceV1.buscaUsersById(id));
-        if (Objects.isNull((response.getBody()))) {
-            response = ResponseEntity.noContent().build();
-        }
-
-        return response;
+    @ExceptionHandler({ObjectNotFoundException.class})
+    public ResponseEntity handleException() {
+        return ResponseEntity.notFound().build();
     }
 
 

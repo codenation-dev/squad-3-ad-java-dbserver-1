@@ -13,8 +13,4 @@ public interface UserServiceV1 {
 
     UserDTOV1 findById(Integer id);
 
-    Optional<UserDTOV1> buscaUsersById(Integer userId);
-
-
-
 }
