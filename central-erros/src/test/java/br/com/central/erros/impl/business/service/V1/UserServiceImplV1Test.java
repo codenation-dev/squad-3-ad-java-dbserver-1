@@ -84,7 +84,7 @@ public class UserServiceImplV1Test {
                 "123", TipoUser.PESSOAFISICA, "$2$546");
         when(userRepositoryV1.findById(1)).thenReturn(Optional.of(UserConverter.userDTOToEntity(expected)));
 
-        final UserDTOV1 actual = userService.buscaUsersById(1).get();
+        final UserDTOV1 actual = userService.findById(1);
         assertThat(expected).isEqualToComparingFieldByField(actual);
     }
 
