@@ -10,7 +10,7 @@ import br.com.central.erros.impl.business.exception.UserExceptionMessage;
 import br.com.central.erros.impl.business.exception.exceptions.ValidationException;
 
 
-public class UserConverter {
+public class UserConverter extends Converter {
 
     private static void jogarExcessaoSeUsuarioNulo(Object usuario) {
         if (Objects.isNull(usuario)) {
