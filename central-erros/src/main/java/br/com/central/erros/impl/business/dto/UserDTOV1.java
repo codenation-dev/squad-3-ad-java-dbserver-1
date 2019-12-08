@@ -76,7 +76,7 @@ public class UserDTOV1 {
     }
 
     public Set<Perfil> getPerfis() {
-        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
     }
 
     public void addPerfil(Perfil perfil) {
