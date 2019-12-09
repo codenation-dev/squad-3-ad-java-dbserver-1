@@ -8,6 +8,7 @@ import java.util.Optional;
 import br.com.central.erros.impl.api.V1.contracts.LogRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.service.V1.LogServiceImplV1;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping({"/v1/logs"})
+@Api(value = "Logs",  tags = { "Logs" })
 public class LogRestV1 implements LogRestEndpointV1 {
 
 

@@ -20,14 +20,14 @@ public class UserConverter extends Converter {
 
     public static UserV1 userDTOToEntity(UserDTOV1 userDTO) {
         jogarExcessaoSeUsuarioNulo(userDTO);
-        return new UserV1(null, userDTO.getNome(), userDTO.getEmail(), userDTO.getCpfOuCnpj(),
+        return new UserV1(userDTO.getId(), userDTO.getNome(), userDTO.getEmail(), userDTO.getCpfOuCnpj(),
                 userDTO.getTipo(), userDTO.getSenha());
     }
 
 
     public static UserDTOV1 userToDTO(UserV1 user) {
         jogarExcessaoSeUsuarioNulo(user);
-        UserDTOV1 dto = new UserDTOV1(user.getNome(), user.getEmail(), user.getCpfOuCnpj(), user.getTipo(),
+        UserDTOV1 dto = new UserDTOV1(user.getId(), user.getNome(), user.getEmail(), user.getCpfOuCnpj(), user.getTipo(),
                 user.getSenha());
         dto.setPerfis(user.getPerfis().stream().map(Perfil::getCod).collect(Collectors.toSet()));
         return dto;
