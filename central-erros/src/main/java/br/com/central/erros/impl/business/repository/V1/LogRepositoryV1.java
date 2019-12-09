@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface LogRepositoryV1 extends JpaRepository<LogV1, Integer> {
 
     List<LogV1> findByUserV1Id(Integer id);
+    List<LogV1> findByLevelDescricao(String descricao);
+    List<LogV1> findByAmbienteDescricao(String ambiente);
+    List<LogV1> findByDetalhesContaining(String detalhes);
 
 
 }
