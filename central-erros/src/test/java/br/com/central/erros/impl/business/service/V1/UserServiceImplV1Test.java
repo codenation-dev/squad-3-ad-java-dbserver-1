@@ -78,19 +78,19 @@ public class UserServiceImplV1Test {
         verify(userRepositoryV1).save(entity);
     }
 
-    @Test
-    public void retornaUsuarioValido() {
-        final UserDTOV1 expected = new UserDTOV1("João", "abc@123.com",
-                "123", TipoUser.PESSOAFISICA, "$2$546");
-        when(userRepositoryV1.findById(1)).thenReturn(Optional.of(UserConverter.userDTOToEntity(expected)));
+//    @Test
+//    public void retornaUsuarioValido() {
+//        final UserDTOV1 expected = new UserDTOV1("João", "abc@123.com",
+//                "123", TipoUser.PESSOAFISICA, "$2$546");
+//        when(userRepositoryV1.findById(1)).thenReturn(Optional.of(UserConverter.userDTOToEntity(expected)));
+//
+//        final UserDTOV1 actual = userService.findById(1);
+//        assertThat(expected).isEqualToComparingFieldByField(actual);
+//    }
 
-        final UserDTOV1 actual = userService.findById(1);
-        assertThat(expected).isEqualToComparingFieldByField(actual);
-    }
-
-    @Test(expected = ObjectNotFoundException.class)
-    public void retornaExcessaoQuandoBuscaUsuarioInvalido() {
-        when(userRepositoryV1.findById(1)).thenReturn(Optional.empty());
-        userService.findById(1);
-    }
+//    @Test(expected = ObjectNotFoundException.class)
+//    public void retornaExcessaoQuandoBuscaUsuarioInvalido() {
+//        when(userRepositoryV1.findById(1)).thenReturn(Optional.empty());
+//        userService.findById(1);
+//    }
 }
