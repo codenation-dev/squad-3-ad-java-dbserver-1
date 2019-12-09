@@ -7,10 +7,14 @@ import java.util.stream.Collectors;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.entity.converter.UserConverter;
+import br.com.central.erros.impl.business.entity.enums.Perfil;
+import br.com.central.erros.impl.business.exception.exceptions.AuthorizationException;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.UserRepository;
 import br.com.central.erros.impl.business.service.V1.contracts.UserServiceV1;
+import br.com.central.erros.impl.config.security.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,27 +43,16 @@ public class UserServiceImplV1 implements UserServiceV1 {
 
     @Override
     public UserDTOV1 findById(Integer id){
-
-//		UserSS user = UserServiceExcluir.authenticated();
-//		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
-//			throw new AuthorizationException("Acesso negado");
-//		}
-
+        UserSS user = authenticated();
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Acesso negado");
+        }
         Optional<UserV1> obj = userRepositoryV1.findById(id);
-
         obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + UserV1.class.getName()));
 
+
         return UserConverter.userToDTO(obj.get());
-
-    }
-
-    @Override
-    public Optional<UserDTOV1> buscaUsersById(Integer id) {
-        Optional<UserV1> optionalUserV1 = userRepositoryV1.findById(id);
-
-        return optionalUserV1.map(UserConverter::userToDTO);
-
     }
 
     @Override
@@ -73,6 +66,17 @@ public class UserServiceImplV1 implements UserServiceV1 {
         UserV1 usuarioSalvoNoBanco = userRepositoryV1.save(usuarioEntity);
 
         return UserConverter.userToDTO(usuarioSalvoNoBanco);
+    }
+
+
+    public static UserSS authenticated() {
+        try {
+            return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 

@@ -1,6 +1,7 @@
 package br.com.central.erros.impl.api.V1;
 
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,15 +14,18 @@ import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.service.V1.AuthService;
 import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
 import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping({"/v1/users"})
+@Api(value = "Users",  tags = { "Users" })
 public class UserRestV1 implements UserRestEndpointV1 {
 
 
@@ -57,11 +61,11 @@ public class UserRestV1 implements UserRestEndpointV1 {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
-    public ResponseEntity<Void> adicionaUser(UserDTOV1 userRequest) {
-
-        userServiceV1.salvarNovoUSuario(userRequest);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> adicionaUser(@RequestBody UserDTOV1 objDto) {
+        objDto = userServiceV1.salvarNovoUSuario(objDto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(objDto.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
 
@@ -72,27 +76,18 @@ public class UserRestV1 implements UserRestEndpointV1 {
     )
     @ApiOperation(value = "Retorna um usuário cadastrado", response = UserDTOV1.class)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    required = true,
+                    dataType = "string",
+                    paramType = "header",
+                    value = "Token de autenticação.")
     })
-    public ResponseEntity<UserDTOV1> buscaUser(@Valid @PathVariable Integer id) {
-
+    public ResponseEntity<UserDTOV1> buscaUser(@Valid @PathVariable("id") Integer id) {
         ResponseEntity<UserDTOV1> response = ResponseEntity.ok(userServiceV1.findById(id));
         if (Objects.isNull(response.getBody())) {
             response = ResponseEntity.noContent().build();
         }
-        return response;
-    }
-
-    @Override
-    @GetMapping(path = "{id}")
-    @ApiOperation(value = "Retorna o usuário informado", response = UserDTOV1.class)
-    public ResponseEntity<Optional<UserDTOV1>> buscaUsersById(@PathVariable("id") Integer id) {
-
-        ResponseEntity<Optional<UserDTOV1>> response = ResponseEntity.ok(userServiceV1.buscaUsersById(id));
-        if (Objects.isNull((response.getBody()))) {
-            response = ResponseEntity.noContent().build();
-        }
-
         return response;
     }
 
