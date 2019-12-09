@@ -32,6 +32,16 @@ public class UserDTOV1 {
         addPerfil(Perfil.CLIENTE);
     }
 
+    public UserDTOV1(String nome, String email, String cpfOuCnpj, TipoUser tipo, String senha) {
+        super();
+        this.nome = nome;
+        this.email = email;
+        this.cpfOuCnpj = cpfOuCnpj;
+        this.tipo = (tipo==null) ? null : tipo.getCod();
+        this.senha = senha;
+        addPerfil(Perfil.CLIENTE);
+    }
+
     public Integer getId() {
         return id;
     }
