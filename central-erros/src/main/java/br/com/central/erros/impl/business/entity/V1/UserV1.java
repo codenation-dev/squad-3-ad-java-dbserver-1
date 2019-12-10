@@ -42,8 +42,6 @@ public class UserV1 implements Serializable {
     @CollectionTable(name="PERFIS")
     private Set<Integer> perfis = new HashSet<>();
 
-
-
     public UserV1() {
         addPerfil(Perfil.CLIENTE);
     }

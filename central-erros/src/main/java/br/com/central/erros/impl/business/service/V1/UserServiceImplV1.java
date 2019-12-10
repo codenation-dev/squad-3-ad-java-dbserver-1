@@ -43,12 +43,10 @@ public class UserServiceImplV1 implements UserServiceV1 {
 
     @Override
     public UserDTOV1 findById(Integer id) {
-
         UserSS user = authenticated();
         if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
             throw new AuthorizationException("Acesso negado");
         }
-
         Optional<UserV1> obj = userRepositoryV1.findById(id);
         obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + UserV1.class.getName()));
@@ -68,14 +66,16 @@ public class UserServiceImplV1 implements UserServiceV1 {
         return UserConverter.userToDTO(usuarioSalvoNoBanco);
     }
 
+    public boolean existeUsuarioComEmail(String email) {
+        return userRepositoryV1.existsByEmail(email);
+    }
+
     public static UserSS authenticated() {
         try {
             return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         } catch (Exception e) {
             return null;
         }
-
     }
 
 

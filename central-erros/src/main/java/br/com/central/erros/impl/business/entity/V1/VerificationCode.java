@@ -11,6 +11,11 @@ public class VerificationCode
 
     private String token;
 
+    public VerificationCode(String token, UserV1 user) {
+        this.token = token;
+        this.user = user;
+    }
+
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
     private UserV1 user;

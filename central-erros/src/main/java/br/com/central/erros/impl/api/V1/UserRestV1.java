@@ -4,17 +4,13 @@ package br.com.central.erros.impl.api.V1;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import br.com.central.erros.impl.api.V1.contracts.UserRestEndpointV1;
-import br.com.central.erros.impl.business.dto.EmailDTO;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
-import br.com.central.erros.impl.business.service.V1.AuthService;
 import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
-import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
