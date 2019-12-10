@@ -1,5 +1,6 @@
 package br.com.central.erros.impl.business.service.V1;
 
+import br.com.central.erros.impl.business.dto.VerificationCodeDTO;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.entity.V1.VerificationCode;
 import br.com.central.erros.impl.business.repository.V1.VerificationCodeRepository;
@@ -24,10 +25,11 @@ public class VerificationCodeService {
         return repository.save(code);
     }
 
-    public boolean isValid(VerificationCode code) {
+    public boolean isValid(VerificationCodeDTO code) {
         Optional<VerificationCode> actual = repository.findById(code.getId());
         if(actual.isPresent()) {
-            return actual.get().equals(code);
+            return actual.get().getToken().equals(code.getToken()) &&
+                   actual.get().getUser().getId().equals(code.getUserId());
         }
         return false;
     }

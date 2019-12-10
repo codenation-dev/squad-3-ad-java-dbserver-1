@@ -1,12 +1,11 @@
 package br.com.central.erros.impl.api.V1;
 
+import br.com.central.erros.impl.business.dto.VerificationCodeDTO;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
-import br.com.central.erros.impl.business.entity.V1.VerificationCode;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.exception.exceptions.ValidationException;
 import br.com.central.erros.impl.business.service.V1.AuthService;
 import br.com.central.erros.impl.business.service.V1.EmailServiceImpl;
-import br.com.central.erros.impl.business.service.V1.SmtpEmailService;
 import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,8 +37,8 @@ public class AuthRestV1 {
         emailService.sendVerificationCode(user);
         return ResponseEntity.noContent().build();
     }
-    @PostMapping(value = "/changePassword")
-    public ResponseEntity<Void> changeUserPassword(@RequestBody VerificationCode code, @RequestBody String password) {
+    @PostMapping(value = "/changePassword/{password}")
+    public ResponseEntity<Void> changeUserPassword(@RequestBody VerificationCodeDTO code, @PathVariable String password) {
         authService.updateUserPassword(code, password);
         return ResponseEntity.noContent().build();
     }

@@ -33,12 +33,12 @@ public class UserServiceImplV1 implements UserServiceV1 {
 
     @Override
     public List<UserDTOV1> buscaUsersList() {
-        List<UserV1> listaFuncionarios = userRepositoryV1.findAll();
-
-        List<UserDTOV1> listFuncionarioDTOV5 =
-                listaFuncionarios.stream().map(UserConverter::userToDTO).collect(Collectors.toList());
-
-        return listFuncionarioDTOV5;
+        UserSS user = authenticated();
+        if (user == null || !user.hasRole(Perfil.ADMIN)) {
+            throw new AuthorizationException("Acesso negado");
+        }
+        List<UserV1> listaUsuarios = userRepositoryV1.findAll();
+        return listaUsuarios.stream().map(UserConverter::userToDTO).collect(Collectors.toList());
     }
 
     @Override

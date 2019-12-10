@@ -1,5 +1,8 @@
 package br.com.central.erros.impl.business.entity.V1;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,30 +10,35 @@ public class VerificationCode
 {
     @Id
     @GeneratedValue()
-    private long id;
+    private Long id;
 
     private String token;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private UserV1 user;
+
+    @JsonCreator
+    public VerificationCode(@JsonProperty("id") Long id, @JsonProperty("token") String token,
+                            @JsonProperty("user_id") UserV1 user) {
+        this.id = id;
+        this.token = token;
+        this.user = user;
+    }
 
     public VerificationCode(String token, UserV1 user) {
         this.token = token;
         this.user = user;
     }
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "user_id")
-    private UserV1 user;
-
-    public VerificationCode(long id, String token, UserV1 user) {
-        this.id = id;
-        this.token = token;
-        this.user = user;
+    public VerificationCode() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

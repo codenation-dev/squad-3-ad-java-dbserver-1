@@ -18,7 +18,7 @@ import java.util.Date;
 public class EmailServiceImpl implements EmailService {
 
     private static final String EMAIL_INVALIDO = "O e-mail inserido não pertence a nenhum usuário cadastrado!";
-    private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     @Value("${default.sender}")
     private String sender;
@@ -32,24 +32,17 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private MailSender mailSender;
 
-    public void sendEmail(SimpleMailMessage msg) {
-        LOG.info("Enviando email...");
-        mailSender.send(msg);
-        LOG.info("Email enviado");
-    }
-
     public void sendVerificationCode(UserV1 user) {
         if(userService.existeUsuarioComEmail(user.getEmail())) {
             VerificationCode code = verificationCodeService.create(user);
-            sendMessage(user.getEmail(), code.getToken());
+            sendMessage(prepareMessage(user.getEmail(), code.getToken()));
         } else {
             throw new ObjectNotFoundException(EMAIL_INVALIDO);
         }
     }
 
-    private void sendMessage(String email, String verificationCode) {
-        SimpleMailMessage sm = prepareMessage(email, verificationCode);
-        sendEmail(sm);
+    private void sendMessage(SimpleMailMessage sm) {
+        mailSender.send(sm);
     }
 
     private SimpleMailMessage prepareMessage(String email, String verificationCode) {
