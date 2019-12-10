@@ -17,7 +17,7 @@ public interface LogServiceV1 {
     List<LogDTOV1> buscarTodosLogs();
 
 
-    List<LogDTOV1> buscarTodosLogsDoUsuario(Ambiente ambiente, Optional<String> ordenarPor, String buscarPor, String descricaoBusca);
+    List<LogDTOV1> buscarTodosLogsDoUsuario(Ambiente ambiente, Optional<String> ordenarPor, BuscaPor buscarPor, String descricaoBusca);
 
     LogDTOV1 salvarNovoLog(LogDTOV1 logDTOV1);
 }
