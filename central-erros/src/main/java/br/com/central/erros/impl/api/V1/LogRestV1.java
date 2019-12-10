@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import br.com.central.erros.impl.api.V1.contracts.LogRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
+import br.com.central.erros.impl.business.entity.enums.Ambiente;
 import br.com.central.erros.impl.business.entity.enums.BuscaPor;
 import br.com.central.erros.impl.business.service.V1.LogServiceImplV1;
 import io.swagger.annotations.ApiImplicitParam;
@@ -43,16 +44,17 @@ public class LogRestV1 implements LogRestEndpointV1 {
         return logOK;
     }
 
-    @GetMapping(path = "/", produces = "application/vnd.central.erros.user-v1+json")
+    @GetMapping(path = "/buscaTodos", produces = "application/vnd.central.erros.user-v1+json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
     @ApiOperation(value = "Retorna todos os logs com o parâmetros selecionados. ", response = LogDTOV1.class)
-    public ResponseEntity<List<LogDTOV1>> buscaLogsListComParametros(@RequestParam(required = true, defaultValue = "prod") String ambiente,
+    public ResponseEntity<List<LogDTOV1>> buscaLogsListComParametros(@RequestParam(required = true, defaultValue = "PRODUCTION") Ambiente ambiente,
                                                                      @RequestParam(required = false) Optional<String> ordenarPor,
-                                                                     @RequestParam(required = false) Optional<BuscaPor> buscarPor) {
+                                                                     @RequestParam(required = false) String buscarPor,
+                                                                     @RequestParam(required = false)  String descricaoBusca) {
 
-        ResponseEntity<List<LogDTOV1>> logOK = ResponseEntity.ok(logServiceImplV1.buscarTodosLogsDoUsuario(ambiente, ordenarPor, buscarPor));
+        ResponseEntity<List<LogDTOV1>> logOK = ResponseEntity.ok(logServiceImplV1.buscarTodosLogsDoUsuario(ambiente, ordenarPor, buscarPor, descricaoBusca));
 
         if (Objects.isNull(logOK.getBody())) {
             logOK = ResponseEntity.noContent().build();
