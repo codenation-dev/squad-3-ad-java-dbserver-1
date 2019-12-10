@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.entity.V1.LogV1;
 import br.com.central.erros.impl.business.entity.converter.LogConverter;
+import br.com.central.erros.impl.business.entity.enums.Ambiente;
 import br.com.central.erros.impl.business.entity.enums.BuscaPor;
+import br.com.central.erros.impl.business.entity.enums.Level;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.LogRepositoryV1;
 import br.com.central.erros.impl.business.service.V1.contracts.LogServiceV1;
@@ -21,6 +23,7 @@ public class LogServiceImplV1 implements LogServiceV1 {
 
     private LogRepositoryV1 logRepositoryV1;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BuscaPor buscaPor;
 
     @Autowired
     public LogServiceImplV1(LogRepositoryV1 logRepositoryV1) {
@@ -36,19 +39,21 @@ public class LogServiceImplV1 implements LogServiceV1 {
         return listaLogDTOV1;
     }
 
+
+
     @Override
-    public List<LogDTOV1> buscarTodosLogsDoUsuario(String ambiente, Optional<String> ordenarPor, Optional<BuscaPor> buscarPor) {
-        List<LogV1> logEntity = logRepositoryV1.findByAmbienteDescricao(ambiente);
+    public List<LogDTOV1> buscarTodosLogsDoUsuario(Ambiente ambiente, Optional<String> ordenarPor, String buscarPor, String descricaoBusca) {
+        List<LogV1> logEntity = logRepositoryV1.findByAmbiente(ambiente);
 
-        if(buscarPor.isPresent()){
+            // apenas para testes de busca
+           logEntity = logEntity.stream().filter(logV1 -> logV1.getLevel().equals(Level.ERROR)).collect(Collectors.toList());
 
 
-        }
 
 
         List<LogDTOV1> listaLogDTOV1 = logEntity.stream().map(LogConverter::logToDTO).collect(Collectors.toList());
 
-        return null;
+        return listaLogDTOV1;
     }
 
 
