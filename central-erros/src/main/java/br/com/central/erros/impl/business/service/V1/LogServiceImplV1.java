@@ -11,6 +11,7 @@ import br.com.central.erros.impl.business.entity.converter.LogConverter;
 import br.com.central.erros.impl.business.entity.enums.Ambiente;
 import br.com.central.erros.impl.business.entity.enums.BuscaPor;
 import br.com.central.erros.impl.business.entity.enums.Level;
+import br.com.central.erros.impl.business.entity.enums.OrdenarPor;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.LogRepositoryV1;
 import br.com.central.erros.impl.business.service.V1.contracts.LogServiceV1;
@@ -23,7 +24,7 @@ public class LogServiceImplV1 implements LogServiceV1 {
 
     private LogRepositoryV1 logRepositoryV1;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private BuscaPor buscaPorTipo;
+
 
     @Autowired
     public LogServiceImplV1(LogRepositoryV1 logRepositoryV1) {
@@ -42,18 +43,16 @@ public class LogServiceImplV1 implements LogServiceV1 {
 
 
     @Override
-    public List<LogDTOV1> buscarTodosLogsDoUsuario(Ambiente ambiente, Optional<String> ordenarPor, BuscaPor buscarPor, String descricaoBusca) {
+    public List<LogDTOV1> buscarTodosLogsDoUsuario(Ambiente ambiente, Optional<OrdenarPor> ordenarPor, Optional<BuscaPor> buscarPor, Optional<String> descricaoBusca) {
         List<LogV1> logEntity = logRepositoryV1.findByAmbiente(ambiente);
 
-            if(!buscarPor.equals(null)){
-                logEntity =  buscarPor.metodoBuscarPor(logEntity, descricaoBusca);
+            if(buscarPor.isPresent() && descricaoBusca.isPresent()){
+                logEntity =  buscarPor.get().metodoBuscarPor(logEntity, descricaoBusca.get());
             }
 
-        //logEntity = logEntity.stream().filter(logV1 -> logV1.getLevel().equals(Level.ERROR)).collect(Collectors.toList());
-        //logEntity = logEntity.stream().filter(logV1 -> logV1.getDetalhes().toLowerCase().contains(descricaoBusca)).collect(Collectors.toList());
-        //List<LogV1> lista = listaInput.stream().filter(logV1 -> logV1.getIp().equals(detalhes)).collect(Collectors.toList());
-
-
+            if(ordenarPor.isPresent()){
+                logEntity =  ordenarPor.get().metodoOrdenarPor(logEntity);
+            }
 
 
 
