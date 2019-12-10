@@ -20,7 +20,6 @@ public class EmailServiceImpl implements EmailService {
     private static final String EMAIL_INVALIDO = "O e-mail inserido não pertence a nenhum usuário cadastrado!";
     private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class);
 
-
     @Value("${default.sender}")
     private String sender;
 

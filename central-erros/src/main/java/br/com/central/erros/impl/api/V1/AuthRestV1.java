@@ -38,7 +38,6 @@ public class AuthRestV1 {
         emailService.sendVerificationCode(user);
         return ResponseEntity.noContent().build();
     }
-
     @PostMapping(value = "/changePassword")
     public ResponseEntity<Void> changeUserPassword(@RequestBody VerificationCode code, @RequestBody String password) {
         authService.updateUserPassword(code, password);

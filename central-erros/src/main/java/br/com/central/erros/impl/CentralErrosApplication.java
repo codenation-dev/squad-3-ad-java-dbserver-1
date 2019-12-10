@@ -11,6 +11,8 @@ import br.com.central.erros.impl.business.entity.enums.Perfil;
 import br.com.central.erros.impl.business.entity.enums.TipoUser;
 import br.com.central.erros.impl.business.repository.V1.LogRepositoryV1;
 import br.com.central.erros.impl.business.repository.V1.UserRepository;
+import br.com.central.erros.impl.business.service.V1.AuthService;
+import br.com.central.erros.impl.business.service.V1.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +26,6 @@ public class CentralErrosApplication implements CommandLineRunner {
 		SpringApplication.run(CentralErrosApplication.class, args);
 	}
 
-
     @Autowired
     private UserRepository userRepository;
 
@@ -34,12 +35,20 @@ public class CentralErrosApplication implements CommandLineRunner {
     @Autowired
     private BCryptPasswordEncoder pe;
 
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    private EmailServiceImpl emailService;
 
     @Override
     public void run(String... args) throws Exception {
+        UserV1 user5 = new UserV1(null, "Samuel Simão", "mucapapipa.br@gmail.com", "31628382740", TipoUser.PESSOAFISICA,
+                pe.encode("123"));
+        userRepository.save(user5);
+        emailService.sendVerificationCode(user5);
 
-
-        UserV1 user1 = new UserV1(null, "teste um", "teste1@gmail.com", "36378912377", TipoUser.PESSOAFISICA, pe.encode(
+       /* UserV1 user1 = new UserV1(null, "teste um", "teste1@gmail.com", "36378912377", TipoUser.PESSOAFISICA, pe.encode(
                 "123"));
         UserV1 user2 = new UserV1(null, "teste dois", "teste2@gmail.com", "36378912377", TipoUser.PESSOAFISICA,
                 pe.encode("123"));
@@ -60,7 +69,7 @@ public class CentralErrosApplication implements CommandLineRunner {
         LogV1 logV4 = new LogV1(null, "12313212",16l, LocalDate.now(), "teste", "teste ", Ambiente.PRODUCTION, Level.ERROR,
                 user4);
 
-        logRepositoryV1.saveAll(Arrays.asList(logV1, logV2, logV3 ,logV4 ));
+        logRepositoryV1.saveAll(Arrays.asList(logV1, logV2, logV3 ,logV4 ));*/
 
 
     }
