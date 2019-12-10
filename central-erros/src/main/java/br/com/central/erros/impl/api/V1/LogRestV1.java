@@ -53,7 +53,7 @@ public class LogRestV1 implements LogRestEndpointV1 {
     @ApiOperation(value = "Retorna todos os logs com o parâmetros selecionados. ", response = LogDTOV1.class)
     public ResponseEntity<List<LogDTOV1>> buscaLogsListComParametros(@RequestParam(required = true, defaultValue = "PRODUCTION") Ambiente ambiente,
                                                                      @RequestParam(required = false) Optional<String> ordenarPor,
-                                                                     @RequestParam(required = false) String buscarPor,
+                                                                     @RequestParam(required = false) BuscaPor buscarPor,
                                                                      @RequestParam(required = false)  String descricaoBusca) {
 
         ResponseEntity<List<LogDTOV1>> logOK = ResponseEntity.ok(logServiceImplV1.buscarTodosLogsDoUsuario(ambiente, ordenarPor, buscarPor, descricaoBusca));
