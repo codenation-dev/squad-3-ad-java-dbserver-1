@@ -2,7 +2,9 @@ package br.com.central.erros.impl.business.entity.enums;
 
 import br.com.central.erros.impl.business.entity.V1.LogV1;
 
+import javax.validation.constraints.Null;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BuscaPor {
@@ -16,8 +18,8 @@ public class BuscaPor {
     }
 
 
-    public List<LogV1> getMetodo(List<LogV1> listaInput, Integer id) {
-        List<LogV1> lista = listaInput.stream().filter(logV1 -> logV1.getUserV1().getId().equals(id)).collect(Collectors.toList());
+    public List<LogV1> getDetalhes(List<LogV1> listaInput, String detalhes) {
+        List<LogV1> lista = listaInput.stream().filter(logV1 -> logV1.getDetalhes().contains(detalhes)).collect(Collectors.toList());
         return lista;
     }
 
