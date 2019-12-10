@@ -56,7 +56,21 @@ public class CentralErrosApplication implements CommandLineRunner {
         LogV1 logV3 = new LogV1(null, "12313212",16l, null, "teste", "teste ", Ambiente.DEVELOPMENT, Level.WARNING, user3);
         LogV1 logV4 = new LogV1(null, "12313212",16l, LocalDate.now(), "teste", "teste ", Ambiente.PRODUCTION, Level.ERROR,
                 user4);
+        LogV1 logV5 = new LogV1(null, "12313212",16l, null, "teste", "teste2 ", Ambiente.HOMOLOGATION, Level.ERROR, user1);
+        LogV1 logV6 = new LogV1(null, "12313212",16l, null, "teste", "teste2 ", Ambiente.HOMOLOGATION, Level.DEBUG, user2);
+        LogV1 logV7 = new LogV1(null, "12313212",16l, null, "teste", "teste2 ", Ambiente.HOMOLOGATION, Level.WARNING, user3);
+        LogV1 logV8 = new LogV1(null, "12313212",16l, LocalDate.now(), "teste", "teste2 ", Ambiente.HOMOLOGATION, Level.ERROR,
+                user4);
+        LogV1 logV9 = new LogV1(null, "12313212",16l, null, "teste", "teste3 ", Ambiente.DEVELOPMENT, Level.ERROR, user1);
+        LogV1 logV10 = new LogV1(null, "12313212",16l, null, "teste", "teste3 ", Ambiente.DEVELOPMENT, Level.DEBUG, user2);
+        LogV1 logV11 = new LogV1(null, "12313212",16l, null, "teste", "teste3 ", Ambiente.DEVELOPMENT, Level.WARNING, user3);
+        LogV1 logV12 = new LogV1(null, "12313212",16l, LocalDate.now(), "teste", "teste3 ", Ambiente.DEVELOPMENT, Level.ERROR,
+                user4);
 
-        logRepositoryV1.saveAll(Arrays.asList(logV1, logV2, logV3 ,logV4 ));
+
+        logRepositoryV1.saveAll(Arrays.asList(logV1, logV2, logV3 ,logV4,logV5 ,logV6,logV7 ,logV8,logV9 ,logV10,logV11 ,logV12 ));
+
+
+
     }
 }
