@@ -64,7 +64,7 @@ public class CentralErrosApplication implements CommandLineRunner {
         LogV1 logV9 = new LogV1(null, "12313212",16l, null, "teste", "teste3 ", Ambiente.DEVELOPMENT, Level.ERROR, user1);
         LogV1 logV10 = new LogV1(null, "12313212",16l, null, "teste", "teste3 ", Ambiente.DEVELOPMENT, Level.DEBUG, user2);
         LogV1 logV11 = new LogV1(null, "12313212",16l, null, "teste", "teste3 ", Ambiente.DEVELOPMENT, Level.WARNING, user3);
-        LogV1 logV12 = new LogV1(null, "12313212",16l, LocalDate.now(), "teste", "teste3 ", Ambiente.DEVELOPMENT, Level.ERROR,
+        LogV1 logV12 = new LogV1(null, "111111111",16l, LocalDate.now(), "teste", "teste3 ", Ambiente.DEVELOPMENT, Level.ERROR,
                 user4);
 
 
