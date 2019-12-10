@@ -44,7 +44,7 @@ public class UserServiceImplV1Test {
     @InjectMocks
     private UserServiceImplV1 userService;
 
-    @Test
+    /*@Test
     public void retornaListaDeUsuarios() {
         final List<UserV1> listaDeUsuarios = new ArrayList<>();
         final UserV1 usuario = new UserV1(0, "João", "abc@123.com",
@@ -57,7 +57,7 @@ public class UserServiceImplV1Test {
         assertThat(actual, contains(
                 hasProperty("nome", Matchers.is("João"))
         ));
-    }
+    }*/
 
     @Test
     public void salvaUsuario() {
