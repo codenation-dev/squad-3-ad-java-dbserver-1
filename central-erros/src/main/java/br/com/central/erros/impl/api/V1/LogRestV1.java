@@ -9,6 +9,7 @@ import br.com.central.erros.impl.api.V1.contracts.LogRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.entity.enums.Ambiente;
 import br.com.central.erros.impl.business.entity.enums.BuscaPor;
+import br.com.central.erros.impl.business.entity.enums.OrdenarPor;
 import br.com.central.erros.impl.business.service.V1.LogServiceImplV1;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -50,9 +51,9 @@ public class LogRestV1 implements LogRestEndpointV1 {
     })
     @ApiOperation(value = "Retorna todos os logs com o parâmetros selecionados. ", response = LogDTOV1.class)
     public ResponseEntity<List<LogDTOV1>> buscaLogsListComParametros(@RequestParam(required = true, defaultValue = "PRODUCTION") Ambiente ambiente,
-                                                                     @RequestParam(required = false) Optional<String> ordenarPor,
-                                                                     @RequestParam(required = false) BuscaPor buscarPor,
-                                                                     @RequestParam(required = false)  String descricaoBusca) {
+                                                                     @RequestParam(required = false) Optional<OrdenarPor> ordenarPor,
+                                                                     @RequestParam(required = false) Optional<BuscaPor> buscarPor,
+                                                                     @RequestParam(required = false)  Optional<String> descricaoBusca) {
 
         ResponseEntity<List<LogDTOV1>> logOK = ResponseEntity.ok(logServiceImplV1.buscarTodosLogsDoUsuario(ambiente, ordenarPor, buscarPor, descricaoBusca));
 
