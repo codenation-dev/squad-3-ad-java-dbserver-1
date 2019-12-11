@@ -4,6 +4,6 @@ import br.com.central.erros.impl.business.entity.V1.UserV1;
 import org.springframework.mail.SimpleMailMessage;
 
 public interface EmailService {
-    void sendVerificationCode(UserV1 user);
+    void sendVerificationCode(String email);
 }
 

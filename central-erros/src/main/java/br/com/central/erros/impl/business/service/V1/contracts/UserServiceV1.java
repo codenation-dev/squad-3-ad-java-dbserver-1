@@ -9,6 +9,8 @@ public interface UserServiceV1 {
 
     List<UserDTOV1> buscaUsersList();
 
+    UserDTOV1 findByEmail(String email);
+
     UserDTOV1 salvarNovoUSuario(UserDTOV1 userDTOV1);
 
     UserDTOV1 findById(Integer id);

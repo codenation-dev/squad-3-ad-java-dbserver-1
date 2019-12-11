@@ -14,21 +14,19 @@ public class VerificationCode
 
     private String token;
 
-    @ManyToOne()
-    @JoinColumn(name = "user_id")
-    private UserV1 user;
+    private String email;
 
     @JsonCreator
     public VerificationCode(@JsonProperty("id") Long id, @JsonProperty("token") String token,
-                            @JsonProperty("user_id") UserV1 user) {
+                            @JsonProperty("email") String email) {
         this.id = id;
         this.token = token;
-        this.user = user;
+        this.email = email;
     }
 
-    public VerificationCode(String token, UserV1 user) {
+    public VerificationCode(String token, String email) {
         this.token = token;
-        this.user = user;
+        this.email = email;
     }
 
     public VerificationCode() {
@@ -50,11 +48,11 @@ public class VerificationCode
         this.token = token;
     }
 
-    public UserV1 getUser() {
-        return user;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUser(UserV1 user) {
-        this.user = user;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

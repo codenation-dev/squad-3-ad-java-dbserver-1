@@ -1,7 +1,9 @@
 package br.com.central.erros.impl.business.service.V1;
 
+import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.entity.V1.VerificationCode;
+import br.com.central.erros.impl.business.entity.converter.UserConverter;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
 import org.slf4j.Logger;
@@ -18,7 +20,6 @@ import java.util.Date;
 public class EmailServiceImpl implements EmailService {
 
     private static final String EMAIL_INVALIDO = "O e-mail inserido não pertence a nenhum usuário cadastrado!";
-    private static final Logger LOG = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     @Value("${default.sender}")
     private String sender;
@@ -32,10 +33,13 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private MailSender mailSender;
 
-    public void sendVerificationCode(UserV1 user) {
-        if(userService.existeUsuarioComEmail(user.getEmail())) {
-            VerificationCode code = verificationCodeService.create(user);
-            sendMessage(prepareMessage(user.getEmail(), code.getToken()));
+    // $2a$10$xIQwRdncBMVMNOY8E6M0auS8UB1VqCXc2o482wGtzoH1ir3Z.huAS
+    // $2a$10$xIQwRdncBMVMNOY8E6M0auS8UB1VqCXc2o482wGtzoH1ir3Z.huAS
+
+    public void sendVerificationCode(String email) {
+        if(userService.existeUsuarioComEmail(email)) {
+            VerificationCode code = verificationCodeService.create(email);
+            sendMessage(prepareMessage(email, code.getToken()));
         } else {
             throw new ObjectNotFoundException(EMAIL_INVALIDO);
         }

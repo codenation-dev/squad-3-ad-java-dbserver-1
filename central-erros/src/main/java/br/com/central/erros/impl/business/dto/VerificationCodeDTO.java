@@ -2,16 +2,9 @@ package br.com.central.erros.impl.business.dto;
 
 public class VerificationCodeDTO {
     private String token;
-    private Long id;
-    private Integer userId;
+    private String email;
 
     public VerificationCodeDTO() {
-    }
-
-    public VerificationCodeDTO(String token, Long id, Integer userId) {
-        this.token = token;
-        this.id = id;
-        this.userId = userId;
     }
 
     public String getToken() {
@@ -22,19 +15,16 @@ public class VerificationCodeDTO {
         this.token = token;
     }
 
-    public Long getId() {
-        return id;
+    public String getEmail() {
+        return email;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public VerificationCodeDTO(String token, String email) {
+        this.token = token;
+        this.email = email;
     }
 }

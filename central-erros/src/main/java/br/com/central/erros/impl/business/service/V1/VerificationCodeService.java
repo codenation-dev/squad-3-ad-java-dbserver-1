@@ -20,22 +20,21 @@ public class VerificationCodeService {
         this.repository = repository;
     }
 
-    public VerificationCode create(UserV1 owner) {
-        VerificationCode code = new VerificationCode(generateNumericCode(), owner);
+    public VerificationCode create(String userEmail) {
+        VerificationCode code = new VerificationCode(generateNumericCode(), userEmail);
         return repository.save(code);
     }
 
     public boolean isValid(VerificationCodeDTO code) {
-        Optional<VerificationCode> actual = repository.findById(code.getId());
+        Optional<VerificationCode> actual = repository.findByToken(code.getToken());
         if(actual.isPresent()) {
-            return actual.get().getToken().equals(code.getToken()) &&
-                   actual.get().getUser().getId().equals(code.getUserId());
+            return actual.get().getEmail().equals(code.getEmail());
         }
         return false;
     }
 
-    public void delete(VerificationCode code) {
-        repository.delete(code);
+    public void deleteByEmail(String email) {
+        repository.deleteByEmail(email);
     }
 
     public boolean exists(VerificationCode code) {

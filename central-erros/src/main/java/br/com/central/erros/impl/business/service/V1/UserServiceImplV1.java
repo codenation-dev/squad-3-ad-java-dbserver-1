@@ -53,6 +53,13 @@ public class UserServiceImplV1 implements UserServiceV1 {
         return UserConverter.userToDTO(obj.get());
     }
 
+    public UserDTOV1 findByEmail(String email) {
+        Optional<UserV1> obj = userRepositoryV1.findByEmail(email);
+        obj.orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + email + ", Tipo: " + UserV1.class.getName()));
+        return UserConverter.userToDTO(obj.get());
+    }
+
     @Override
     public UserDTOV1 salvarNovoUSuario(UserDTOV1 userInput) {
 
