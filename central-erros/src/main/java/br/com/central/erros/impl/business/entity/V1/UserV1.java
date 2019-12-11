@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import br.com.central.erros.impl.business.entity.enums.Perfil;
 import br.com.central.erros.impl.business.entity.enums.TipoUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import sun.misc.Perf;
 
 @Entity
 public class UserV1 implements Serializable {
@@ -41,8 +42,6 @@ public class UserV1 implements Serializable {
     @ElementCollection(fetch= FetchType.EAGER)
     @CollectionTable(name="PERFIS")
     private Set<Integer> perfis = new HashSet<>();
-
-
 
     public UserV1() {
         addPerfil(Perfil.CLIENTE);
@@ -105,6 +104,10 @@ public class UserV1 implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public void setPerfis(Set<Integer> perfis) {
+        this.perfis = perfis;
     }
 
     public Set<Perfil> getPerfis() {

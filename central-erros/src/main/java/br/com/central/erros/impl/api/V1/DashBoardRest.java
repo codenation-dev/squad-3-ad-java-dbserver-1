@@ -7,6 +7,7 @@ import java.util.Objects;
 import br.com.central.erros.impl.api.V1.contracts.DashBoardRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.service.V1.LogServiceImplV1;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping({"/v1/dashboards"})
+@Api(value = "Dashboard",  tags = { "Dashboard" })
 public class DashBoardRest implements DashBoardRestEndpointV1 {
 
 
