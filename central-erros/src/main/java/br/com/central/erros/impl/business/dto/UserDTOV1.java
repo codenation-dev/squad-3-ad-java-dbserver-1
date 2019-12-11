@@ -94,8 +94,8 @@ public class UserDTOV1 {
         this.perfis = perfis;
     }
 
-    public Set<Perfil> getPerfis() {
-        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+    public Set<Integer> getPerfis() {
+        return perfis;
     }
 
     public void addPerfil(Perfil perfil) {

@@ -20,8 +20,10 @@ public class UserConverter extends Converter {
 
     public static UserV1 userDTOToEntity(UserDTOV1 userDTO) {
         jogarExcessaoSeUsuarioNulo(userDTO);
-        return new UserV1(userDTO.getId(), userDTO.getNome(), userDTO.getEmail(), userDTO.getCpfOuCnpj(),
+        UserV1 entity = new UserV1(userDTO.getId(), userDTO.getNome(), userDTO.getEmail(), userDTO.getCpfOuCnpj(),
                 userDTO.getTipo(), userDTO.getSenha());
+        entity.setPerfis(userDTO.getPerfis());
+        return entity;
     }
 
 
