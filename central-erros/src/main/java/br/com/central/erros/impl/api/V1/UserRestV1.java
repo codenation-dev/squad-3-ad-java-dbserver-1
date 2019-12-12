@@ -59,7 +59,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
             @ApiImplicitParam(name = "Authorization", required = true,
                     dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
-    public ResponseEntity<Void> adicionaUser(@RequestBody UserDTOV1 objDto) {
+    public ResponseEntity<Void> adicionaUser(@Valid @RequestBody UserDTOV1 objDto) {
         objDto = userServiceV1.salvarNovoUSuario(objDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(objDto.getId()).toUri();

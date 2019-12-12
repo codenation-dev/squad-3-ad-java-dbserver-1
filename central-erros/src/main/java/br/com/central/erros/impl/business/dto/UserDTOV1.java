@@ -1,19 +1,34 @@
 package br.com.central.erros.impl.business.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import br.com.central.erros.impl.business.entity.enums.Perfil;
 import br.com.central.erros.impl.business.entity.enums.TipoUser;
+import br.com.central.erros.impl.business.service.V1.validation.UserInsert;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import java.util.HashSet;
+import java.util.Set;
+
+@UserInsert
 public class UserDTOV1 {
 
     private Integer id;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
     private String nome;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @Email(message = "Email inválido")
     private String email;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
     private String cpfOuCnpj;
+
     private Integer tipo;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
     private String senha;
     private Set<Integer> perfis = new HashSet<>();
 
