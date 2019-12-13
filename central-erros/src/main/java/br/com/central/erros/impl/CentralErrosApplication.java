@@ -52,7 +52,7 @@ public class CentralErrosApplication implements CommandLineRunner {
         userRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5));
 
         LogV1 logV1 = new LogV1(null, "12313212",16l, null, "teste", "teste ", Ambiente.PRODUCTION, Level.ERROR, user1);
-        LogV1 logV2 = new LogV1(null, "12313212",16l, null, "teste", "teste ", Ambiente.HOMOLOGATION, Level.DEBUG, user2);
+        LogV1 logV2 = new LogV1(null, "12313212",16l, null, "teste", "teste ", Ambiente.HOMOLOGATION, Level.DEBUG, user1);
         LogV1 logV3 = new LogV1(null, "12313212",16l, null, "teste", "teste ", Ambiente.DEVELOPMENT, Level.WARNING, user3);
         LogV1 logV4 = new LogV1(null, "12313212",16l, LocalDate.now(), "teste", "teste ", Ambiente.PRODUCTION, Level.ERROR,
                 user4);
