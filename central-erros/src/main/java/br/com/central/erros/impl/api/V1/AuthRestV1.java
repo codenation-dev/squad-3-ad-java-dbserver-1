@@ -1,5 +1,6 @@
 package br.com.central.erros.impl.api.V1;
 
+import br.com.central.erros.impl.api.V1.contracts.AuthRestEndpointV1;
 import br.com.central.erros.impl.business.dto.VerificationCodeDTO;
 import br.com.central.erros.impl.business.service.V1.AuthServiceImplV1;
 import br.com.central.erros.impl.business.service.V1.EmailServiceImplV1;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/v1/recovery")
 @Api(value = "Auth",  tags = { "Auth" })
-public class AuthRestV1 {
+public class AuthRestV1 implements AuthRestEndpointV1 {
 
     private final AuthServiceImplV1 authService;
     private final EmailService emailService;
@@ -30,6 +31,7 @@ public class AuthRestV1 {
         this.emailService = emailService;
     }
 
+    @Override
     @ApiOperation(value = "Envia um código de verificação para o e-mail especificado")
     @GetMapping(value = "/{email:.+}")
     public ResponseEntity<Void> sendRecoveryCode(@PathVariable(value = "email") String email) {
@@ -37,6 +39,7 @@ public class AuthRestV1 {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @ApiOperation(value = "Troca a senha do usuário")
     @PostMapping(value = "/{password:.+}")
     public ResponseEntity<Void> changeUserPassword(@RequestBody VerificationCodeDTO code,
