@@ -44,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui.html",
-            "/webjars/**"
+            "/webjars/**",
+            "/v1/recovery/**"
     };
 
     private static final String[] AUTH_WHITELIST = {
@@ -55,7 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui.html",
-            "/webjars/**"
+            "/webjars/**",
+            "/v1/recovery/**"
             // other public endpoints of your API may be appended to this array
     };
 

@@ -9,6 +9,7 @@ import br.com.central.erros.impl.business.entity.enums.TipoUser;
 
 public class UserDTOV1 {
 
+    private Integer id;
     private String nome;
     private String email;
     private String cpfOuCnpj;
@@ -17,6 +18,17 @@ public class UserDTOV1 {
     private Set<Integer> perfis = new HashSet<>();
 
     public UserDTOV1() {
+        addPerfil(Perfil.CLIENTE);
+    }
+
+    public UserDTOV1(Integer id, String nome, String email, String cpfOuCnpj, TipoUser tipo, String senha) {
+        super();
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.cpfOuCnpj = cpfOuCnpj;
+        this.tipo = (tipo==null) ? null : tipo.getCod();
+        this.senha = senha;
         addPerfil(Perfil.CLIENTE);
     }
 
@@ -30,6 +42,13 @@ public class UserDTOV1 {
         addPerfil(Perfil.CLIENTE);
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -75,8 +94,8 @@ public class UserDTOV1 {
         this.perfis = perfis;
     }
 
-    public Set<Perfil> getPerfis() {
-        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+    public Set<Integer> getPerfis() {
+        return perfis;
     }
 
     public void addPerfil(Perfil perfil) {

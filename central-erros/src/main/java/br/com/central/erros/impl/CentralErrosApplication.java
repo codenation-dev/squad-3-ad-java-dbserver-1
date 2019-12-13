@@ -24,7 +24,6 @@ public class CentralErrosApplication implements CommandLineRunner {
 		SpringApplication.run(CentralErrosApplication.class, args);
 	}
 
-
     @Autowired
     private UserRepository userRepository;
 
@@ -34,24 +33,23 @@ public class CentralErrosApplication implements CommandLineRunner {
     @Autowired
     private BCryptPasswordEncoder pe;
 
-
     @Override
-    public void run(String... args) throws Exception {
-
-
-        UserV1 user1 = new UserV1(null, "teste um", "teste1@gmail.com", "36378912377", TipoUser.PESSOAFISICA, pe.encode(
+    public void run(String... args) {
+       UserV1 user1 = new UserV1(null, "teste um", "teste1@gmail.com", "36378912377", TipoUser.PESSOAFISICA, pe.encode(
                 "123"));
         UserV1 user2 = new UserV1(null, "teste dois", "teste2@gmail.com", "36378912377", TipoUser.PESSOAFISICA,
                 pe.encode("123"));
         UserV1 user3 = new UserV1(null, "teste tres", "teste3@gmail.com", "36378912377", TipoUser.PESSOAFISICA, pe.encode(
                 "123"));
-
         UserV1 user4 = new UserV1(null, "Kaio Ferreira ", "grohlbr@gmail.com", "31628382740", TipoUser.PESSOAFISICA,
+                pe.encode("123"));
+        UserV1 user5 = new UserV1(null, "Samuel Simão", "mucapapipa.br@gmail.com", "31628382740", TipoUser.PESSOAFISICA,
                 pe.encode("123"));
 
         user4.addPerfil(Perfil.ADMIN);
+        user5.addPerfil(Perfil.ADMIN);
 
-        userRepository.saveAll(Arrays.asList(user1, user2, user3, user4));
+        userRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5));
 
         LogV1 logV1 = new LogV1(null, "12313212",16l, null, "teste", "teste ", Ambiente.PRODUCTION, Level.ERROR, user1);
         LogV1 logV2 = new LogV1(null, "12313212",16l, null, "teste", "teste ", Ambiente.HOMOLOGATION, Level.DEBUG, user2);
@@ -60,7 +58,5 @@ public class CentralErrosApplication implements CommandLineRunner {
                 user4);
 
         logRepositoryV1.saveAll(Arrays.asList(logV1, logV2, logV3 ,logV4 ));
-
-
     }
 }

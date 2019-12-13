@@ -6,7 +6,6 @@ import java.util.Optional;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 
 public interface LogServiceV1 {
-
     List<LogDTOV1> buscarLogsPorUsuario(Integer idUsuario);
 
     Optional<LogDTOV1> encontrarLogPeloId(Integer id);
