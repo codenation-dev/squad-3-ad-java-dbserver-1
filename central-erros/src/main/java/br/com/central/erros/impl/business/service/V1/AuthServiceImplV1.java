@@ -27,7 +27,7 @@ public class AuthServiceImplV1 implements AuthService {
         if(verificationCodeService.isValid(code)) {
             UserDTOV1 user = userService.findByEmail(code.getEmail());
             user.setSenha(newPassword);
-            userService.salvarNovoUSuario(user);
+            userService.salvar(user);
             verificationCodeService.delete(code.getEmail());
         } else {
             throw new ValidationException("Código de usuário inválido");

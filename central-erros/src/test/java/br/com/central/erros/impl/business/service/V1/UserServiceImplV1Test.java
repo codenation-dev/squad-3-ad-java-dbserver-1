@@ -71,7 +71,7 @@ public class UserServiceImplV1Test {
         final UserV1 entity = new UserV1(null, actualDto.getNome(), actualDto.getEmail(), actualDto.getCpfOuCnpj(), actualDto.getTipo(), actualDto.getSenha());
         when(userRepositoryV1.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
-        UserDTOV1 actual = userService.salvarNovoUSuario(actualDto);
+        UserDTOV1 actual = userService.salvar(actualDto);
 
         assertThat(actual).isEqualToComparingFieldByField(expected);
 
