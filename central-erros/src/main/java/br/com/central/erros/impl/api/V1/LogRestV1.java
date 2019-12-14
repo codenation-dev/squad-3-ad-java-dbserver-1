@@ -2,8 +2,6 @@ package br.com.central.erros.impl.api.V1;
 
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 import br.com.central.erros.impl.api.V1.contracts.LogRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
@@ -20,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping({"/v1/logs"})
 @Api(value = "Logs",  tags = { "Logs" })
 public class LogRestV1 implements LogRestEndpointV1 {
-
-
     private LogServiceImplV1 logServiceImplV1;
 
     @Autowired
@@ -35,13 +31,7 @@ public class LogRestV1 implements LogRestEndpointV1 {
     })
     @ApiOperation(value = "Retorna todos os logs. ", response = LogDTOV1.class)
     public ResponseEntity<List<LogDTOV1>> buscaLogsList() {
-
-        ResponseEntity<List<LogDTOV1>> logOK = ResponseEntity.ok(logServiceImplV1.buscarTodosLogs());
-
-        if (Objects.isNull(logOK.getBody())) {
-            logOK = ResponseEntity.noContent().build();
-        }
-        return logOK;
+        return ResponseEntity.ok(logServiceImplV1.buscarTodos());
     }
 
     @Override
@@ -51,27 +41,26 @@ public class LogRestV1 implements LogRestEndpointV1 {
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
     public ResponseEntity<Void> adicionaLog(LogDTOV1 logRequest) {
-
-        logServiceImplV1.salvarNovoLog(logRequest);
+        logServiceImplV1.salvar(logRequest);
         return ResponseEntity.ok().build();
     }
 
     @Override
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/{id}")
     @ApiOperation(value = "Retorna o log informado", response = LogDTOV1.class)
-    public ResponseEntity<Optional<LogDTOV1>> buscaLog(@PathVariable("id") Integer id) {
-
-        ResponseEntity<Optional<LogDTOV1>> response = ResponseEntity.ok(logServiceImplV1.encontrarLogPeloId(id));
-        if (Objects.isNull((response.getBody()))) {
-            response = ResponseEntity.noContent().build();
-        }
-
-        return response;
-
-
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+    })
+    public ResponseEntity<LogDTOV1> buscaLog(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(logServiceImplV1.buscarPorId(id));
     }
 
-
-
-
+    @GetMapping(path = "/{id}", params = {"userId"})
+    @ApiOperation(value = "Retorna logs por usuario", response = LogDTOV1.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+    })
+    public ResponseEntity<List<LogDTOV1>> buscarPorUsuario(final @RequestParam(name="userId") Integer id) {
+        return ResponseEntity.ok(logServiceImplV1.buscarPorUsuario(id));
+    }
 }

@@ -36,7 +36,7 @@ public class DashBoardRest implements DashBoardRestEndpointV1 {
     public ResponseEntity<List<LogDTOV1>> buscarLogsPorUsuario(@PathVariable Integer id) {
 
 
-        ResponseEntity<List<LogDTOV1>> response = ResponseEntity.ok(logServiceImplV1.buscarLogsPorUsuario(id));
+        ResponseEntity<List<LogDTOV1>> response = ResponseEntity.ok(logServiceImplV1.buscarPorUsuario(id));
 
         if (Objects.isNull(response.getBody())) {
             response = ResponseEntity.noContent().build();

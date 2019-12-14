@@ -2,6 +2,7 @@ package br.com.central.erros.impl.business.dto;
 
 import br.com.central.erros.impl.business.entity.enums.Perfil;
 import br.com.central.erros.impl.business.entity.enums.TipoUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.com.central.erros.impl.business.service.V1.validation.UserInsert;
 import org.hibernate.validator.constraints.Length;
 

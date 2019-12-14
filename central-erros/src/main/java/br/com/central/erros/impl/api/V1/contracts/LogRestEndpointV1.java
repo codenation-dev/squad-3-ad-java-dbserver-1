@@ -9,14 +9,7 @@ import br.com.central.erros.impl.business.dto.UserDTOV1;
 import org.springframework.http.ResponseEntity;
 
 public interface LogRestEndpointV1 {
-
     ResponseEntity<List<LogDTOV1>> buscaLogsList();
-
     ResponseEntity<Void> adicionaLog(LogDTOV1 logDTOV1);
-
-    ResponseEntity<Optional<LogDTOV1>> buscaLog(Integer id);
-
-
-
-
+    ResponseEntity<LogDTOV1> buscaLog(Integer id);
 }

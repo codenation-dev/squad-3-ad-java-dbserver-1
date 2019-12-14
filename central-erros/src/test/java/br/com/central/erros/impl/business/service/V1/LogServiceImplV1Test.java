@@ -9,6 +9,7 @@ import br.com.central.erros.impl.business.entity.converter.UserConverter;
 import br.com.central.erros.impl.business.entity.enums.Ambiente;
 import br.com.central.erros.impl.business.entity.enums.Level;
 import br.com.central.erros.impl.business.entity.enums.TipoUser;
+import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.LogRepositoryV1;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
@@ -48,7 +49,7 @@ public class LogServiceImplV1Test {
         listaDeLogs.add(log);
         when(logRepositoryV1.findAll()).thenReturn(listaDeLogs);
 
-        List<LogDTOV1> actual = logService.buscarTodosLogs();
+        List<LogDTOV1> actual = logService.buscarTodos();
 
         assertThat(actual, contains(
                 hasProperty("ip", Matchers.is("127.0.0.1"))
@@ -66,7 +67,7 @@ public class LogServiceImplV1Test {
 
         when(logRepositoryV1.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
-        LogDTOV1 actual = logService.salvarNovoLog(actualDto);
+        LogDTOV1 actual = logService.salvar(actualDto);
 
         Assertions.assertThat(actual).isEqualToComparingFieldByField(expected);
     }
@@ -76,30 +77,30 @@ public class LogServiceImplV1Test {
         final LogDTOV1 expected = new LogDTOV1("127.0.0.1", 1L, LocalDate.now(), "", "",
                 Ambiente.DEVELOPMENT, Level.DEBUG, new UserV1());
         when(logRepositoryV1.findById(1)).thenReturn(Optional.of(LogConverter.logDTOToEntity(expected)));
-        final LogDTOV1 actual = logService.encontrarLogPeloId(1).get();
+        final LogDTOV1 actual = logService.buscarPorId(1);
         Assertions.assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+    }
+
+    @Test(expected = ObjectNotFoundException.class)
+    public void retornaExcessaoQuandoLogNaoExiste() {
+        when(logRepositoryV1.findById(1)).thenReturn(Optional.empty());
+        logService.buscarPorId(1);
     }
 
     @Test
     public void encontraLogsPorUsuario() {
-        final UserV1 usuarioQualquer = new UserV1(0,"João", "joao@123.com",
+        final UserV1 coletor = new UserV1(0,"João", "joao@123.com",
                 "123", TipoUser.PESSOAFISICA, "$2$546");
-        final UserV1 coletorDasLogs = new UserV1(1,"Lucas", "lucas@123.com",
-                "abc-def", TipoUser.PESSOAFISICA, "$651");
-
-        final LogV1 logQualquer = new LogV1(0, "", 1L, LocalDate.now(), "OutraLog",
-                "",  Ambiente.DEVELOPMENT, Level.DEBUG, usuarioQualquer);
-        final LogV1 logDoColetor = new LogV1(1, "", 1L, LocalDate.now(), "LucasLog",
-                "",  Ambiente.DEVELOPMENT, Level.DEBUG, coletorDasLogs);
-
+        final LogV1 log = new LogV1(0, "", 1L, LocalDate.now(), "Log",
+                "",  Ambiente.DEVELOPMENT, Level.DEBUG, coletor);
         final List<LogV1> listaDeLogs = new ArrayList<>();
-        listaDeLogs.add(logDoColetor);
-        listaDeLogs.add(logQualquer);
 
-        when(logRepositoryV1.findAll()).thenReturn(listaDeLogs);
-        List<LogDTOV1> actual = logService.buscarLogsPorUsuario(1);
+        listaDeLogs.add(log);
+
+        when(logRepositoryV1.findAllByUserV1_Id(1)).thenReturn(listaDeLogs);
+        List<LogDTOV1> actual = logService.buscarPorUsuario(1);
         assertThat(actual, contains(
-                hasProperty("titulo", Matchers.is("LucasLog"))
+                hasProperty("titulo", Matchers.is("Log"))
         ));
 
     }

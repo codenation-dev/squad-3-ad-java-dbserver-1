@@ -9,8 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LogRepositoryV1 extends JpaRepository<LogV1, Integer> {
-
-    List<LogV1> findByUserV1Id(Integer id);
-
-
+    List<LogV1> findAllByUserV1_Id(Integer id);
 }

@@ -1,7 +1,6 @@
 package br.com.central.erros.impl.business.service.V1;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.com.central.erros.impl.business.dto.UserDTOV1;
@@ -32,7 +31,7 @@ public class UserServiceImplV1 implements UserServiceV1 {
     }
 
     @Override
-    public List<UserDTOV1> buscaUsersList() {
+    public List<UserDTOV1> buscarTodos() {
         UserSS user = authenticated();
         if (user == null || !user.hasRole(Perfil.ADMIN)) {
             throw new AuthorizationException("Acesso negado");
@@ -47,29 +46,24 @@ public class UserServiceImplV1 implements UserServiceV1 {
         if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
             throw new AuthorizationException("Acesso negado");
         }
-        Optional<UserV1> obj = userRepositoryV1.findById(id);
-        obj.orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + id + ", Tipo: " + UserV1.class.getName()));
-        return UserConverter.userToDTO(obj.get());
+        UserV1 usuario = userRepositoryV1.findById(id).orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + id + ", Tipo: " + UserV1.class.getName()));;
+        return UserConverter.userToDTO(usuario);
     }
 
     public UserDTOV1 findByEmail(String email) {
-        Optional<UserV1> obj = userRepositoryV1.findByEmail(email);
-        obj.orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + email + ", Tipo: " + UserV1.class.getName()));
-        return UserConverter.userToDTO(obj.get());
+        UserV1 user = userRepositoryV1.findByEmail(email)
+                .orElseThrow(() -> new ObjectNotFoundException(
+                        "Objeto não encontrado! E-mail: " + email + ", Tipo: " + UserV1.class.getName()));;
+        return UserConverter.userToDTO(user);
     }
 
     @Override
-    public UserDTOV1 salvarNovoUSuario(UserDTOV1 userInput) {
-
+    public UserDTOV1 salvar(UserDTOV1 userInput) {
         String senhaEncode = bCryptPasswordEncoder.encode(userInput.getSenha());
         userInput.setSenha(senhaEncode);
-
         UserV1 usuarioEntity = UserConverter.userDTOToEntity(userInput);
-
         UserV1 usuarioSalvoNoBanco = userRepositoryV1.save(usuarioEntity);
-
         return UserConverter.userToDTO(usuarioSalvoNoBanco);
     }
 
@@ -77,7 +71,7 @@ public class UserServiceImplV1 implements UserServiceV1 {
         return userRepositoryV1.existsByEmail(email);
     }
 
-    public static UserSS authenticated() {
+    private static UserSS authenticated() {
         try {
             return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         } catch (Exception e) {

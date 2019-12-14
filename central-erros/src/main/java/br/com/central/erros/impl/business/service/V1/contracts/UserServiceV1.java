@@ -7,12 +7,14 @@ import java.util.Optional;
 
 public interface UserServiceV1 {
 
-    List<UserDTOV1> buscaUsersList();
+    List<UserDTOV1> buscarTodos();
 
     UserDTOV1 findByEmail(String email);
 
-    UserDTOV1 salvarNovoUSuario(UserDTOV1 userDTOV1);
+    UserDTOV1 salvar(UserDTOV1 userDTOV1);
 
     UserDTOV1 findById(Integer id);
+
+    boolean existeUsuarioComEmail(String email);
 
 }
