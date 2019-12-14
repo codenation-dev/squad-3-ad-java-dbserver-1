@@ -1,13 +1,13 @@
 package br.com.central.erros.impl.config.security;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import br.com.central.erros.impl.business.entity.enums.Perfil;
+import br.com.central.erros.impl.business.entity.enums.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UserSS implements UserDetails {
 
@@ -24,7 +24,7 @@ public class UserSS implements UserDetails {
     public UserSS() {
     }
 
-    public UserSS(Integer id, String email, String senha, Set<Perfil> perfis) {
+    public UserSS(Integer id, String email, String senha, Set<Profile> perfis) {
         super();
         this.id = id;
         this.email = email;
@@ -71,7 +71,7 @@ public class UserSS implements UserDetails {
         return true;
     }
 
-    public boolean hasRole(Perfil perfil) {
-        return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+    public boolean hasRole(Profile profile) {
+        return getAuthorities().contains(new SimpleGrantedAuthority(profile.getDescricao()));
     }
 }

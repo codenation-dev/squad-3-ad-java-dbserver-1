@@ -2,7 +2,7 @@ package br.com.central.erros.impl.api.V1.exception;
 
 import java.io.Serializable;
 
-public class StandardError implements Serializable {
+class StandardError implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long timestamp;

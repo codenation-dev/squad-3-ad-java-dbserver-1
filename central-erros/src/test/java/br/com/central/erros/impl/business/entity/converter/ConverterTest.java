@@ -6,6 +6,6 @@ import org.junit.Test;
 public class ConverterTest {
     @Test(expected = ValidationException.class)
     public void deveRetornarExcessaoDeValidacaoParaObjetoNulo() {
-        Converter.jogarExcessaoSeObjetoNulo(null, "mensagem");
+        Converter.throwExceptionIfNull(null, "mensagem");
     }
 }

@@ -2,15 +2,8 @@ package br.com.central.erros.impl.business.service.V1;
 
 import br.com.central.erros.impl.business.dto.UserDTOV1;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
-import br.com.central.erros.impl.business.entity.converter.UserConverter;
-import br.com.central.erros.impl.business.entity.enums.TipoUser;
-import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
+import br.com.central.erros.impl.business.entity.enums.UserType;
 import br.com.central.erros.impl.business.repository.V1.UserRepository;
-import org.assertj.core.api.Assertions;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,16 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -62,16 +46,16 @@ public class UserServiceImplV1Test {
     @Test
     public void salvaUsuario() {
         final UserDTOV1 actualDto = new UserDTOV1("João", "abc@123.com",
-                "123", TipoUser.PESSOAFISICA, "não encriptada");
+                "123", UserType.PESSOAFISICA, "não encriptada");
         
-        final UserDTOV1 expected = new UserDTOV1(actualDto.getNome(), actualDto.getEmail(),
-                actualDto.getCpfOuCnpj(), actualDto.getTipo(), "encriptada");
-        when(bCryptPasswordEncoder.encode(actualDto.getSenha())).thenReturn("encriptada");
+        final UserDTOV1 expected = new UserDTOV1(actualDto.getName(), actualDto.getEmail(),
+                actualDto.getCpfOrCnpj(), actualDto.getType(), "encriptada");
+        when(bCryptPasswordEncoder.encode(actualDto.getPassword())).thenReturn("encriptada");
 
-        final UserV1 entity = new UserV1(null, actualDto.getNome(), actualDto.getEmail(), actualDto.getCpfOuCnpj(), actualDto.getTipo(), actualDto.getSenha());
+        final UserV1 entity = new UserV1(null, actualDto.getName(), actualDto.getEmail(), actualDto.getCpfOrCnpj(), actualDto.getType(), actualDto.getPassword());
         when(userRepositoryV1.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
-        UserDTOV1 actual = userService.salvar(actualDto);
+        UserDTOV1 actual = userService.save(actualDto);
 
         assertThat(actual).isEqualToComparingFieldByField(expected);
 

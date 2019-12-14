@@ -1,7 +1,7 @@
 package br.com.central.erros.impl.business.service.V1;
 
 import br.com.central.erros.impl.business.dto.VerificationCodeDTO;
-import br.com.central.erros.impl.business.entity.V1.VerificationCode;
+import br.com.central.erros.impl.business.entity.V1.VerificationCodeV1;
 import br.com.central.erros.impl.business.repository.V1.VerificationCodeRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class VerificationCodeServiceImplV1Test {
+public class VerificationCodeV1ServiceImplV1Test {
     @Mock
     private VerificationCodeRepository verificationCodeRepository;
 
@@ -23,9 +23,9 @@ public class VerificationCodeServiceImplV1Test {
 
     @Test
     public void salvaCodigo() {
-        VerificationCode expected = new VerificationCode("1234", "usuario@mail.com");
+        VerificationCodeV1 expected = new VerificationCodeV1("1234", "usuario@mail.com");
         when(verificationCodeRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        VerificationCode actual = verificationCodeService.create("usuario@mail.com");
+        VerificationCodeV1 actual = verificationCodeService.create("usuario@mail.com");
         assertThat(expected).isEqualToIgnoringGivenFields(verificationCodeService.create("usuario@mail.com"),
                 "token");
         Assert.assertEquals(4, actual.getToken().length());

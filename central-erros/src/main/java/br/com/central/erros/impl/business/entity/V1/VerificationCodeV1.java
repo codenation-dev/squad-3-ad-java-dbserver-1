@@ -3,10 +3,12 @@ package br.com.central.erros.impl.business.entity.V1;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
-public class VerificationCode
+public class VerificationCodeV1
 {
     @Id
     @GeneratedValue()
@@ -17,19 +19,19 @@ public class VerificationCode
     private String email;
 
     @JsonCreator
-    public VerificationCode(@JsonProperty("id") Long id, @JsonProperty("token") String token,
-                            @JsonProperty("email") String email) {
+    public VerificationCodeV1(@JsonProperty("id") Long id, @JsonProperty("token") String token,
+                              @JsonProperty("email") String email) {
         this.id = id;
         this.token = token;
         this.email = email;
     }
 
-    public VerificationCode(String token, String email) {
+    public VerificationCodeV1(String token, String email) {
         this.token = token;
         this.email = email;
     }
 
-    public VerificationCode() {
+    public VerificationCodeV1() {
     }
 
     public Long getId() {

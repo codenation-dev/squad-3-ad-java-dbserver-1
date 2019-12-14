@@ -26,8 +26,8 @@ public class AuthServiceImplV1 implements AuthService {
     public void updateUserPassword(VerificationCodeDTO code, String newPassword) {
         if(verificationCodeService.isValid(code)) {
             UserDTOV1 user = userService.findByEmail(code.getEmail());
-            user.setSenha(newPassword);
-            userService.salvar(user);
+            user.setPassword(newPassword);
+            userService.save(user);
             verificationCodeService.delete(code.getEmail());
         } else {
             throw new ValidationException("Código de usuário inválido");

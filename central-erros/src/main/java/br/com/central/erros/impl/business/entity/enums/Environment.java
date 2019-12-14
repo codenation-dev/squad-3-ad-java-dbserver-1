@@ -1,20 +1,20 @@
 package br.com.central.erros.impl.business.entity.enums;
 
-public enum Ambiente {
+public enum Environment {
 
     HOMOLOGATION(0, "Homologation"),
     PRODUCTION(1, "Production"),
     DEVELOPMENT(2, "Development");
 
-    private int cod;
-    private String descricao;
+    private final int cod;
+    private final String descricao;
 
-    private Ambiente(int cod, String descricao) {
+    Environment(int cod, String descricao) {
         this.cod = cod;
         this.descricao = descricao;
     }
 
-    public int getCod() {
+    private int getCod() {
         return cod;
     }
 
@@ -22,13 +22,13 @@ public enum Ambiente {
         return descricao;
     }
 
-    public static Ambiente toEnum(Integer cod) {
+    public static Environment toEnum(Integer cod) {
 
         if (cod == null) {
             return null;
         }
 
-        for (Ambiente x : Ambiente.values()) {
+        for (Environment x : Environment.values()) {
             if (cod.equals(x.getCod())) {
                 return x;
             }

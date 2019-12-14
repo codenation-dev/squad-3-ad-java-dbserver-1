@@ -1,8 +1,7 @@
 package br.com.central.erros.impl.business.dto;
 
-import br.com.central.erros.impl.business.entity.enums.Perfil;
-import br.com.central.erros.impl.business.entity.enums.TipoUser;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.com.central.erros.impl.business.entity.enums.Profile;
+import br.com.central.erros.impl.business.entity.enums.UserType;
 import br.com.central.erros.impl.business.service.V1.validation.UserInsert;
 import org.hibernate.validator.constraints.Length;
 
@@ -18,44 +17,44 @@ public class UserDTOV1 {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
-    private String nome;
+    private String name;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @Email(message = "Email inválido")
     private String email;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private String cpfOuCnpj;
+    private String cpfOrCnpj;
 
-    private Integer tipo;
+    private Integer type;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private String senha;
-    private Set<Integer> perfis = new HashSet<>();
+    private String password;
+    private Set<Integer> profiles = new HashSet<>();
 
     public UserDTOV1() {
-        addPerfil(Perfil.CLIENTE);
+        addProfile(Profile.CLIENTE);
     }
 
-    public UserDTOV1(Integer id, String nome, String email, String cpfOuCnpj, TipoUser tipo, String senha) {
+    public UserDTOV1(Integer id, String name, String email, String cpfOrCnpj, UserType type, String password) {
         super();
         this.id = id;
-        this.nome = nome;
+        this.name = name;
         this.email = email;
-        this.cpfOuCnpj = cpfOuCnpj;
-        this.tipo = (tipo==null) ? null : tipo.getCod();
-        this.senha = senha;
-        addPerfil(Perfil.CLIENTE);
+        this.cpfOrCnpj = cpfOrCnpj;
+        this.type = (type ==null) ? null : type.getCode();
+        this.password = password;
+        addProfile(Profile.CLIENTE);
     }
 
-    public UserDTOV1(String nome, String email, String cpfOuCnpj, TipoUser tipo, String senha) {
+    public UserDTOV1(String name, String email, String cpfOrCnpj, UserType type, String password) {
         super();
-        this.nome = nome;
+        this.name = name;
         this.email = email;
-        this.cpfOuCnpj = cpfOuCnpj;
-        this.tipo = (tipo==null) ? null : tipo.getCod();
-        this.senha = senha;
-        addPerfil(Perfil.CLIENTE);
+        this.cpfOrCnpj = cpfOrCnpj;
+        this.type = (type ==null) ? null : type.getCode();
+        this.password = password;
+        addProfile(Profile.CLIENTE);
     }
 
     public Integer getId() {
@@ -66,12 +65,12 @@ public class UserDTOV1 {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -82,40 +81,40 @@ public class UserDTOV1 {
         this.email = email;
     }
 
-    public String getCpfOuCnpj() {
-        return cpfOuCnpj;
+    public String getCpfOrCnpj() {
+        return cpfOrCnpj;
     }
 
-    public void setCpfOuCnpj(String cpfOuCnpj) {
-        this.cpfOuCnpj = cpfOuCnpj;
+    public void setCpfOrCnpj(String cpfOrCnpj) {
+        this.cpfOrCnpj = cpfOrCnpj;
     }
 
-    public TipoUser getTipo() {
-        return TipoUser.toEnum(tipo);
+    public UserType getType() {
+        return UserType.toEnum(type);
     }
 
-    public void setTipo(TipoUser tipo) {
-        this.tipo = tipo.getCod();
+    public void setType(UserType type) {
+        this.type = type.getCode();
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setPerfis(Set<Integer> perfis) {
-        this.perfis = perfis;
+    public void setProfiles(Set<Integer> profiles) {
+        this.profiles = profiles;
     }
 
-    public Set<Integer> getPerfis() {
-        return perfis;
+    public Set<Integer> getProfiles() {
+        return profiles;
     }
 
-    public void addPerfil(Perfil perfil) {
-        perfis.add(perfil.getCod());
+    private void addProfile(Profile profile) {
+        profiles.add(profile.getCod());
     }
 
 }

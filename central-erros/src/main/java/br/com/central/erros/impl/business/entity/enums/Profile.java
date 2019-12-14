@@ -1,15 +1,15 @@
 package br.com.central.erros.impl.business.entity.enums;
 
-public enum Perfil {
+public enum Profile {
 
 
     ADMIN(0, "ROLE_ADMIN"),
     CLIENTE(1, "ROLE_CLIENTE");
 
-    private int cod;
-    private String descricao;
+    private final int cod;
+    private final String descricao;
 
-    private Perfil(int cod, String descricao) {
+    Profile(int cod, String descricao) {
         this.cod = cod;
         this.descricao = descricao;
     }
@@ -22,13 +22,13 @@ public enum Perfil {
         return descricao;
     }
 
-    public static Perfil toEnum(Integer cod) {
+    public static Profile toEnum(Integer cod) {
 
         if (cod == null) {
             return null;
         }
 
-        for (Perfil x : Perfil.values()) {
+        for (Profile x : Profile.values()) {
             if (cod.equals(x.getCod())) {
                 return x;
             }

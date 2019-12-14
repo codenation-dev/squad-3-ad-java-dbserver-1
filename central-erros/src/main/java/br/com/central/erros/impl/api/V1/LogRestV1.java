@@ -1,8 +1,6 @@
 package br.com.central.erros.impl.api.V1;
 
 
-import java.util.List;
-
 import br.com.central.erros.impl.api.V1.contracts.LogRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.service.V1.LogServiceImplV1;
@@ -14,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping({"/v1/logs"})
 @Api(value = "Logs",  tags = { "Logs" })
 public class LogRestV1 implements LogRestEndpointV1 {
-    private LogServiceImplV1 logServiceImplV1;
+    private final LogServiceImplV1 logServiceImplV1;
 
     @Autowired
     public LogRestV1(LogServiceImplV1 logServiceImplV1) {
@@ -30,8 +30,8 @@ public class LogRestV1 implements LogRestEndpointV1 {
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
     @ApiOperation(value = "Retorna todos os logs. ", response = LogDTOV1.class)
-    public ResponseEntity<List<LogDTOV1>> buscaLogsList() {
-        return ResponseEntity.ok(logServiceImplV1.buscarTodos());
+    public ResponseEntity<List<LogDTOV1>> findAll() {
+        return ResponseEntity.ok(logServiceImplV1.findAll());
     }
 
     @Override
@@ -40,8 +40,8 @@ public class LogRestV1 implements LogRestEndpointV1 {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
-    public ResponseEntity<Void> adicionaLog(LogDTOV1 logRequest) {
-        logServiceImplV1.salvar(logRequest);
+    public ResponseEntity<Void> save(LogDTOV1 logRequest) {
+        logServiceImplV1.save(logRequest);
         return ResponseEntity.ok().build();
     }
 
@@ -51,8 +51,8 @@ public class LogRestV1 implements LogRestEndpointV1 {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
-    public ResponseEntity<LogDTOV1> buscaLog(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(logServiceImplV1.buscarPorId(id));
+    public ResponseEntity<LogDTOV1> findById(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(logServiceImplV1.findById(id));
     }
 
     @GetMapping(path = "/{id}", params = {"userId"})
@@ -60,7 +60,7 @@ public class LogRestV1 implements LogRestEndpointV1 {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
-    public ResponseEntity<List<LogDTOV1>> buscarPorUsuario(final @RequestParam(name="userId") Integer id) {
-        return ResponseEntity.ok(logServiceImplV1.buscarPorUsuario(id));
+    public ResponseEntity<List<LogDTOV1>> findByUser(final @RequestParam(name="userId") Integer id) {
+        return ResponseEntity.ok(logServiceImplV1.findByUser(id));
     }
 }

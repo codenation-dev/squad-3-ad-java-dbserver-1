@@ -1,6 +1,6 @@
 package br.com.central.erros.impl.business.service.V1;
 
-import br.com.central.erros.impl.business.entity.V1.VerificationCode;
+import br.com.central.erros.impl.business.entity.V1.VerificationCodeV1;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,8 @@ public class EmailServiceImplV1 implements EmailService {
     private MailSender mailSender;
 
     public void sendVerificationCode(String email) {
-        if(userService.existeUsuarioComEmail(email)) {
-            VerificationCode code = verificationCodeService.create(email);
+        if(userService.existsByEmail(email)) {
+            VerificationCodeV1 code = verificationCodeService.create(email);
             sendMessage(prepareMessage(email, code.getToken()));
         } else {
             throw new ObjectNotFoundException(EMAIL_INVALIDO);

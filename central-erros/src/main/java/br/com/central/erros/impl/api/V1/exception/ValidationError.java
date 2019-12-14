@@ -3,11 +3,11 @@ package br.com.central.erros.impl.api.V1.exception;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValidationError extends StandardError{
+class ValidationError extends StandardError{
 
     private static final long serialVersionUID = 1L;
 
-    private List<FieldMessage> errors = new ArrayList<>();
+    private final List<FieldMessage> errors = new ArrayList<>();
 
     public ValidationError(Long timestamp, Integer status, String error, String path) {
         super(timestamp, status, error, path);
