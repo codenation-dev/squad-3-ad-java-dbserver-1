@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping({"/v1/logs"})
@@ -32,20 +33,7 @@ public class LogRestV1 implements LogRestEndpointV1 {
         this.logServiceImplV1 = logServiceImplV1;
     }
 
-    @GetMapping(path = "/findAll", produces = "application/vnd.central.erros.user-v1+json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
-    })
-    @ApiOperation(value = "Retorna todos os logs. ", response = LogDTOV1.class)
-    public ResponseEntity<List<LogDTOV1>> buscaLogsList() {
 
-        ResponseEntity<List<LogDTOV1>> logOK = ResponseEntity.ok(logServiceImplV1.buscarTodosLogs());
-
-        if (Objects.isNull(logOK.getBody())) {
-            logOK = ResponseEntity.noContent().build();
-        }
-        return logOK;
-    }
 
     @GetMapping(path = "/buscaTodos", produces = "application/vnd.central.erros.user-v1+json")
     @ApiImplicitParams({
@@ -65,6 +53,7 @@ public class LogRestV1 implements LogRestEndpointV1 {
         return logOK;
     }
 
+
     @Override
     @PostMapping("/")
     @ApiOperation(value = "Salva um novo Log ")
@@ -76,6 +65,8 @@ public class LogRestV1 implements LogRestEndpointV1 {
         logServiceImplV1.salvarNovoLog(logRequest);
         return ResponseEntity.ok().build();
     }
+
+
 
     @Override
     @GetMapping(path = "{id}")
