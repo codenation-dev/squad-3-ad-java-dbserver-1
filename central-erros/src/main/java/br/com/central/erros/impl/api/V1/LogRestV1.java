@@ -3,6 +3,9 @@ package br.com.central.erros.impl.api.V1;
 
 import br.com.central.erros.impl.api.V1.contracts.LogRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
+import br.com.central.erros.impl.business.entity.enums.Environment;
+import br.com.central.erros.impl.business.entity.enums.FindBy;
+import br.com.central.erros.impl.business.entity.enums.OrderBy;
 import br.com.central.erros.impl.business.service.V1.LogServiceImplV1;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -13,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping({"/v1/logs"})
@@ -25,13 +30,22 @@ public class LogRestV1 implements LogRestEndpointV1 {
         this.logServiceImplV1 = logServiceImplV1;
     }
 
-    @GetMapping(path = "/findAll", produces = "application/vnd.central.erros.user-v1+json")
+    @GetMapping(path = "/buscaTodos", produces = "application/vnd.central.erros.user-v1+json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
-    @ApiOperation(value = "Retorna todos os logs. ", response = LogDTOV1.class)
-    public ResponseEntity<List<LogDTOV1>> findAll() {
-        return ResponseEntity.ok(logServiceImplV1.findAll());
+    @ApiOperation(value = "Retorna todos os logs com o parâmetros selecionados. ", response = LogDTOV1.class)
+    public ResponseEntity<List<LogDTOV1>> findAllByParams(@RequestParam(required = true, defaultValue = "PRODUCTION") Environment environment,
+                                                                     @RequestParam(required = false) Optional<OrderBy> orderBy,
+                                                                     @RequestParam(required = false) Optional<FindBy> findBy,
+                                                                     @RequestParam(required = false)  Optional<String> stringFilter) {
+
+        ResponseEntity<List<LogDTOV1>> logOK = ResponseEntity.ok(logServiceImplV1.findAllByUser(environment, orderBy, findBy, stringFilter));
+
+        if (Objects.isNull(logOK.getBody())) {
+            logOK = ResponseEntity.noContent().build();
+        }
+        return logOK;
     }
 
     @Override
@@ -55,12 +69,5 @@ public class LogRestV1 implements LogRestEndpointV1 {
         return ResponseEntity.ok(logServiceImplV1.findById(id));
     }
 
-    @GetMapping(path = "/{id}", params = {"userId"})
-    @ApiOperation(value = "Retorna logs por usuario", response = LogDTOV1.class)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
-    })
-    public ResponseEntity<List<LogDTOV1>> findByUser(final @RequestParam(name="userId") Integer id) {
-        return ResponseEntity.ok(logServiceImplV1.findByUser(id));
-    }
+
 }

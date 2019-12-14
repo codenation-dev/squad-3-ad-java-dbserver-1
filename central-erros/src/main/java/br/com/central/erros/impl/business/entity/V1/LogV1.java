@@ -19,7 +19,7 @@ public class LogV1 {
     private String details;
 
     @Enumerated
-    @Column(name = "cod_ambiente_enum")
+    @Column(name = "cod_environment_enum")
     private Environment environment;
 
     @Enumerated
