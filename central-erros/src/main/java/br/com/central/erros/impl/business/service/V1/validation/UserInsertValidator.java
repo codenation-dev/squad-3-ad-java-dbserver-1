@@ -24,11 +24,11 @@ public class UserInsertValidator implements ConstraintValidator<UserInsert, User
     public boolean isValid(UserDTOV1 objDto, ConstraintValidatorContext context) {
         List<FieldMessage> list = new ArrayList<>();
 
-        if (objDto.getTipo().getCod() - 1 == 1 && !BR.isValidCPF(objDto.getCpfOuCnpj())) {
+        if (objDto.getTipo().getCod() == 0 && !BR.isValidCPF(objDto.getCpfOuCnpj())) {
             list.add(new FieldMessage("cpfOuCnpj", "CPF inválido"));
         }
 
-        if (objDto.getTipo().getCod() - 1 == 2 && !BR.isValidCNPJ(objDto.getCpfOuCnpj())) {
+        if (objDto.getTipo().getCod() == 1 && !BR.isValidCNPJ(objDto.getCpfOuCnpj())) {
             list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido"));
         }
 
