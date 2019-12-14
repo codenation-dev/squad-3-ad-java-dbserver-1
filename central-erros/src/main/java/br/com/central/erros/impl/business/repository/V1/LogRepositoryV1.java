@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface LogRepositoryV1 extends JpaRepository<LogV1, Integer> {
     List<LogV1> findAllByUser_Id(Integer id);
-    List<LogV1> findByEnvironment(Environment environment);
+    List<LogV1> findByEnvironmentAndActiveTrue(Environment environment);
 }
