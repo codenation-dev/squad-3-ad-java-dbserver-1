@@ -18,15 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class AuthRestV1 implements AuthRestEndpointV1 {
 
     private final AuthServiceImplV1 authService;
-    private final EmailService emailService;
-
-    @Bean
-    public EmailService emailService() {
-        return new EmailServiceImplV1();
-    }
+    private final EmailServiceImplV1 emailService;
 
     @Autowired
-    public AuthRestV1(AuthServiceImplV1 authService, EmailService emailService) {
+    public AuthRestV1(AuthServiceImplV1 authService, EmailServiceImplV1 emailService) {
         this.authService = authService;
         this.emailService = emailService;
     }

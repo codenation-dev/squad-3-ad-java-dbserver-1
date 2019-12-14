@@ -58,7 +58,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
                     dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
 
-    public ResponseEntity<Void> save(@RequestBody UserDTOV1 objDto) {
+    public ResponseEntity<Void> save(@RequestBody @Valid UserDTOV1 objDto) {
         objDto = userServiceV1.save(objDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(objDto.getId()).toUri();
