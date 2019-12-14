@@ -3,8 +3,8 @@ package br.com.central.erros.impl.business.entity.enums;
 public enum Perfil {
 
 
-    ADMIN(1, "ROLE_ADMIN"),
-    CLIENTE(2, "ROLE_CLIENTE");
+    ADMIN(0, "ROLE_ADMIN"),
+    CLIENTE(1, "ROLE_CLIENTE");
 
     private int cod;
     private String descricao;

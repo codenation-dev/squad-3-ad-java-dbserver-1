@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +35,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
     }
 
     @Override
-//    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/findAll",
             produces = "application/vnd.central.erros.user-v1+json"
     )
@@ -43,7 +44,6 @@ public class UserRestV1 implements UserRestEndpointV1 {
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
     public ResponseEntity<List<UserDTOV1>> buscaUsersList() {
-
         ResponseEntity<List<UserDTOV1>> response = ResponseEntity.ok(userServiceV1.buscarTodos());
         if (Objects.isNull(response.getBody())) {
             response = ResponseEntity.noContent().build();

@@ -89,24 +89,18 @@ public class LogServiceImplV1Test {
 
     @Test
     public void encontraLogsPorUsuario() {
-        final UserV1 usuarioQualquer = new UserV1(0,"João", "joao@123.com",
+        final UserV1 coletor = new UserV1(0,"João", "joao@123.com",
                 "123", TipoUser.PESSOAFISICA, "$2$546");
-        final UserV1 coletorDasLogs = new UserV1(1,"Lucas", "lucas@123.com",
-                "abc-def", TipoUser.PESSOAFISICA, "$651");
-
-        final LogV1 logQualquer = new LogV1(0, "", 1L, LocalDate.now(), "OutraLog",
-                "",  Ambiente.DEVELOPMENT, Level.DEBUG, usuarioQualquer);
-        final LogV1 logDoColetor = new LogV1(1, "", 1L, LocalDate.now(), "LucasLog",
-                "",  Ambiente.DEVELOPMENT, Level.DEBUG, coletorDasLogs);
-
+        final LogV1 log = new LogV1(0, "", 1L, LocalDate.now(), "Log",
+                "",  Ambiente.DEVELOPMENT, Level.DEBUG, coletor);
         final List<LogV1> listaDeLogs = new ArrayList<>();
-        listaDeLogs.add(logDoColetor);
-        listaDeLogs.add(logQualquer);
 
-        when(logRepositoryV1.findAll()).thenReturn(listaDeLogs);
+        listaDeLogs.add(log);
+
+        when(logRepositoryV1.findAllByUserV1_Id(1)).thenReturn(listaDeLogs);
         List<LogDTOV1> actual = logService.buscarPorUsuario(1);
         assertThat(actual, contains(
-                hasProperty("titulo", Matchers.is("LucasLog"))
+                hasProperty("titulo", Matchers.is("Log"))
         ));
 
     }

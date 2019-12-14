@@ -2,8 +2,8 @@ package br.com.central.erros.impl.business.entity.enums;
 
 public enum TipoUser {
 
-	PESSOAFISICA(1, "Pessoa Física"),
-	PESSOAJURIDICA(2, "Pessoa Jurídica");
+	PESSOAFISICA(0, "Pessoa Física"),
+	PESSOAJURIDICA(1, "Pessoa Jurídica");
 
 	private int cod;
 	private String descricao;

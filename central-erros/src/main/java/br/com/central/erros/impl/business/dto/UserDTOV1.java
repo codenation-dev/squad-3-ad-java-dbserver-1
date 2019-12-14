@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import br.com.central.erros.impl.business.entity.enums.Perfil;
 import br.com.central.erros.impl.business.entity.enums.TipoUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDTOV1 {
 
