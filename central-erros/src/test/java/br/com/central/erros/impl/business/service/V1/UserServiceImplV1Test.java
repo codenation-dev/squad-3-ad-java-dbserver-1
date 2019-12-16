@@ -106,6 +106,7 @@ public class UserServiceImplV1Test {
 
     @Test(expected = AuthorizationException.class)
     public void throwsExceptionWhenTriesToFindByIdButNotAuthenticated() {
+        mockSpringSecurityUser(null);
         userService.findById(1);
     }
 
