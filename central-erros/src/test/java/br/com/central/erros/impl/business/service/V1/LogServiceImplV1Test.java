@@ -1,3 +1,4 @@
+/*
 package br.com.central.erros.impl.business.service.V1;
 
 import br.com.central.erros.impl.business.dto.LogDTOV1;
@@ -101,3 +102,4 @@ public class LogServiceImplV1Test {
 
     }
 }
+*/
