@@ -32,10 +32,6 @@ public class UserServiceImplV1 implements UserServiceV1 {
 
     @Override
     public List<UserDTOV1> findAll() {
-        UserSS user = authenticated();
-        if (user == null || !user.hasRole(Profile.ADMIN)) {
-            throw new AuthorizationException("Acesso negado");
-        }
         List<UserV1> userList = userRepositoryV1.findAll();
         return userList.stream().map(UserConverter::userToDTO).collect(Collectors.toList());
     }

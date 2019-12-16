@@ -34,7 +34,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping(path = "/findAll",
             produces = "application/vnd.central.erros.user-v1+json"
     )
