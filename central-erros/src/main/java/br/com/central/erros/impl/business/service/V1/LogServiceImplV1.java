@@ -37,6 +37,15 @@ public class LogServiceImplV1 implements LogServiceV1 {
         return LogConverter.logToDTO(logInDatabase);
     }
 
+    @Override
+    public LogDTOV1 update(Integer id, LogDTOV1 logInput) {
+        LogV1 logEntity = LogConverter.logDTOToEntity(logInput);
+        logEntity.setId(id);
+        logEntity.setActive(Boolean.FALSE);
+        LogV1 logInDatabase = logRepositoryV1.save(logEntity);
+        return LogConverter.logToDTO(logInDatabase);
+    }
+
 
 
     @Override

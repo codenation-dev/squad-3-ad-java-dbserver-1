@@ -69,5 +69,18 @@ public class LogRestV1 implements LogRestEndpointV1 {
         return ResponseEntity.ok(logServiceImplV1.findById(id));
     }
 
+    @Override
+    @PutMapping(path = "/archive/{id}")
+    @ApiOperation(value = "Arquiva o log informado", response = LogDTOV1.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+    })
+    public ResponseEntity<LogDTOV1> updateLogById(@PathVariable("id") Integer id) {
+
+        LogDTOV1 logToUpdate = logServiceImplV1.findById(id);
+
+        return ResponseEntity.ok(logServiceImplV1.update(id, logToUpdate));
+    }
+
 
 }

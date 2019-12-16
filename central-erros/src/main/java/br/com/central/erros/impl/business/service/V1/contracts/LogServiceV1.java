@@ -13,4 +13,5 @@ public interface LogServiceV1 {
     LogDTOV1 findById(Integer id);
     List<LogDTOV1> findAllByUser(Environment environment, Optional<OrderBy> orderBy, Optional<FindBy> findBy, Optional<String> stringFilter);
     LogDTOV1 save(LogDTOV1 logDTOV1);
+    LogDTOV1 update(Integer id, LogDTOV1 logInput);
 }

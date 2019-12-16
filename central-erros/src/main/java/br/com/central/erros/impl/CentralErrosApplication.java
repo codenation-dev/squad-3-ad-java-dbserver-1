@@ -56,7 +56,17 @@ public class CentralErrosApplication implements CommandLineRunner {
         LogV1 logV3 = new LogV1(null, "12313212",16l, null, "teste", "teste ", Environment.DEVELOPMENT, Level.WARNING, user3, false);
         LogV1 logV4 = new LogV1(null, "12313212",20l, LocalDate.now(), "teste", "teste ", Environment.PRODUCTION, Level.ERROR,
                 user4, false);
+        LogV1 logV5 = new LogV1(null, "11111111",16l, null, "teste", "teste ", Environment.PRODUCTION, Level.ERROR, user1, true);
+        LogV1 logV6 = new LogV1(null, "22222222",16l, null, "teste", "teste ", Environment.HOMOLOGATION, Level.DEBUG, user1,true);
+        LogV1 logV7 = new LogV1(null, "12312122",16l, null, "teste", "teste ", Environment.DEVELOPMENT, Level.WARNING, user3, false);
+        LogV1 logV8 = new LogV1(null, "33333333",20l, LocalDate.now(), "teste", "teste ", Environment.PRODUCTION, Level.ERROR,
+                user4, false);
+        LogV1 logV9 = new LogV1(null, "44444444",26l, null, "teste", "teste ", Environment.PRODUCTION, Level.ERROR, user1, true);
+        LogV1 logV10 = new LogV1(null, "55555555",30l, null, "teste", "teste ", Environment.PRODUCTION, Level.DEBUG, user1,true);
+        LogV1 logV11 = new LogV1(null, "66666666",45l, null, "teste", "teste ", Environment.PRODUCTION, Level.WARNING, user3, false);
+        LogV1 logV12 = new LogV1(null, "777777777",1000l, LocalDate.now(), "teste", "teste ", Environment.PRODUCTION, Level.ERROR,
+                user4, false);
 
-        logRepositoryV1.saveAll(Arrays.asList(logV1, logV2, logV3 ,logV4 ));
+        logRepositoryV1.saveAll(Arrays.asList(logV1, logV2, logV3 ,logV4, logV5, logV6, logV7, logV8, logV9, logV10, logV11, logV12 ));
     }
 }
