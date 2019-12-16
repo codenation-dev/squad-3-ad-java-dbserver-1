@@ -1,17 +1,13 @@
-/*
 package br.com.central.erros.impl.business.service.V1;
 
 import br.com.central.erros.impl.business.dto.LogDTOV1;
-import br.com.central.erros.impl.business.entity.V1.LogV1;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.entity.converter.LogConverter;
 import br.com.central.erros.impl.business.entity.enums.Environment;
 import br.com.central.erros.impl.business.entity.enums.Level;
-import br.com.central.erros.impl.business.entity.enums.UserType;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.LogRepositoryV1;
 import org.assertj.core.api.Assertions;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,13 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -38,7 +29,7 @@ public class LogServiceImplV1Test {
     @InjectMocks
     private LogServiceImplV1 logService;
 
-    @Test
+    /*@Test
     public void retornaListaDeLogs() {
         final List<LogV1> listaDeLogs = new ArrayList<>();
         final LogV1 log = new LogV1(0,"127.0.0.1", 1L, LocalDate.now(), "", "",
@@ -51,7 +42,7 @@ public class LogServiceImplV1Test {
         assertThat(actual, contains(
                 hasProperty("ip", Matchers.is("127.0.0.1"))
         ));
-    }
+    }*/
 
     @Test
     public void salvaLog() {
@@ -84,7 +75,7 @@ public class LogServiceImplV1Test {
         logService.findById(1);
     }
 
-    @Test
+    /*@Test
     public void encontraLogsPorUsuario() {
         final UserV1 coletor = new UserV1(0,"João", "joao@123.com",
                 "123", UserType.PESSOAFISICA, "$2$546");
@@ -99,7 +90,5 @@ public class LogServiceImplV1Test {
         assertThat(actual, contains(
                 hasProperty("titulo", Matchers.is("Log"))
         ));
-
-    }
+    }*/
 }
-*/
