@@ -16,13 +16,10 @@ public interface LogRestEndpointV1 {
 
     ResponseEntity<Void> save(LogDTOV1 logDTOV1);
     ResponseEntity<LogDTOV1> findById(Integer id);
-    ResponseEntity<List<LogDTOV1>> findAllByParams(@RequestParam(required = true, defaultValue = "PRODUCTION") Environment environment,
-                                                          @RequestParam(required = false) Optional<OrderBy> orderBy,
-                                                          @RequestParam(required = false) Optional<FindBy> findBy,
-                                                          @RequestParam(required = false)  Optional<String> stringFilter);
-    ResponseEntity<LogDTOV1> updateLogById(@PathVariable("id") Integer id);
-
-
-
+    ResponseEntity<List<LogDTOV1>> findAllByParams(Environment environment,
+                                                          Optional<OrderBy> orderBy,
+                                                         Optional<FindBy> findBy,
+                                                         Optional<String> stringFilter);
+    ResponseEntity<LogDTOV1> archiveLogById(Integer id);
 
     }

@@ -30,7 +30,7 @@ public class LogRestV1 implements LogRestEndpointV1 {
         this.logServiceImplV1 = logServiceImplV1;
     }
 
-    @GetMapping(path = "/buscaTodos", produces = "application/vnd.central.erros.user-v1+json")
+    @GetMapping(path = "/findAll", produces = "application/vnd.central.erros.user-v1+json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
@@ -75,10 +75,10 @@ public class LogRestV1 implements LogRestEndpointV1 {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
-    public ResponseEntity<LogDTOV1> updateLogById(@PathVariable("id") Integer id) {
+    public ResponseEntity<LogDTOV1> archiveLogById(@PathVariable("id") Integer id) {
 
         LogDTOV1 logToUpdate = logServiceImplV1.findById(id);
-
+        logToUpdate.setActive(Boolean.FALSE);
         return ResponseEntity.ok(logServiceImplV1.update(id, logToUpdate));
     }
 
