@@ -1,6 +1,7 @@
 package br.com.central.erros.impl.business.service.V1.contracts;
 
 import br.com.central.erros.impl.business.dto.LogDTOV1;
+import br.com.central.erros.impl.business.entity.enums.Environment;
 import br.com.central.erros.impl.business.entity.enums.FindBy;
 import br.com.central.erros.impl.business.entity.enums.OrderBy;
 
@@ -11,5 +12,5 @@ public interface LogServiceV1 {
     LogDTOV1 findById(Integer id);
     LogDTOV1 save(LogDTOV1 logDTOV1);
     LogDTOV1 update(Integer id, LogDTOV1 logInput);
-    List<LogDTOV1> findAllByUser(Integer userId, Optional<OrderBy> orderBy, Optional<FindBy> findBy, Optional<String> stringFilter);
+    List<LogDTOV1> findAllByUser(Integer userId, Environment environment, Optional<OrderBy> orderBy, Optional<FindBy> findBy, Optional<String> stringFilter);
 }
