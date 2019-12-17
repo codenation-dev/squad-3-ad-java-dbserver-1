@@ -49,6 +49,7 @@ public class UserV1 implements Serializable {
         addPerfil(Profile.CLIENTE);
     }
 
+
     public Integer getId() {
         return id;
     }
