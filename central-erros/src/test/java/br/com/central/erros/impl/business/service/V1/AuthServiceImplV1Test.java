@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -40,7 +39,6 @@ public class AuthServiceImplV1Test {
         VerificationCodeDTO verificationCodeDTO = new VerificationCodeDTO("abcd", userDTO.getEmail());
         when(verificationCodeService.isValid(any())).thenReturn(Boolean.TRUE);
         when(userService.findByEmail("a@mail.com")).thenReturn(userDTO);
-        when(userService.save(any(UserDTOV1.class))).thenAnswer(invocation -> invocation.getArgument(0));
         ArgumentCaptor<UserDTOV1> captor = ArgumentCaptor.forClass(UserDTOV1.class);
         authService.updateUserPassword(verificationCodeDTO, "newPassword");
         verify(userService, times(1)).save(captor.capture());
