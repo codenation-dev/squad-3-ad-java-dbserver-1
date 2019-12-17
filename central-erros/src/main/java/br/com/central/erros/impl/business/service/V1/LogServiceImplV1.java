@@ -28,8 +28,6 @@ public class LogServiceImplV1 implements LogServiceV1 {
         this.logRepositoryV1 = logRepositoryV1;
     }
 
-
-
     @Override
     public LogDTOV1 save(LogDTOV1 logInput) {
         LogV1 logEntity = LogConverter.logDTOToEntity(logInput);
@@ -44,8 +42,6 @@ public class LogServiceImplV1 implements LogServiceV1 {
         LogV1 logInDatabase = logRepositoryV1.save(logEntity);
         return LogConverter.logToDTO(logInDatabase);
     }
-
-
 
     @Override
     public LogDTOV1 findById(Integer id) {

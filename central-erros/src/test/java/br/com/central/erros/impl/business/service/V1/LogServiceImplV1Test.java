@@ -46,11 +46,11 @@ public class LogServiceImplV1Test {
 
     @Test
     public void salvaLog() {
-        final LogDTOV1 actualDto = new LogDTOV1("127.0.0.1", 1L, LocalDate.now(), "", "",
+        final LogDTOV1 actualDto = new LogDTOV1("127.0.0.1", 1L, LocalDate.now(), "", "", true,
                 Environment.DEVELOPMENT, Level.DEBUG, new UserV1());
 
         final LogDTOV1 expected = new LogDTOV1(actualDto.getIp(), actualDto.getNumberOfEvents(),
-                actualDto.getDate(), actualDto.getTitle(), actualDto.getDetails(), actualDto.getEnvironment(),
+                actualDto.getDate(), actualDto.getTitle(), actualDto.getDetails(), actualDto.getActive(), actualDto.getEnvironment(),
                 actualDto.getLevel(), actualDto.getUser());
 
         when(logRepositoryV1.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
@@ -62,7 +62,7 @@ public class LogServiceImplV1Test {
 
     @Test
     public void encontraLogPorId() {
-        final LogDTOV1 expected = new LogDTOV1("127.0.0.1", 1L, LocalDate.now(), "", "",
+        final LogDTOV1 expected = new LogDTOV1("127.0.0.1", 1L, LocalDate.now(), "", "", true,
                 Environment.DEVELOPMENT, Level.DEBUG, new UserV1());
         when(logRepositoryV1.findById(1)).thenReturn(Optional.of(LogConverter.logDTOToEntity(expected)));
         final LogDTOV1 actual = logService.findById(1);
