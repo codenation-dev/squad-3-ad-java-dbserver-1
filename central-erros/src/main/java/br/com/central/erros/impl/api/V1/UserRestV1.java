@@ -40,7 +40,12 @@ public class UserRestV1 implements UserRestEndpointV1 {
     )
     @ApiOperation(value = "Retorna todos usuários cadastrados", response = UserDTOV1.class)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    required = true,
+                    dataType = "string",
+                    paramType = "header",
+                    value = "Token de autenticação.")
     })
     public ResponseEntity<List<UserDTOV1>> findAll() {
         ResponseEntity<List<UserDTOV1>> response = ResponseEntity.ok(userServiceV1.findAll());
@@ -54,10 +59,13 @@ public class UserRestV1 implements UserRestEndpointV1 {
     @PostMapping("/")
     @ApiOperation(value = "Cadastra um novo usuário ")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", required = true,
-                    dataType = "string", paramType = "header", value = "Token de autenticação.")
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    required = true,
+                    dataType = "string",
+                    paramType = "header",
+                    value = "Token de autenticação.")
     })
-
     public ResponseEntity<Void> save(@RequestBody @Valid UserDTOV1 objDto) {
         objDto = userServiceV1.save(objDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
