@@ -1,24 +1,22 @@
 package br.com.central.erros.impl.business.entity.converter;
 
-
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.entity.V1.LogV1;
 import br.com.central.erros.impl.business.exception.LogExceptionMessage;
 
-
 public class LogConverter extends Converter {
 
     public static LogV1 logDTOToEntity(LogDTOV1 logDTOV1) {
-        jogarExcessaoSeObjetoNulo(logDTOV1, LogExceptionMessage.ERRO_DADOS_DA_LOG_INVALIDOS);
-        return new LogV1(null, logDTOV1.getIp(), logDTOV1.getNumeroDeEventos(), logDTOV1.getDataDoErro(),
-                logDTOV1.getTitulo(), logDTOV1.getDetalhes(), logDTOV1.getAmbiente(),  logDTOV1.getLevel(),
-                logDTOV1.getUserV1());
+        throwExceptionIfNull(logDTOV1, LogExceptionMessage.INVALID_DATA);
+        return new LogV1(null, logDTOV1.getIp(), logDTOV1.getNumberOfEvents(), logDTOV1.getDate(),
+                logDTOV1.getTitle(), logDTOV1.getDetails(), logDTOV1.getEnvironment(),  logDTOV1.getLevel(),
+                logDTOV1.getUser(), logDTOV1.getActive());
     }
 
     public static LogDTOV1 logToDTO(LogV1 logV1) {
-        jogarExcessaoSeObjetoNulo(logV1, LogExceptionMessage.ERRO_DADOS_DA_LOG_INVALIDOS);
-        return new LogDTOV1(logV1.getIp(), logV1.getNumeroDeEventos(), logV1.getDataDoErro(),
-                logV1.getTitulo(), logV1.getDetalhes(), logV1.getAmbiente(), logV1.getLevel(), logV1.getUserV1());
+        throwExceptionIfNull(logV1, LogExceptionMessage.INVALID_DATA);
+        return new LogDTOV1(logV1.getIp(), logV1.getNumberOfEvents(), logV1.getDate(),
+                logV1.getTitle(), logV1.getDetails(),logV1.getActive(), logV1.getEnvironment(), logV1.getLevel(), logV1.getUser() );
     }
 
 }

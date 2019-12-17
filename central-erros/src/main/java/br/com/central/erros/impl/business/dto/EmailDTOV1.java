@@ -4,13 +4,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
-public class EmailDTO implements Serializable {
+class EmailDTOV1 implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @Email(message = "Email inválido")
     private String email;
 
-    public EmailDTO() {
+    public EmailDTOV1() {
     }
 
     public String getEmail() {

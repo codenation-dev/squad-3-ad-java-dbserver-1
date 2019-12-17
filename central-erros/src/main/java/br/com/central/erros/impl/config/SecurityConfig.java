@@ -1,7 +1,5 @@
 package br.com.central.erros.impl.config;
 
-import java.util.Arrays;
-
 import br.com.central.erros.impl.config.security.JWTAuthenticationFilter;
 import br.com.central.erros.impl.config.security.JWTAuthorizationFilter;
 import br.com.central.erros.impl.config.security.JWTUtil;
@@ -21,6 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity

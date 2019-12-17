@@ -5,9 +5,9 @@ import br.com.central.erros.impl.business.exception.exceptions.ValidationExcepti
 import java.util.Objects;
 
 abstract class Converter {
-    static void jogarExcessaoSeObjetoNulo(Object objeto, String mensagemDeErro) {
-        if (Objects.isNull(objeto)) {
-            throw new ValidationException(mensagemDeErro);
+    static void throwExceptionIfNull(Object object, String errorMessage) {
+        if (Objects.isNull(object)) {
+            throw new ValidationException(errorMessage);
         }
     }
 }

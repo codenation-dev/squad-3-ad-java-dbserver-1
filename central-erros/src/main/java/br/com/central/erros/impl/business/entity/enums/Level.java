@@ -6,20 +6,20 @@ public enum Level {
     WARNING(1, "Warning"),
     DEBUG(2, "Debug");
 
-    private int cod;
-    private String descricao;
+    private final int cod;
+    private final String description;
 
-    private Level(int cod, String descricao) {
+    Level(int cod, String description) {
         this.cod = cod;
-        this.descricao = descricao;
+        this.description = description;
     }
 
-    public int getCod() {
+    private int getCod() {
         return cod;
     }
 
-    public String getDescricao () {
-        return descricao;
+    public String getDescription() {
+        return description;
     }
 
     public static Level toEnum(Integer cod) {

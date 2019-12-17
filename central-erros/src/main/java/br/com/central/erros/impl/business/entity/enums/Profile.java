@@ -1,15 +1,15 @@
 package br.com.central.erros.impl.business.entity.enums;
 
-public enum Ambiente {
+public enum Profile {
 
-    HOMOLOGATION(0, "Homologation"),
-    PRODUCTION(1, "Production"),
-    DEVELOPMENT(2, "Development");
 
-    private int cod;
-    private String descricao;
+    ADMIN(0, "ROLE_ADMIN"),
+    CLIENTE(1, "ROLE_CLIENTE");
 
-    private Ambiente(int cod, String descricao) {
+    private final int cod;
+    private final String descricao;
+
+    Profile(int cod, String descricao) {
         this.cod = cod;
         this.descricao = descricao;
     }
@@ -18,17 +18,17 @@ public enum Ambiente {
         return cod;
     }
 
-    public String getDescricao() {
+    public String getDescricao () {
         return descricao;
     }
 
-    public static Ambiente toEnum(Integer cod) {
+    public static Profile toEnum(Integer cod) {
 
         if (cod == null) {
             return null;
         }
 
-        for (Ambiente x : Ambiente.values()) {
+        for (Profile x : Profile.values()) {
             if (cod.equals(x.getCod())) {
                 return x;
             }

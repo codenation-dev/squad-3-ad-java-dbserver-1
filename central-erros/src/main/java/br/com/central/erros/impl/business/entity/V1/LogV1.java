@@ -1,18 +1,11 @@
 package br.com.central.erros.impl.business.entity.V1;
 
-import java.time.LocalDate;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import br.com.central.erros.impl.business.entity.enums.Ambiente;
+import br.com.central.erros.impl.business.entity.enums.Environment;
 import br.com.central.erros.impl.business.entity.enums.Level;
+import org.hibernate.annotations.Filter;
+
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class LogV1 {
@@ -21,14 +14,15 @@ public class LogV1 {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String ip;
-    private Long numeroDeEventos;
-    private LocalDate dataDoErro;
-    private String titulo;
-    private String detalhes;
+    private Long numberOfEvents;
+    private LocalDate date;
+    private String title;
+    private String details;
+    private Boolean active;
 
     @Enumerated
-    @Column(name = "cod_ambiente_enum")
-    private Ambiente ambiente;
+    @Column(name = "cod_environment_enum")
+    private Environment environment;
 
     @Enumerated
     @Column(name = "cod_level_enum")
@@ -36,21 +30,22 @@ public class LogV1 {
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
-    private UserV1 userV1;
+    private UserV1 user;
 
     public LogV1() {
     }
 
-    public LogV1(Integer id, String ip, Long numeroDeEventos, LocalDate dataDoErro, String titulo, String detalhes, Ambiente ambiente, Level level, UserV1 userV1) {
+    public LogV1(Integer id, String ip, Long numberOfEvents, LocalDate dataDoErro, String title, String detalhes, Environment environment, Level level, UserV1 user, Boolean active) {
         this.id = id;
         this.ip = ip;
-        this.numeroDeEventos = numeroDeEventos;
-        this.dataDoErro = dataDoErro;
-        this.titulo = titulo;
-        this.detalhes = detalhes;
-        this.ambiente = ambiente;
+        this.numberOfEvents = numberOfEvents;
+        this.date = dataDoErro;
+        this.title = title;
+        this.details = detalhes;
+        this.environment = environment;
         this.level = level;
-        this.userV1 = userV1;
+        this.user = user;
+        this.active = active;
     }
 
     public Integer getId() {
@@ -69,44 +64,44 @@ public class LogV1 {
         this.ip = ip;
     }
 
-    public Long getNumeroDeEventos() {
-        return numeroDeEventos;
+    public Long getNumberOfEvents() {
+        return numberOfEvents;
     }
 
-    public void setNumeroDeEventos(Long numeroDeEventos) {
-        this.numeroDeEventos = numeroDeEventos;
+    public void setNumberOfEvents(Long numberOfEvents) {
+        this.numberOfEvents = numberOfEvents;
     }
 
-    public LocalDate getDataDoErro() {
-        return dataDoErro;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDataDoErro(LocalDate dataDoErro) {
-        this.dataDoErro = dataDoErro;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getDetalhes() {
-        return detalhes;
+    public String getDetails() {
+        return details;
     }
 
-    public void setDetalhes(String detalhes) {
-        this.detalhes = detalhes;
+    public void setDetails(String details) {
+        this.details = details;
     }
 
-    public Ambiente getAmbiente() {
-        return ambiente;
+    public Environment getEnvironment() {
+        return environment;
     }
 
-    public void setAmbiente(Ambiente ambiente) {
-        this.ambiente = ambiente;
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
     }
 
     public Level getLevel() {
@@ -117,11 +112,19 @@ public class LogV1 {
         this.level = level;
     }
 
-    public UserV1 getUserV1() {
-        return userV1;
+    public UserV1 getUser() {
+        return user;
     }
 
-    public void setUserV1(UserV1 userV1) {
-        this.userV1 = userV1;
+    public void setUser(UserV1 user) {
+        this.user = user;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

@@ -1,25 +1,27 @@
 package br.com.central.erros.impl.business.service.V1;
 
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.entity.V1.LogV1;
 import br.com.central.erros.impl.business.entity.converter.LogConverter;
+import br.com.central.erros.impl.business.entity.enums.Environment;
+import br.com.central.erros.impl.business.entity.enums.FindBy;
+import br.com.central.erros.impl.business.entity.enums.OrderBy;
+import br.com.central.erros.impl.business.exception.LogExceptionMessage;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.LogRepositoryV1;
 import br.com.central.erros.impl.business.service.V1.contracts.LogServiceV1;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LogServiceImplV1 implements LogServiceV1 {
 
-    private LogRepositoryV1 logRepositoryV1;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final LogRepositoryV1 logRepositoryV1;
 
     @Autowired
     public LogServiceImplV1(LogRepositoryV1 logRepositoryV1) {
@@ -27,51 +29,42 @@ public class LogServiceImplV1 implements LogServiceV1 {
     }
 
     @Override
-    public List<LogDTOV1> buscarTodosLogs() {
+    public LogDTOV1 save(LogDTOV1 logInput) {
+        LogV1 logEntity = LogConverter.logDTOToEntity(logInput);
+        LogV1 logInDatabase = logRepositoryV1.save(logEntity);
+        return LogConverter.logToDTO(logInDatabase);
+    }
 
-        List<LogV1> logEntity = logRepositoryV1.findAll();
+    @Override
+    public LogDTOV1 update(Integer id, LogDTOV1 logInput) {
+        LogV1 logEntity = LogConverter.logDTOToEntity(logInput);
+        logEntity.setId(id);
+        LogV1 logInDatabase = logRepositoryV1.save(logEntity);
+        return LogConverter.logToDTO(logInDatabase);
+    }
+
+    @Override
+    public LogDTOV1 findById(Integer id) {
+        LogV1 log = logRepositoryV1.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException(LogExceptionMessage.NOT_FOUND));
+        return LogConverter.logToDTO(log);
+    }
+
+    @Override
+    public List<LogDTOV1> findAllByUser(Integer userId,Environment environment,  Optional<OrderBy> orderBy, Optional<FindBy> findBy, Optional<String> stringFilter) {
+        List<LogV1> logEntity = logRepositoryV1.findAllByUser_IdAndEnvironmentAndActiveTrue(userId, environment);
+
+        if(findBy.isPresent() && stringFilter.isPresent()){
+            logEntity =  findBy.get().methodFindBy(logEntity, stringFilter.get());
+        }
+
+        if(orderBy.isPresent()){
+            logEntity =  orderBy.get().methodOrderBy(logEntity);
+        }
+
         List<LogDTOV1> listaLogDTOV1 = logEntity.stream().map(LogConverter::logToDTO).collect(Collectors.toList());
 
         return listaLogDTOV1;
-    }
-
-    @Override
-    public LogDTOV1 salvarNovoLog(LogDTOV1 logInput) {
-
-        LogV1 logEntity = LogConverter.logDTOToEntity(logInput);
-
-        LogV1 logSalvoNoBanco = logRepositoryV1.save(logEntity);
-
-        return LogConverter.logToDTO(logSalvoNoBanco);
-    }
-
-/*    @Override
-    public LogDTOV1 encontrarLogPeloId(Integer id) {
-        Optional<LogV1> byId = logRepositoryV1.findById(id);
-
-        Optional<LogDTOV1> logDTOV1 = byId.map(LogConverter::logToDTO);
-
-        logDTOV1.orElseThrow(() -> new ObjectNotFoundException(
-                "LogV1 não encontrado! Id: " + id + ", Tipo: " + LogV1.class.getName()));
-
-        return logDTOV1.get();
-    }*/
-
-    @Override
-    public List<LogDTOV1> buscarLogsPorUsuario(Integer idUsuario) {
-        List<LogV1> all = logRepositoryV1.findAll();
-
-        List<LogDTOV1> collect1 =
-                all.stream().filter(logV1 -> logV1.getUserV1().getId().equals(idUsuario)).map(LogConverter::logToDTO).collect(Collectors.toList());
-
-        return collect1;
-    }
-
-    @Override
-    public Optional<LogDTOV1> encontrarLogPeloId(Integer id) {
-
-        Optional<LogV1> optionalUserV1 = logRepositoryV1.findById(id);
-        return optionalUserV1.map(LogConverter::logToDTO);
     }
 
 }

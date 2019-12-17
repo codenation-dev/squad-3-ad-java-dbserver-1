@@ -1,35 +1,36 @@
 package br.com.central.erros.impl.business.dto;
 
-import java.time.LocalDate;
-
 import br.com.central.erros.impl.business.entity.V1.UserV1;
-import br.com.central.erros.impl.business.entity.enums.Ambiente;
+import br.com.central.erros.impl.business.entity.enums.Environment;
 import br.com.central.erros.impl.business.entity.enums.Level;
 
+import java.time.LocalDate;
 
 public class LogDTOV1 {
-
     private String ip;
-    private Long numeroDeEventos;
-    private LocalDate dataDoErro;
-    private String titulo;
-    private String detalhes;
-    private Ambiente ambiente;
+    private Long numberOfEvents;
+    private LocalDate date;
+    private String title;
+    private String details;
+    private Boolean active;
+    private Environment environment;
     private Level level;
-    private UserV1 userV1;
+    private UserV1 user;
 
     public LogDTOV1() {
     }
 
-    public LogDTOV1(String ip, Long numeroDeEventos, LocalDate dataDoErro, String titulo, String detalhes, Ambiente ambiente, Level level, UserV1 userV1) {
+    public LogDTOV1(String ip, Long numberOfEvents, LocalDate errorDate, String title, String details,
+                    Boolean active, Environment environment, Level level, UserV1 user) {
         this.ip = ip;
-        this.numeroDeEventos = numeroDeEventos;
-        this.dataDoErro = dataDoErro;
-        this.titulo = titulo;
-        this.detalhes = detalhes;
-        this.ambiente = ambiente;
+        this.numberOfEvents = numberOfEvents;
+        this.date = errorDate;
+        this.title = title;
+        this.details = details;
+        this.active = active;
+        this.environment = environment;
         this.level = level;
-        this.userV1 = userV1;
+        this.user = user;
     }
 
     public String getIp() {
@@ -40,44 +41,52 @@ public class LogDTOV1 {
         this.ip = ip;
     }
 
-    public Long getNumeroDeEventos() {
-        return numeroDeEventos;
+    public Long getNumberOfEvents() {
+        return numberOfEvents;
     }
 
-    public void setNumeroDeEventos(Long numeroDeEventos) {
-        this.numeroDeEventos = numeroDeEventos;
+    public void setNumberOfEvents(Long numberOfEvents) {
+        this.numberOfEvents = numberOfEvents;
     }
 
-    public LocalDate getDataDoErro() {
-        return dataDoErro;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDataDoErro(LocalDate dataDoErro) {
-        this.dataDoErro = dataDoErro;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getDetalhes() {
-        return detalhes;
+    public String getDetails() {
+        return details;
     }
 
-    public void setDetalhes(String detalhes) {
-        this.detalhes = detalhes;
+    public void setDetails(String details) {
+        this.details = details;
     }
 
-    public Ambiente getAmbiente() {
-        return ambiente;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setAmbiente(Ambiente ambiente) {
-        this.ambiente = ambiente;
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Environment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
     }
 
     public Level getLevel() {
@@ -88,11 +97,11 @@ public class LogDTOV1 {
         this.level = level;
     }
 
-    public UserV1 getUserV1() {
-        return userV1;
+    public UserV1 getUser() {
+        return user;
     }
 
-    public void setUserV1(UserV1 userV1) {
-        this.userV1 = userV1;
+    public void setUser(UserV1 user) {
+        this.user = user;
     }
 }

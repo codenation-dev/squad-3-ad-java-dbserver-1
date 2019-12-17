@@ -1,44 +1,44 @@
 package br.com.central.erros.impl.business.service.V1;
 
 import br.com.central.erros.impl.business.dto.VerificationCodeDTO;
-import br.com.central.erros.impl.business.entity.V1.UserV1;
-import br.com.central.erros.impl.business.entity.V1.VerificationCode;
+import br.com.central.erros.impl.business.entity.V1.VerificationCodeV1;
 import br.com.central.erros.impl.business.repository.V1.VerificationCodeRepository;
+import br.com.central.erros.impl.business.service.V1.contracts.VerificationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Random;
 
+@SuppressWarnings("OptionalIsPresent")
 @Service
-public class VerificationCodeService {
+public class VerificationCodeServiceImplV1 implements VerificationCodeService {
 
-    private VerificationCodeRepository repository;
+    private final VerificationCodeRepository repository;
 
     @Autowired
-    public VerificationCodeService(VerificationCodeRepository repository) {
+    public VerificationCodeServiceImplV1(VerificationCodeRepository repository) {
         this.repository = repository;
     }
 
-    public VerificationCode create(String userEmail) {
-        VerificationCode code = new VerificationCode(generateNumericCode(), userEmail);
+    @Override
+    public VerificationCodeV1 create(String userEmail) {
+        VerificationCodeV1 code = new VerificationCodeV1(generateNumericCode(), userEmail);
         return repository.save(code);
     }
 
+    @Override
+    public void delete(String email) {
+        repository.deleteByEmail(email);
+    }
+
+    @Override
     public boolean isValid(VerificationCodeDTO code) {
-        Optional<VerificationCode> actual = repository.findByToken(code.getToken());
+        Optional<VerificationCodeV1> actual = repository.findByToken(code.getToken());
         if(actual.isPresent()) {
             return actual.get().getEmail().equals(code.getEmail());
         }
         return false;
-    }
-
-    public void deleteByEmail(String email) {
-        repository.deleteByEmail(email);
-    }
-
-    public boolean exists(VerificationCode code) {
-        return repository.existsById(code.getId());
     }
 
     private String generateNumericCode() {

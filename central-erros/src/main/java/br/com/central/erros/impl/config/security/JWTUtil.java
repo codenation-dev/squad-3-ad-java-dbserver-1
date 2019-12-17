@@ -1,12 +1,12 @@
 package br.com.central.erros.impl.config.security;
 
-import java.util.Date;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Component
 public class JWTUtil {
@@ -31,9 +31,7 @@ public class JWTUtil {
             String username = claims.getSubject();
             Date expirationDate = claims.getExpiration();
             Date now = new Date(System.currentTimeMillis());
-            if (username != null && expirationDate != null && now.before(expirationDate)) {
-                return true;
-            }
+            return username != null && expirationDate != null && now.before(expirationDate);
         }
         return false;
     }

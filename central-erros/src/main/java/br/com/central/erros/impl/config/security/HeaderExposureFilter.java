@@ -1,7 +1,7 @@
 package br.com.central.erros.impl.config.security;
 
 //@Component
-public class HeaderExposureFilter {
+class HeaderExposureFilter {
 
 //	@Override
 //	public void init(FilterConfig filterConfig) throws ServletException {

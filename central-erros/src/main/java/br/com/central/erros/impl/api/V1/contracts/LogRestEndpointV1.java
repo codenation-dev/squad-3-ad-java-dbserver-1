@@ -1,22 +1,24 @@
 package br.com.central.erros.impl.api.V1.contracts;
 
 
+import br.com.central.erros.impl.business.dto.LogDTOV1;
+import br.com.central.erros.impl.business.entity.enums.Environment;
+import br.com.central.erros.impl.business.entity.enums.FindBy;
+import br.com.central.erros.impl.business.entity.enums.OrderBy;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 import java.util.Optional;
 
-import br.com.central.erros.impl.business.dto.LogDTOV1;
-import br.com.central.erros.impl.business.dto.UserDTOV1;
-import org.springframework.http.ResponseEntity;
-
 public interface LogRestEndpointV1 {
 
-    ResponseEntity<List<LogDTOV1>> buscaLogsList();
+    ResponseEntity<Void> save(LogDTOV1 logDTOV1);
+    ResponseEntity<LogDTOV1> findById(Integer id);
+    ResponseEntity<List<LogDTOV1>> findAll(Integer userId,
+                                           Environment environment,
+                                           Optional<OrderBy> orderBy,
+                                           Optional<FindBy> findBy,
+                                           Optional<String> stringFilter);
+    ResponseEntity<LogDTOV1> archiveLogById(Integer id);
 
-    ResponseEntity<Void> adicionaLog(LogDTOV1 logDTOV1);
-
-    ResponseEntity<Optional<LogDTOV1>> buscaLog(Integer id);
-
-
-
-
-}
+    }

@@ -1,15 +1,8 @@
 package br.com.central.erros.impl.api.V1;
 
 
-import java.net.URI;
-import java.util.List;
-import java.util.Objects;
-
-import javax.validation.Valid;
-
 import br.com.central.erros.impl.api.V1.contracts.UserRestEndpointV1;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
-import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,8 +10,14 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping({"/v1/users"})
@@ -26,7 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class UserRestV1 implements UserRestEndpointV1 {
 
 
-    private UserServiceImplV1 userServiceV1;
+    private final UserServiceImplV1 userServiceV1;
 
     @Autowired
     public UserRestV1(UserServiceImplV1 userServiceV1) {
@@ -35,7 +34,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
     }
 
     @Override
-//    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping(path = "/findAll",
             produces = "application/vnd.central.erros.user-v1+json"
     )
@@ -43,9 +42,8 @@ public class UserRestV1 implements UserRestEndpointV1 {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
-    public ResponseEntity<List<UserDTOV1>> buscaUsersList() {
-
-        ResponseEntity<List<UserDTOV1>> response = ResponseEntity.ok(userServiceV1.buscaUsersList());
+    public ResponseEntity<List<UserDTOV1>> findAll() {
+        ResponseEntity<List<UserDTOV1>> response = ResponseEntity.ok(userServiceV1.findAll());
         if (Objects.isNull(response.getBody())) {
             response = ResponseEntity.noContent().build();
         }
@@ -59,8 +57,9 @@ public class UserRestV1 implements UserRestEndpointV1 {
             @ApiImplicitParam(name = "Authorization", required = true,
                     dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
-    public ResponseEntity<Void> adicionaUser(@RequestBody UserDTOV1 objDto) {
-        objDto = userServiceV1.salvarNovoUSuario(objDto);
+
+    public ResponseEntity<Void> save(@RequestBody @Valid UserDTOV1 objDto) {
+        objDto = userServiceV1.save(objDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(objDto.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -80,26 +79,22 @@ public class UserRestV1 implements UserRestEndpointV1 {
                     paramType = "header",
                     value = "Token de autenticação.")
     })
-    public ResponseEntity<UserDTOV1> buscaUser(@Valid @PathVariable Integer id) {
+    public ResponseEntity<UserDTOV1> findById(@Valid @PathVariable Integer id) {
         return ResponseEntity.ok(userServiceV1.findById(id));
     }
 
-    @ExceptionHandler({ObjectNotFoundException.class})
-    public ResponseEntity handleException() {
-        return ResponseEntity.notFound().build();
-    }
-
-
     @Override
-    public ResponseEntity<Void> atualizaUser(Integer idUser, UserDTOV1 userDTOV1) {
-        return null;
+    @PatchMapping
+    @ApiOperation(value = "Edita um usuário", response = UserDTOV1.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    required = true,
+                    dataType = "string",
+                    paramType = "header",
+                    value = "Token de autenticação.")
+    })
+    public ResponseEntity<UserDTOV1> update(UserDTOV1 userDTOV1) {
+        return ResponseEntity.ok(userServiceV1.save(userDTOV1));
     }
-
-
-    @Override
-    public ResponseEntity<Void> editarSenhaUser(String email, String novaSenha) {
-        return null;
-    }
-
-
 }

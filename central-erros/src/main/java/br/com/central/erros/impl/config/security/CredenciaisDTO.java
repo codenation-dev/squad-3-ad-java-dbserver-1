@@ -3,13 +3,13 @@ package br.com.central.erros.impl.config.security;
 
 import java.io.Serializable;
 
-public class CredenciaisDTO implements Serializable {
+class CredenciaisDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String email;
 
-    private String senha;
+    private String password;
 
     public CredenciaisDTO() {
     }
@@ -22,11 +22,11 @@ public class CredenciaisDTO implements Serializable {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

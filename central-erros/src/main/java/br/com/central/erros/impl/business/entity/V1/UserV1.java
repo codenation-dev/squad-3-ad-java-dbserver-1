@@ -1,23 +1,14 @@
 package br.com.central.erros.impl.business.entity.V1;
 
+import br.com.central.erros.impl.business.entity.enums.Profile;
+import br.com.central.erros.impl.business.entity.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import br.com.central.erros.impl.business.entity.enums.Perfil;
-import br.com.central.erros.impl.business.entity.enums.TipoUser;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import sun.misc.Perf;
 
 @Entity
 public class UserV1 implements Serializable {
@@ -27,35 +18,35 @@ public class UserV1 implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
-    private String nome;
+    private String name;
 
     @Column(unique=true)
     private String email;
 
-    private String cpfOuCnpj;
+    private String cpfOrCnpj;
 
-    private Integer tipo;
+    private Integer type;
 
     @JsonIgnore
-    private String senha;
+    private String password;
 
     @ElementCollection(fetch= FetchType.EAGER)
     @CollectionTable(name="PERFIS")
-    private Set<Integer> perfis = new HashSet<>();
+    private Set<Integer> profile = new HashSet<>();
 
     public UserV1() {
-        addPerfil(Perfil.CLIENTE);
+        addPerfil(Profile.CLIENTE);
     }
 
-    public UserV1(Integer id, String nome, String email, String cpfOuCnpj, TipoUser tipo, String senha) {
+    public UserV1(Integer id, String nome, String email, String cpfOrCnpj, UserType tipo, String senha) {
         super();
         this.id = id;
-        this.nome = nome;
+        this.name = nome;
         this.email = email;
-        this.cpfOuCnpj = cpfOuCnpj;
-        this.tipo = (tipo==null) ? null : tipo.getCod();
-        this.senha = senha;
-        addPerfil(Perfil.CLIENTE);
+        this.cpfOrCnpj = cpfOrCnpj;
+        this.type = (tipo==null) ? null : tipo.getCode();
+        this.password = senha;
+        addPerfil(Profile.CLIENTE);
     }
 
     public Integer getId() {
@@ -66,12 +57,12 @@ public class UserV1 implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -82,40 +73,40 @@ public class UserV1 implements Serializable {
         this.email = email;
     }
 
-    public String getCpfOuCnpj() {
-        return cpfOuCnpj;
+    public String getCpfOrCnpj() {
+        return cpfOrCnpj;
     }
 
-    public void setCpfOuCnpj(String cpfOuCnpj) {
-        this.cpfOuCnpj = cpfOuCnpj;
+    public void setCpfOrCnpj(String cpfOrCnpj) {
+        this.cpfOrCnpj = cpfOrCnpj;
     }
 
-    public TipoUser getTipo() {
-        return TipoUser.toEnum(tipo);
+    public UserType getType() {
+        return UserType.toEnum(type);
     }
 
-    public void setTipo(TipoUser tipo) {
-        this.tipo = tipo.getCod();
+    public void setType(UserType type) {
+        this.type = type.getCode();
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setPerfis(Set<Integer> perfis) {
-        this.perfis = perfis;
+    public void setProfile(Set<Integer> profile) {
+        this.profile = profile;
     }
 
-    public Set<Perfil> getPerfis() {
-        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+    public Set<Profile> getProfile() {
+        return profile.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
     }
 
-    public void addPerfil(Perfil perfil) {
-        perfis.add(perfil.getCod());
+    public void addPerfil(Profile profile) {
+        this.profile.add(profile.getCod());
     }
 
 
@@ -137,10 +128,8 @@ public class UserV1 implements Serializable {
             return false;
         UserV1 other = (UserV1) obj;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+            return other.id == null;
+        } else
+            return id.equals(other.id);
     }
 }
