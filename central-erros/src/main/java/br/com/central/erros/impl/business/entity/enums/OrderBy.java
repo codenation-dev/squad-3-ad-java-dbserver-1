@@ -11,17 +11,14 @@ public enum OrderBy {
     LEVEL {
         @Override
         public List<LogV1> methodOrderBy(List<LogV1> listInput) {
-            List<LogV1> lista = listInput.stream().sorted(Comparator.comparing(LogV1::getLevel)).collect(Collectors.toList());
-            return lista;
+            return listInput.stream().sorted(Comparator.comparing(LogV1::getLevel)).collect(Collectors.toList());
         }
     },
 
     FREQUENCY {
         @Override
         public List<LogV1> methodOrderBy(List<LogV1> listInput) {
-
-            List<LogV1> lista = listInput.stream().sorted(Comparator.comparing(LogV1::getNumberOfEvents).reversed()).collect(Collectors.toList());
-            return lista;
+            return listInput.stream().sorted(Comparator.comparing(LogV1::getNumberOfEvents).reversed()).collect(Collectors.toList());
         }
 
     };

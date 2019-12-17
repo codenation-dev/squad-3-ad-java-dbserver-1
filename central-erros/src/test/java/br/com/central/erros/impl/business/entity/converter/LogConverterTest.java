@@ -13,9 +13,9 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LogConverterTest {
+
     @Test
     public void converteDeDTOParaEntidade() {
-
         LogV1 expected = new LogV1(null, "127.0.0.1", 2L, LocalDate.now(), "", "",
                 Environment.DEVELOPMENT, Level.DEBUG, new UserV1(), true);
 

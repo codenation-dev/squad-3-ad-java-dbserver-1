@@ -10,27 +10,28 @@ public enum FindBy {
     DESCRIPTION {
         @Override
         public List<LogV1> methodFindBy(List<LogV1> listInput, String details) {
-            List<LogV1> lista = listInput.stream().filter(logV1 -> logV1.getDetails().toLowerCase().contains(details)).collect(Collectors.toList());
-            return lista;
+            return listInput.stream().filter(logV1 -> logV1.getDetails().toLowerCase().contains(details)).collect(Collectors.toList());
+        }
+    },
+
+    ENVIRONMENT {
+        @Override
+        public List<LogV1> methodFindBy(List<LogV1> listInput, String details) {
+            return listInput.stream().filter(logV1 -> logV1.getEnvironment().equals(Environment.valueOf(details))).collect(Collectors.toList());
         }
     },
 
     LEVEL {
         @Override
         public List<LogV1> methodFindBy(List<LogV1> listInput, String details) {
-
-            List<LogV1> lista = listInput.stream().filter(logV1 -> logV1.getLevel().equals(Level.valueOf(details))).collect(Collectors.toList());
-            return lista;
+            return listInput.stream().filter(logV1 -> logV1.getLevel().equals(Level.valueOf(details))).collect(Collectors.toList());
         }
-
     },
 
-    ORIGIN{
-
+    ORIGIN {
         @Override
         public List<LogV1> methodFindBy(List<LogV1> listInput, String details) {
-            List<LogV1> lista = listInput.stream().filter(logV1 -> logV1.getIp().equals(details)).collect(Collectors.toList());
-            return lista;
+            return listInput.stream().filter(logV1 -> logV1.getIp().equals(details)).collect(Collectors.toList());
         }
     };
 

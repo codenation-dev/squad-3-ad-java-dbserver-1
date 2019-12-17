@@ -4,7 +4,6 @@ package br.com.central.erros.impl.business.service.V1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
 import br.com.central.erros.impl.business.entity.V1.LogV1;
 import br.com.central.erros.impl.business.entity.converter.LogConverter;
-import br.com.central.erros.impl.business.entity.enums.Environment;
 import br.com.central.erros.impl.business.entity.enums.FindBy;
 import br.com.central.erros.impl.business.entity.enums.OrderBy;
 import br.com.central.erros.impl.business.exception.LogExceptionMessage;
@@ -51,8 +50,8 @@ public class LogServiceImplV1 implements LogServiceV1 {
     }
 
     @Override
-    public List<LogDTOV1> findAllByUser(Environment environment, Optional<OrderBy> orderBy, Optional<FindBy> findBy, Optional<String> stringFilter) {
-        List<LogV1> logEntity = logRepositoryV1.findByEnvironmentAndActiveTrue(environment);
+    public List<LogDTOV1> findAllByUser(Integer userId, Optional<OrderBy> orderBy, Optional<FindBy> findBy, Optional<String> stringFilter) {
+        List<LogV1> logEntity = logRepositoryV1.findAllByUser_IdAndActiveTrue(userId);
 
         if(findBy.isPresent() && stringFilter.isPresent()){
             logEntity =  findBy.get().methodFindBy(logEntity, stringFilter.get());
