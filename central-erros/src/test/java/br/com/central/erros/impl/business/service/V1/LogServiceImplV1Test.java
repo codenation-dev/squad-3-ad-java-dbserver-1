@@ -96,8 +96,8 @@ public class LogServiceImplV1Test {
 
         logsList.add(log);
 
-        when(logRepositoryV1.findAllByUser_IdAndActiveTrue(1)).thenReturn(logsList);
-        List<LogDTOV1> actual = service.findAllByUser(1, Optional.empty(), Optional.empty(), Optional.empty());
+        when(logRepositoryV1.findAllByUser_IdAndEnvironmentAndActiveTrue(1, Environment.DEVELOPMENT)).thenReturn(logsList);
+        List<LogDTOV1> actual = service.findAllByUser(1, Environment.DEVELOPMENT, Optional.empty(), Optional.empty(), Optional.empty());
         assertThat(actual, contains(
                 hasProperty("title", Matchers.is("Log"))
         ));
@@ -116,10 +116,31 @@ public class LogServiceImplV1Test {
         logsList.add(log);
         logsList.add(log2);
 
-        when(logRepositoryV1.findAllByUser_IdAndActiveTrue(1)).thenReturn(logsList);
+        when(logRepositoryV1.findAllByUser_IdAndEnvironmentAndActiveTrue(1, Environment.DEVELOPMENT)).thenReturn(logsList);
 
-        List<LogDTOV1> actual = service.findAllByUser(1, Optional.empty(), Optional.of(FindBy.LEVEL),
+        List<LogDTOV1> actual = service.findAllByUser(1, Environment.DEVELOPMENT, Optional.empty(), Optional.of(FindBy.LEVEL),
                 Optional.of(Level.ERROR.toString()));
+
+        assertThat(actual).extracting("title", String.class).containsOnly("Log2");
+    }
+
+    @Test
+    public void findsAllUserLogsByDescription() {
+        final UserV1 collector = new UserV1(0,"João", "joao@123.com",
+                "123", UserType.PESSOAFISICA, "$2$546");
+        final LogV1 log = new LogV1(0, "", 1L, LocalDate.now(), "Log",
+                "Erro de Spring",  Environment.DEVELOPMENT, Level.DEBUG, collector, true);
+        final LogV1 log2 = new LogV1(0, "", 1L, LocalDate.now(), "Log2",
+                "Erro de Java",  Environment.DEVELOPMENT, Level.ERROR, collector, true);
+
+        final List<LogV1> logsList = new ArrayList<>();
+        logsList.add(log);
+        logsList.add(log2);
+
+        when(logRepositoryV1.findAllByUser_IdAndEnvironmentAndActiveTrue(1, Environment.DEVELOPMENT)).thenReturn(logsList);
+
+        List<LogDTOV1> actual = service.findAllByUser(1, Environment.DEVELOPMENT, Optional.empty(), Optional.of(FindBy.DESCRIPTION),
+                Optional.of("java"));
 
         assertThat(actual).extracting("title", String.class).containsOnly("Log2");
     }

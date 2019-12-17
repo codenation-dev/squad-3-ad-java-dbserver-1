@@ -10,7 +10,7 @@ public enum FindBy {
     DESCRIPTION {
         @Override
         public List<LogV1> methodFindBy(List<LogV1> listInput, String details) {
-            return listInput.stream().filter(logV1 -> logV1.getDetails().toLowerCase().contains(details)).collect(Collectors.toList());
+            return listInput.stream().filter(logV1 -> logV1.getDetails().toLowerCase().contains(details.toLowerCase())).collect(Collectors.toList());
         }
     },
 
