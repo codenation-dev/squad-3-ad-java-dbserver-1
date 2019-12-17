@@ -3,6 +3,7 @@ package br.com.central.erros.impl.api.V1;
 
 import br.com.central.erros.impl.api.V1.contracts.UserRestEndpointV1;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
+import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -91,8 +92,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
         return ResponseEntity.ok(userServiceV1.findById(id));
     }
 
-    @Override
-    @PatchMapping
+    @PatchMapping(path = "/{id}")
     @ApiOperation(value = "Edita um usuário", response = UserDTOV1.class)
     @ApiImplicitParams({
             @ApiImplicitParam(
@@ -102,7 +102,10 @@ public class UserRestV1 implements UserRestEndpointV1 {
                     paramType = "header",
                     value = "Token de autenticação.")
     })
-    public ResponseEntity<UserDTOV1> update(UserDTOV1 userDTOV1) {
-        return ResponseEntity.ok(userServiceV1.save(userDTOV1));
+    public ResponseEntity<UserDTOV1> update(@Valid @RequestBody UserDTOV1 userDTOV1, @PathVariable Integer id) {
+        UserV1 userV1 = userServiceV1.fromDTO(userDTOV1);
+        userV1.setId(id);
+        userServiceV1.update(userV1);
+        return ResponseEntity.noContent().build();
     }
 }

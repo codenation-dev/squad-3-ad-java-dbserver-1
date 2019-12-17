@@ -63,6 +63,10 @@ public class UserServiceImplV1 implements UserServiceV1 {
         return UserConverter.userToDTO(usuarioSalvoNoBanco);
     }
 
+    public UserV1 fromDTO(UserDTOV1 userDTOV1) {
+        return new UserV1(userDTOV1.getId(), userDTOV1.getName(), userDTOV1.getEmail(), null, null, null);
+    }
+
     public boolean existsByEmail(String email) {
         return userRepositoryV1.existsByEmail(email);
     }
@@ -76,4 +80,15 @@ public class UserServiceImplV1 implements UserServiceV1 {
     }
 
 
+    public UserV1 update(UserV1 userV1) {
+        UserDTOV1 newUserV1 = findById(userV1.getId());
+        updateData(newUserV1, userV1);
+        UserV1 usuarioEntity = UserConverter.userDTOToEntity(newUserV1);
+        return userRepositoryV1.save(usuarioEntity);
+    }
+
+    private void updateData(UserDTOV1 newObj, UserV1 obj) {
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
+    }
 }
