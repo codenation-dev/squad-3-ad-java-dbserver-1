@@ -12,6 +12,7 @@ public class LogDTOV1 {
     private LocalDate date;
     private String title;
     private String details;
+    private Boolean active;
     private Environment environment;
     private Level level;
     private UserV1 user;
@@ -20,12 +21,13 @@ public class LogDTOV1 {
     }
 
     public LogDTOV1(String ip, Long numberOfEvents, LocalDate errorDate, String title, String details,
-                    Environment environment, Level level, UserV1 user) {
+                    Boolean active, Environment environment, Level level, UserV1 user) {
         this.ip = ip;
         this.numberOfEvents = numberOfEvents;
         this.date = errorDate;
         this.title = title;
         this.details = details;
+        this.active = active;
         this.environment = environment;
         this.level = level;
         this.user = user;
@@ -69,6 +71,14 @@ public class LogDTOV1 {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Environment getEnvironment() {

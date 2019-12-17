@@ -2,6 +2,7 @@ package br.com.central.erros.impl.business.entity.V1;
 
 import br.com.central.erros.impl.business.entity.enums.Environment;
 import br.com.central.erros.impl.business.entity.enums.Level;
+import org.hibernate.annotations.Filter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ public class LogV1 {
     private LocalDate date;
     private String title;
     private String details;
+    private Boolean active;
 
     @Enumerated
     @Column(name = "cod_environment_enum")
@@ -33,7 +35,7 @@ public class LogV1 {
     public LogV1() {
     }
 
-    public LogV1(Integer id, String ip, Long numberOfEvents, LocalDate dataDoErro, String title, String detalhes, Environment environment, Level level, UserV1 user) {
+    public LogV1(Integer id, String ip, Long numberOfEvents, LocalDate dataDoErro, String title, String detalhes, Environment environment, Level level, UserV1 user, Boolean active) {
         this.id = id;
         this.ip = ip;
         this.numberOfEvents = numberOfEvents;
@@ -43,6 +45,7 @@ public class LogV1 {
         this.environment = environment;
         this.level = level;
         this.user = user;
+        this.active = active;
     }
 
     public Integer getId() {
@@ -115,5 +118,13 @@ public class LogV1 {
 
     public void setUser(UserV1 user) {
         this.user = user;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

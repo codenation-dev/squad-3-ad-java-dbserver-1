@@ -37,6 +37,14 @@ public class LogServiceImplV1 implements LogServiceV1 {
         return LogConverter.logToDTO(logInDatabase);
     }
 
+    @Override
+    public LogDTOV1 update(Integer id, LogDTOV1 logInput) {
+        LogV1 logEntity = LogConverter.logDTOToEntity(logInput);
+        logEntity.setId(id);
+        LogV1 logInDatabase = logRepositoryV1.save(logEntity);
+        return LogConverter.logToDTO(logInDatabase);
+    }
+
 
 
     @Override
@@ -48,7 +56,7 @@ public class LogServiceImplV1 implements LogServiceV1 {
 
     @Override
     public List<LogDTOV1> findAllByUser(Environment environment, Optional<OrderBy> orderBy, Optional<FindBy> findBy, Optional<String> stringFilter) {
-        List<LogV1> logEntity = logRepositoryV1.findByEnvironment(environment);
+        List<LogV1> logEntity = logRepositoryV1.findByEnvironmentAndActiveTrue(environment);
 
         if(findBy.isPresent() && stringFilter.isPresent()){
             logEntity =  findBy.get().methodFindBy(logEntity, stringFilter.get());
