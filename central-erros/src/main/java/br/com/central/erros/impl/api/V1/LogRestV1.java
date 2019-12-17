@@ -3,6 +3,7 @@ package br.com.central.erros.impl.api.V1;
 
 import br.com.central.erros.impl.api.V1.contracts.LogRestEndpointV1;
 import br.com.central.erros.impl.business.dto.LogDTOV1;
+import br.com.central.erros.impl.business.entity.enums.Environment;
 import br.com.central.erros.impl.business.entity.enums.FindBy;
 import br.com.central.erros.impl.business.entity.enums.OrderBy;
 import br.com.central.erros.impl.business.service.V1.LogServiceImplV1;
@@ -35,11 +36,12 @@ public class LogRestV1 implements LogRestEndpointV1 {
     })
     @ApiOperation(value = "Retorna todos os logs com o parâmetros selecionados. ", response = LogDTOV1.class)
     public ResponseEntity<List<LogDTOV1>> findAll(@RequestParam Integer userId,
+                                                  @RequestParam(required = true, defaultValue = "PRODUCTION") Environment environment,
                                                   @RequestParam(required = false) Optional<OrderBy> orderBy,
                                                   @RequestParam(required = false) Optional<FindBy> findBy,
                                                   @RequestParam(required = false)  Optional<String> stringFilter) {
 
-        ResponseEntity<List<LogDTOV1>> logOK = ResponseEntity.ok(logServiceImplV1.findAllByUser(userId, orderBy, findBy, stringFilter));
+        ResponseEntity<List<LogDTOV1>> logOK = ResponseEntity.ok(logServiceImplV1.findAllByUser(userId,environment, orderBy, findBy, stringFilter));
 
         if (Objects.isNull(logOK.getBody())) {
             logOK = ResponseEntity.noContent().build();

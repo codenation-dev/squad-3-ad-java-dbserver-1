@@ -14,13 +14,6 @@ public enum FindBy {
         }
     },
 
-    ENVIRONMENT {
-        @Override
-        public List<LogV1> methodFindBy(List<LogV1> listInput, String details) {
-            return listInput.stream().filter(logV1 -> logV1.getEnvironment().equals(Environment.valueOf(details))).collect(Collectors.toList());
-        }
-    },
-
     LEVEL {
         @Override
         public List<LogV1> methodFindBy(List<LogV1> listInput, String details) {
