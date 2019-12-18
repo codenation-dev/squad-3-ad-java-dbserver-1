@@ -51,7 +51,7 @@ public class LogServiceImplV1 implements LogServiceV1 {
     }
 
     @Override
-    public List<LogDTOV1> findAllByUser(Integer userId,Environment environment,  Optional<OrderBy> orderBy, Optional<FindBy> findBy, Optional<String> stringFilter) {
+    public List<LogDTOV1> findAllByUser(Integer userId, Environment environment, Optional<OrderBy> orderBy, Optional<FindBy> findBy, Optional<String> stringFilter) {
         List<LogV1> logEntity = logRepositoryV1.findAllByUser_IdAndEnvironmentAndActiveTrue(userId, environment);
 
         if(findBy.isPresent() && stringFilter.isPresent()){

@@ -1,94 +1,141 @@
 package br.com.central.erros.impl.business.service.V1;
 
 import br.com.central.erros.impl.business.dto.LogDTOV1;
+import br.com.central.erros.impl.business.entity.V1.LogV1;
 import br.com.central.erros.impl.business.entity.V1.UserV1;
 import br.com.central.erros.impl.business.entity.converter.LogConverter;
-import br.com.central.erros.impl.business.entity.enums.Environment;
-import br.com.central.erros.impl.business.entity.enums.Level;
+import br.com.central.erros.impl.business.entity.enums.*;
 import br.com.central.erros.impl.business.exception.exceptions.ObjectNotFoundException;
 import br.com.central.erros.impl.business.repository.V1.LogRepositoryV1;
-import org.assertj.core.api.Assertions;
+import org.assertj.core.data.Index;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LogServiceImplV1Test {
+
+    private ArrayList<LogV1> logList;
 
     @Mock
     private LogRepositoryV1 logRepositoryV1;
 
     @InjectMocks
-    private LogServiceImplV1 logService;
+    private LogServiceImplV1 service;
 
-    /*@Test
-    public void retornaListaDeLogs() {
-        final List<LogV1> listaDeLogs = new ArrayList<>();
-        final LogV1 log = new LogV1(0,"127.0.0.1", 1L, LocalDate.now(), "", "",
-                Environment.DEVELOPMENT, Level.DEBUG, new UserV1());
-        listaDeLogs.add(log);
-        when(logRepositoryV1.findAll()).thenReturn(listaDeLogs);
+    @Before
+    public void setUpLogList() {
+        logList = new ArrayList<>();
+        final UserV1 collector = new UserV1(1,"João", "joao@123.com",
+                "123", UserType.PESSOAFISICA, "$2$546");
+        final LogV1 log = new LogV1(0, "127.0.0.1", 2L, LocalDate.now(), "Log",
+                "Erro de Java",  Environment.DEVELOPMENT, Level.DEBUG, collector, true);
+        final LogV1 log2 = new LogV1(0, "localhost", 3L, LocalDate.now(), "Log2",
+                "Erro de Spring",  Environment.DEVELOPMENT, Level.ERROR, collector, true);
+        logList.add(log);
+        logList.add(log2);
 
-        List<LogDTOV1> actual = logService.findAll();
-
-        assertThat(actual, contains(
-                hasProperty("ip", Matchers.is("127.0.0.1"))
-        ));
-    }*/
+        when(logRepositoryV1.findAllByUser_IdAndEnvironmentAndActiveTrue(1, Environment.DEVELOPMENT)).thenReturn(logList);
+        when(logRepositoryV1.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+    }
 
     @Test
-    public void salvaLog() {
-        final LogDTOV1 actualDto = new LogDTOV1("127.0.0.1", 1L, LocalDate.now(), "", "", true,
-                Environment.DEVELOPMENT, Level.DEBUG, new UserV1());
+    public void saves() {
+        final LogDTOV1 actualDto = LogConverter.logToDTO(logList.get(0));
 
         final LogDTOV1 expected = new LogDTOV1(actualDto.getIp(), actualDto.getNumberOfEvents(),
                 actualDto.getDate(), actualDto.getTitle(), actualDto.getDetails(), actualDto.getActive(), actualDto.getEnvironment(),
                 actualDto.getLevel(), actualDto.getUser());
 
-        when(logRepositoryV1.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        LogDTOV1 actual = service.save(actualDto);
 
-        LogDTOV1 actual = logService.save(actualDto);
-
-        Assertions.assertThat(actual).isEqualToComparingFieldByField(expected);
+        assertThat(actual).isEqualToComparingFieldByField(expected);
     }
 
     @Test
-    public void encontraLogPorId() {
-        final LogDTOV1 expected = new LogDTOV1("127.0.0.1", 1L, LocalDate.now(), "", "", true,
-                Environment.DEVELOPMENT, Level.DEBUG, new UserV1());
+    public void findsLogById() {
+        final LogDTOV1 expected = LogConverter.logToDTO(logList.get(0));
+
         when(logRepositoryV1.findById(1)).thenReturn(Optional.of(LogConverter.logDTOToEntity(expected)));
-        final LogDTOV1 actual = logService.findById(1);
-        Assertions.assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+        final LogDTOV1 actual = service.findById(1);
+        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
     @Test(expected = ObjectNotFoundException.class)
-    public void retornaExcessaoQuandoLogNaoExiste() {
+    public void throwsExceptionWhenLogNotFound() {
         when(logRepositoryV1.findById(1)).thenReturn(Optional.empty());
-        logService.findById(1);
+        service.findById(1);
     }
 
-    /*@Test
-    public void encontraLogsPorUsuario() {
-        final UserV1 coletor = new UserV1(0,"João", "joao@123.com",
-                "123", UserType.PESSOAFISICA, "$2$546");
-        final LogV1 log = new LogV1(0, "", 1L, LocalDate.now(), "Log",
-                "",  Environment.DEVELOPMENT, Level.DEBUG, coletor);
-        final List<LogV1> listaDeLogs = new ArrayList<>();
+    @Test
+    public void updatesLog() {
+        final LogDTOV1 expected = LogConverter.logToDTO(logList.get(0));
 
-        listaDeLogs.add(log);
+        ArgumentCaptor<LogV1> captor = ArgumentCaptor.forClass(LogV1.class);
+        LogDTOV1 actual = service.update(1, expected);
+        assertThat(actual).isEqualToComparingFieldByField(expected);
+        verify(logRepositoryV1, times(1)).save(captor.capture());
+        Assert.assertEquals(1, (int) captor.getValue().getId());
 
-        when(logRepositoryV1.findAllByUser_Id(1)).thenReturn(listaDeLogs);
-        List<LogDTOV1> actual = logService.findByUser(1);
-        assertThat(actual, contains(
-                hasProperty("titulo", Matchers.is("Log"))
-        ));
-    }*/
+    }
+
+    @Test
+    public void findsUserLogs() {
+        List<LogDTOV1> actual = service.findAllByUser(1, Environment.DEVELOPMENT, Optional.empty(), Optional.empty(), Optional.empty());
+        assertThat(actual).extracting("title", String.class).contains("Log", Index.atIndex(0));
+    }
+
+    @Test
+    public void findsAllUserLogsByLevel() {
+        List<LogDTOV1> actual = service.findAllByUser(1, Environment.DEVELOPMENT, Optional.empty(), Optional.of(FindBy.LEVEL),
+                Optional.of(Level.ERROR.toString()));
+
+        assertThat(actual).extracting("title", String.class).containsOnly("Log2");
+    }
+
+    @Test
+    public void findsAllUserLogsByDescription() {
+        List<LogDTOV1> actual = service.findAllByUser(1, Environment.DEVELOPMENT, Optional.empty(), Optional.of(FindBy.DESCRIPTION),
+                Optional.of("java"));
+
+        assertThat(actual).extracting("title", String.class).containsOnly("Log");
+    }
+
+    @Test
+    public void findsAllUserLogsByOrigin() {
+        List<LogDTOV1> actual = service.findAllByUser(1, Environment.DEVELOPMENT, Optional.empty(), Optional.of(FindBy.ORIGIN),
+                Optional.of("127.0.0.1"));
+
+        assertThat(actual).extracting("title", String.class).containsOnly("Log");
+    }
+
+    @Test
+    public void sortsAllUserLogsByNumberOfEvents() {
+        List<LogDTOV1> actual = service.findAllByUser(1, Environment.DEVELOPMENT, Optional.of(OrderBy.FREQUENCY),
+                Optional.empty(), Optional.empty());
+
+        assertThat(actual).extracting("title", String.class).containsSequence("Log2", "Log");
+    }
+
+    @Test
+    public void sortsAllUserLogsByLevel() {
+        List<LogDTOV1> actual = service.findAllByUser(1, Environment.DEVELOPMENT, Optional.of(OrderBy.LEVEL), Optional.empty(),
+                Optional.empty());
+
+        assertThat(actual).extracting("title", String.class).containsSequence("Log2", "Log");
+    }
 }
