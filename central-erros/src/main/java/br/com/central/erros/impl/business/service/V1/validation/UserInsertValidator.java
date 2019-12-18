@@ -25,11 +25,11 @@ public class UserInsertValidator implements ConstraintValidator<UserInsert, User
         List<FieldMessage> list = new ArrayList<>();
 
         if (objDto.getType().getCode() == 0 && !BR.isValidCPF(objDto.getCpfOrCnpj())) {
-            list.add(new FieldMessage("cpfOuCnpj", "CPF inválido"));
+            list.add(new FieldMessage("cpfOrCnpj", "CPF inválido"));
         }
 
         if (objDto.getType().getCode() == 1 && !BR.isValidCNPJ(objDto.getCpfOrCnpj())) {
-            list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido"));
+            list.add(new FieldMessage("cpfOrCnpj", "CNPJ inválido"));
         }
 
         Boolean aux = userService.existsByEmail(objDto.getEmail());
