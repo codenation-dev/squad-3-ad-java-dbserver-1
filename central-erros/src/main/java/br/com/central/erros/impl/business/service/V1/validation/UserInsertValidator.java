@@ -2,7 +2,7 @@ package br.com.central.erros.impl.business.service.V1.validation;
 
 import br.com.central.erros.impl.api.V1.exception.FieldMessage;
 import br.com.central.erros.impl.business.dto.UserDTOV1;
-import br.com.central.erros.impl.business.repository.V1.UserRepository;
+import br.com.central.erros.impl.business.service.V1.UserServiceImplV1;
 import br.com.central.erros.impl.business.service.V1.utils.BR;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class UserInsertValidator implements ConstraintValidator<UserInsert, UserDTOV1> {
 
     @Autowired
-    private UserRepository repo;
+    private UserServiceImplV1 userService;
 
     @Override
     public void initialize(UserInsert ann) {
@@ -32,7 +32,7 @@ public class UserInsertValidator implements ConstraintValidator<UserInsert, User
             list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido"));
         }
 
-        Boolean aux = repo.existsByEmail(objDto.getEmail());
+        Boolean aux = userService.existsByEmail(objDto.getEmail());
 
         if (aux == Boolean.TRUE) {
             list.add(new FieldMessage("email", "Email já existente"));
