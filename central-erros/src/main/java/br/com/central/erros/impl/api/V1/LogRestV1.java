@@ -66,6 +66,7 @@ public class LogRestV1 implements LogRestEndpointV1 {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<LogDTOV1> findById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(logServiceImplV1.findById(id));
     }
