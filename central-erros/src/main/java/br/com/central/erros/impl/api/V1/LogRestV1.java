@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 import java.util.Objects;
@@ -66,6 +67,7 @@ public class LogRestV1 implements LogRestEndpointV1 {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", required = true, dataType = "string", paramType = "header", value = "Token de autenticação.")
     })
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<LogDTOV1> findById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(logServiceImplV1.findById(id));
     }
