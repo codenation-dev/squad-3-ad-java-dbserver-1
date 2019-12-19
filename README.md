@@ -4,5 +4,5 @@
 
 Captação e registro de erros provenientes de uma aplicação.
 
-* [Live Demo (Heroku)]((https://squid-central-erros.herokuapp.com/))
-* [Documentação (Swagger UI)]((https://squid-central-erros.herokuapp.com/swagger-ui.html))
+* [Live Demo - Heroku](https://squid-central-erros.herokuapp.com/)
+* [Documentação - Swagger UI](https://squid-central-erros.herokuapp.com/swagger-ui.html)
