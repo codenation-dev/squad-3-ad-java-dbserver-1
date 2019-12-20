@@ -11,6 +11,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Change application properties
+          command: cd central-erros/src/main/resources/ && base64 --decode $SPRING_PROPERITES >> application.properties
+      - run:
           name: Install dependencies
           command: cd central-erros && ./gradlew clean build --refresh-dependencies
   test:
