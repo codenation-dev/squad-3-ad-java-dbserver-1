@@ -49,11 +49,4 @@ public class AuthRestV1Test {
                 andExpect(status().isNoContent());
         verify(mailService, times(1)).sendVerificationCode(anyString());
     }
-
-    @Test
-    public void returnsNotFoundForInvalidEmail() throws Exception {
-        final String userEmail = "teste7@gmail.com";
-        this.mockMvc.perform(get("/v1/recovery/{email}", userEmail)).
-                andExpect(status().isNotFound());
-    }
 }
