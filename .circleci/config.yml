@@ -22,7 +22,7 @@ jobs:
       _JAVA_OPTIONS: "-Xmx3g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
-      - image: circleci/openjdk:8u222-jdk-stretch
+      - image: circleci/openjdk:8u171-jdk
     steps:
       - checkout
       - attach_workspace:
