@@ -56,16 +56,16 @@ workflows:
   workflow:
     jobs:
       - build
-#      - test:
-#          requires:
-#            - build
+      - test:
+          requires:
+            - build
       - deploy:
           requires:
             - build
-#            - test
+            - test
           filters:
             branches:
-              only: samuel-pg-edit
+              only: master
 
 
 
