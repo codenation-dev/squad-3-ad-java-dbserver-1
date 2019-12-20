@@ -15,7 +15,7 @@ jobs:
           command: echo $SPRING | base64 --decode >> central-erros/src/main/resources/application.properties && echo "$(cat central-erros/src/main/resources/application.properties)"
       - run:
           name: Install dependencies
-          command: cd central-erros && ./gradlew clean build --refresh-dependencies --scan
+          command: cd central-erros && ./gradlew clean build --refresh-dependencies --info
   test:
     environment:
       # Configure the JVM and Gradle to avoid OOM errors
