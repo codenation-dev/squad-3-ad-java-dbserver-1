@@ -12,7 +12,7 @@ jobs:
       - checkout
       - run:
           name: Change application properties
-          command: echo $SPRING | base64 --decode >> central-erros/src/main/resources/application.properties
+          command: echo $SPRING | base64 --decode >> central-erros/src/main/resources/application.properties && echo "$(cat central-erros/src/main/resources/application.properties)"
       - run:
           name: Install dependencies
           command: cd central-erros && ./gradlew clean build --refresh-dependencies
