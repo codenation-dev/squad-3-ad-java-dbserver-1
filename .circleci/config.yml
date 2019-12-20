@@ -12,7 +12,7 @@ jobs:
       - checkout
       - run:
           name: Change application properties
-          command: cd central-erros/src/main/resources/ && base64 --decode $SPRING_PROPERITES >> application.properties
+          command: echo $SPRING | base64 --decode >> central-erros/src/main/resources/application.properties
       - run:
           name: Install dependencies
           command: cd central-erros && ./gradlew clean build --refresh-dependencies
@@ -34,6 +34,9 @@ jobs:
           name: Generate code coverage report
           command:
             cd central-erros && ./gradlew jacocoTestReport
+      - run:
+          name: Change application properties
+          command: echo $SPRING | base64 --decode >> central-erros/src/main/resources/application.properties
       - store_test_results:
           path: central-erros/build/test-results/test
       - store_artifacts:
@@ -50,6 +53,9 @@ jobs:
       - run:
           name: Create jar
           command: cd central-erros && ./gradlew bootJar
+      - run:
+          name: Change application properties
+          command: echo $SPRING | base64 --decode >> central-erros/src/main/resources/application.properties
       - run:
           name: Deploy Master to Heroku
           command: |
