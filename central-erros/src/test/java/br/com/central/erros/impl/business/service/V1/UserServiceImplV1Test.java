@@ -97,6 +97,15 @@ public class UserServiceImplV1Test {
     }
 
     @Test
+    public void updatesUser() {
+        final UserDTOV1 input = new UserDTOV1("João", "abc@123.com", "123", UserType.PESSOAFISICA, "não encriptada");
+        final Integer userId = 1;
+        when(userRepositoryV1.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        userService.update(input, userId);
+        verify(userRepositoryV1).save(any(UserV1.class));
+    }
+
+    @Test
     public void findsCustomerByTheirOwnId() {
         mockSpringSecurityUser(customerUser());
         final UserDTOV1 expected = new UserDTOV1("João", "abc@123.com", "123", UserType.PESSOAFISICA, "$2$546");

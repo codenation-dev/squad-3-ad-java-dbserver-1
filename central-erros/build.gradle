@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'br.com.central-erros'
-version = '3.0.0-SNAPSHOT'
+version = '6.0.0-RELEASE'
 sourceCompatibility = '1.8'
 
 configurations {
@@ -40,6 +40,9 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.0.0.RELEASE'
 	compile 'org.springframework:spring-context-support'
 	compile 'org.springframework.boot:spring-boot-starter-mail'
+
+	testCompile("org.springframework.boot:spring-boot-starter-test")
+
     //jwt
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
 

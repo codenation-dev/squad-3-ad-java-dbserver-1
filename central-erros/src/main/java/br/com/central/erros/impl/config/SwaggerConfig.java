@@ -110,9 +110,10 @@ public class SwaggerConfig {
         return new ApiInfo(
                 "Central de Erros",
                 "API utilizada para o gerenciamento os registros de erros",
-                "Versão 1.0.0-SNAPSHOT",
+                "Versão 6.0.0-RELEASE",
                 "",
-                new Contact("Squad 3", "", ""),
+                new Contact("Squid - Squad 3", "https://github.com/codenation-dev/squad-3-ad-java-dbserver-1/",
+                        ""),
                 "Permitido somente uso interno",
                 "https://www.codenation.com.br",
                 Collections.emptyList() // Vendor Extensions
