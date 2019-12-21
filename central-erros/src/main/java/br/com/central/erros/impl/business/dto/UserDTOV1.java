@@ -113,7 +113,7 @@ public class UserDTOV1 {
         return profiles;
     }
 
-    private void addProfile(Profile profile) {
+    public void addProfile(Profile profile) {
         profiles.add(profile.getCod());
     }
 

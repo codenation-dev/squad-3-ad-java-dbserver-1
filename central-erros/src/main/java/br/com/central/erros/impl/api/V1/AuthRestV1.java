@@ -4,11 +4,9 @@ import br.com.central.erros.impl.api.V1.contracts.AuthRestEndpointV1;
 import br.com.central.erros.impl.business.dto.VerificationCodeDTO;
 import br.com.central.erros.impl.business.service.V1.AuthServiceImplV1;
 import br.com.central.erros.impl.business.service.V1.EmailServiceImplV1;
-import br.com.central.erros.impl.business.service.V1.contracts.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

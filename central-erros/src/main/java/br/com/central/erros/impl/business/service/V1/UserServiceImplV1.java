@@ -55,12 +55,19 @@ public class UserServiceImplV1 implements UserServiceV1 {
     }
 
     @Override
-    public UserDTOV1 save(UserDTOV1 userInput) {
-        String senhaEncode = bCryptPasswordEncoder.encode(userInput.getPassword());
-        userInput.setPassword(senhaEncode);
-        UserV1 usuarioEntity = UserConverter.userDTOToEntity(userInput);
-        UserV1 usuarioSalvoNoBanco = userRepositoryV1.save(usuarioEntity);
+    public UserDTOV1 save(UserDTOV1 input) {
+        String encodedPassword = bCryptPasswordEncoder.encode(input.getPassword());
+        input.setPassword(encodedPassword);
+        UserV1 entity = UserConverter.userDTOToEntity(input);
+        UserV1 usuarioSalvoNoBanco = userRepositoryV1.save(entity);
         return UserConverter.userToDTO(usuarioSalvoNoBanco);
+    }
+
+    @Override
+    public UserV1 update(UserDTOV1 input, Integer id) {
+        UserV1 entity = UserConverter.userDTOToEntity(input);
+        entity.setId(id);
+        return userRepositoryV1.save(entity);
     }
 
     public boolean existsByEmail(String email) {

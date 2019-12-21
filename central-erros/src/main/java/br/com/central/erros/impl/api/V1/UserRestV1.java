@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping({"/v1/users"})
@@ -83,8 +84,7 @@ public class UserRestV1 implements UserRestEndpointV1 {
         return ResponseEntity.ok(userServiceV1.findById(id));
     }
 
-    @Override
-    @PatchMapping
+    @PatchMapping(path = "/{id}")
     @ApiOperation(value = "Edita um usuário", response = UserDTOV1.class)
     @ApiImplicitParams({
             @ApiImplicitParam(
@@ -94,7 +94,13 @@ public class UserRestV1 implements UserRestEndpointV1 {
                     paramType = "header",
                     value = "Token de autenticação.")
     })
-    public ResponseEntity<UserDTOV1> update(UserDTOV1 userDTOV1) {
-        return ResponseEntity.ok(userServiceV1.save(userDTOV1));
+    public ResponseEntity<UserDTOV1> update(@RequestParam(required = false) Optional<String> newName,
+                                            @RequestParam(required = false) Optional<String> newEmail,
+                                            @PathVariable Integer id) {
+        UserDTOV1 old = userServiceV1.findById(id);
+        newName.ifPresent(old::setName);
+        newEmail.ifPresent(old::setEmail);
+        userServiceV1.update(old, id);
+        return ResponseEntity.noContent().build();
     }
 }

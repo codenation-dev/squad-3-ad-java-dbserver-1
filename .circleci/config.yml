@@ -6,20 +6,23 @@ jobs:
       _JAVA_OPTIONS: "-Xmx3g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
-      - image: circleci/openjdk:8u222-jdk-stretch
+      - image: circleci/openjdk:8u232-stretch
     resource_class: medium
     steps:
       - checkout
       - run:
+          name: Change application properties
+          command: echo $SPRING | base64 --decode >> central-erros/src/main/resources/application.properties && echo "$(cat central-erros/src/main/resources/application.properties)"
+      - run:
           name: Install dependencies
-          command: cd central-erros && ./gradlew clean build --refresh-dependencies
+          command: cd central-erros && ./gradlew clean build --refresh-dependencies --info
   test:
     environment:
       # Configure the JVM and Gradle to avoid OOM errors
       _JAVA_OPTIONS: "-Xmx3g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
-      - image: circleci/openjdk:8u222-jdk-stretch
+      - image: circleci/openjdk:8u171-jdk
     steps:
       - checkout
       - attach_workspace:
@@ -31,6 +34,9 @@ jobs:
           name: Generate code coverage report
           command:
             cd central-erros && ./gradlew jacocoTestReport
+      - run:
+          name: Change application properties
+          command: echo $SPRING | base64 --decode >> central-erros/src/main/resources/application.properties
       - store_test_results:
           path: central-erros/build/test-results/test
       - store_artifacts:
@@ -47,6 +53,9 @@ jobs:
       - run:
           name: Create jar
           command: cd central-erros && ./gradlew bootJar
+      - run:
+          name: Change application properties
+          command: echo $SPRING | base64 --decode >> central-erros/src/main/resources/application.properties
       - run:
           name: Deploy Master to Heroku
           command: |

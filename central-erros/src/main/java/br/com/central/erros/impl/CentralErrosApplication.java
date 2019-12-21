@@ -34,6 +34,10 @@ public class CentralErrosApplication implements CommandLineRunner {
     private BCryptPasswordEncoder pe;
 
     @Override
+
+    // TODO: TIRAR ISSO!!!
+
+
     public void run(String... args) {
        UserV1 user1 = new UserV1(null, "teste um", "teste1@gmail.com", "36378912377", UserType.PESSOAFISICA, pe.encode(
                 "123"));
